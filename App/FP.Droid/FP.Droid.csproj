@@ -8,7 +8,7 @@
     <ProjectGuid>{214BC721-99B5-4919-93D9-AE2257961464}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>De.Dhoffmann.Mono.FullscreenPresentation</RootNamespace>
+    <RootNamespace>De.Dhoffmann.Mono.FullscreenPresentation.Droid</RootNamespace>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidResgenClass>Resource</AndroidResgenClass>
@@ -16,7 +16,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AssemblyName>FP.Droid</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0.3</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -50,6 +50,13 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\BrowserActivity.cs" />
+    <Compile Include="Screens\SplashActivity.cs" />
+    <Compile Include="Screens\EditActivity.cs" />
+    <Compile Include="Screens\EditDetailFragment.cs" />
+    <Compile Include="Screens\EditSlidesListFragment.cs" />
+    <Compile Include="..\FP.Buslog\Presentations.cs">
+      <Link>Libs\FP.Buslog\Presentations.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -60,10 +67,189 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\Browser.axml" />
+    <AndroidResource Include="Resources\values\Styles.xml" />
+    <AndroidResource Include="Resources\layout\Edit.axml" />
+    <AndroidResource Include="Resources\layout\EditDetail.axml" />
+    <AndroidResource Include="Resources\layout\EditSlidesList.axml" />
+    <AndroidResource Include="Resources\layout-port\Edit.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Screens\" />
     <Folder Include="Resources\layout\" />
+    <Folder Include="Libs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\.git">
+      <Link>Assets\FP.Assets\io-2012-slides\.git</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\.gitignore">
+      <Link>Assets\FP.Assets\io-2012-slides\.gitignore</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\README.html">
+      <Link>Assets\FP.Assets\io-2012-slides\README.html</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\README.md">
+      <Link>Assets\FP.Assets\io-2012-slides\README.md</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\app.yaml">
+      <Link>Assets\FP.Assets\io-2012-slides\app.yaml</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\config.rb">
+      <Link>Assets\FP.Assets\io-2012-slides\config.rb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\serve.sh">
+      <Link>Assets\FP.Assets\io-2012-slides\serve.sh</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\slide_config.js">
+      <Link>Assets\FP.Assets\io-2012-slides\slide_config.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\template.html">
+      <Link>Assets\FP.Assets\io-2012-slides\template.html</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\barchart.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\barchart.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\chart.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\chart.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\chrome-logo-tiny.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\chrome-logo-tiny.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\google_developers_icon_128.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\google_developers_icon_128.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\google_developers_logo.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\google_developers_logo.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\google_developers_logo_tiny.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\google_developers_logo_tiny.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\google_developers_logo_white.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\google_developers_logo_white.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\io2012_logo.png">
+      <Link>Assets\FP.Assets\io-2012-slides\images\io2012_logo.png</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\images\sky.jpg">
+      <Link>Assets\FP.Assets\io-2012-slides\images\sky.jpg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\hammer.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\hammer.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\modernizr.custom.45394.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\modernizr.custom.45394.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\order.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\order.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\require-1.0.8.min.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\require-1.0.8.min.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\slide-controller.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\slide-controller.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\slide-deck.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\slide-deck.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\slides.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\slides.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\polyfills\classList.min.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\polyfills\classList.min.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\polyfills\dataset.min.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\polyfills\dataset.min.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\polyfills\history.min.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\polyfills\history.min.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-apollo.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-apollo.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-clj.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-clj.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-css.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-css.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-go.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-go.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-hs.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-hs.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-lisp.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-lisp.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-lua.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-lua.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-ml.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-ml.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-n.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-n.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-proto.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-proto.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-scala.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-scala.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-sql.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-sql.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-tex.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-tex.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-vb.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-vb.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-vhdl.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-vhdl.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-wiki.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-wiki.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-xq.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-xq.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\lang-yaml.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\lang-yaml.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\prettify.css">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\prettify.css</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\js\prettify\prettify.js">
+      <Link>Assets\FP.Assets\io-2012-slides\js\prettify\prettify.js</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\scripts\md\README.md">
+      <Link>Assets\FP.Assets\io-2012-slides\scripts\md\README.md</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\scripts\md\base.html">
+      <Link>Assets\FP.Assets\io-2012-slides\scripts\md\base.html</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\scripts\md\render.py">
+      <Link>Assets\FP.Assets\io-2012-slides\scripts\md\render.py</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\scripts\md\slides.md">
+      <Link>Assets\FP.Assets\io-2012-slides\scripts\md\slides.md</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\theme\css\default.css">
+      <Link>Assets\FP.Assets\io-2012-slides\theme\css\default.css</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\theme\css\phone.css">
+      <Link>Assets\FP.Assets\io-2012-slides\theme\css\phone.css</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\theme\scss\_base.scss">
+      <Link>Assets\FP.Assets\io-2012-slides\theme\scss\_base.scss</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\theme\scss\default.scss">
+      <Link>Assets\FP.Assets\io-2012-slides\theme\scss\default.scss</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\FP.Assets\io-2012-slides\theme\scss\phone.scss">
+      <Link>Assets\FP.Assets\io-2012-slides\theme\scss\phone.scss</Link>
+    </AndroidAsset>
   </ItemGroup>
 </Project>

@@ -32,16 +32,14 @@ using Android.Widget;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
-	[Activity (Label = "@string/app_name", MainLauncher = true, NoHistory = true, Theme = "@style/Theme.Splash")]			
-	public class SplashActivity : Activity
+	[Activity (Label = "EditActivity")]			
+	public class EditActivity : Activity
 	{
-		protected override void OnCreate (Bundle savedInstanceState)
+		protected override void OnCreate (Bundle bundle)
 		{
-			base.OnCreate (savedInstanceState);
+			base.OnCreate (bundle);
 
-			System.Threading.Thread.Sleep(1000);
-
-			StartActivity(typeof(EditActivity));
+			SetContentView(Resource.Layout.Edit);
 		}
 	}
 }

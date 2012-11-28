@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/frags">
+    <fragment
+        class="De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens.EditSlidesListFragment"
+        android:id="@+id/frag_editslideslist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4" />
+</LinearLayout>

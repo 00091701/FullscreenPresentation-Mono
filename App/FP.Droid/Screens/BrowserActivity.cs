@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with AFullscreen-Presentation; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  */
 
 
@@ -31,14 +31,14 @@ using Android.Views;
 using Android.Widget;
 using Android.Webkit;
 
-namespace De.Dhoffmann.Mono.FullscreenPresentation.Screens
+namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
-	[Activity (Label = "BrowserActivity", MainLauncher=true)]			
+	[Activity (Label = "BrowserActivity")]			
 	public class BrowserActivity : Activity
 	{
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
 
 			// set fullscreen
 			RequestWindowFeature(WindowFeatures.NoTitle);
@@ -54,7 +54,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Screens
 
 			webView.SetWebViewClient(new MyWebViewClient(Window));
 
-			webView.LoadUrl("http://io-2012-slides.googlecode.com/git/template.html");
+			string url = Intent.GetStringExtra("url");
+
+			// für Testzwecke ersteinmal die Slides direkt von Google nutzen
+			webView.LoadUrl(url);
 		}
 
 
@@ -91,7 +94,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Screens
 			
 			return base.OnTouchEvent (e);
 		}
-
 	}
 }
 

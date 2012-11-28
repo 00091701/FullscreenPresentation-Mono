@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">Fullscreen-Presentation</string>
+	<string name="tvChoosePresentation">Bitte eine Präsentation anlegen oder auswählen.</string>
+	<string name="EditTabInfo">Info</string>
+	<string name="btnNewPresentation">Neue Präsentation</string>
 </resources>

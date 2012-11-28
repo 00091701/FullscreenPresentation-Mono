@@ -4,11 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:minWidth="25px"
-    android:minHeight="25px"
-    android:background="#ff000000">
-    <WebView
+    android:minHeight="25px">
+    <TextView
+        android:text="Edit Details"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/webView"
-        android:background="#ff000000" />
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1" />
 </LinearLayout>

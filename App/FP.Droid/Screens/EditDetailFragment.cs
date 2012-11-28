@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with AFullscreen-Presentation; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
+ *
  */
 
 
@@ -22,26 +22,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
-	[Activity (Label = "@string/app_name", MainLauncher = true, NoHistory = true, Theme = "@style/Theme.Splash")]			
-	public class SplashActivity : Activity
+	public class EditDetailFragment : Fragment
 	{
-		protected override void OnCreate (Bundle savedInstanceState)
+		private View contentView;
+
+		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			base.OnCreate (savedInstanceState);
+			contentView = inflater.Inflate(Resource.Layout.EditDetail, null);
 
-			System.Threading.Thread.Sleep(1000);
-
-			StartActivity(typeof(EditActivity));
+			return contentView;
 		}
 	}
 }
