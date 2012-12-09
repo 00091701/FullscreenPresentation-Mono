@@ -5,20 +5,12 @@
     android:layout_height="fill_parent"
     android:minWidth="25px"
     android:minHeight="25px">
-    <Button
-        android:text="Google IO"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnDemo1" />
-    <Button
-        android:text="@string/btnNewPresentation"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnNewPresentation" />
+<!--
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/lvSlides" />
+        -->
 </LinearLayout>

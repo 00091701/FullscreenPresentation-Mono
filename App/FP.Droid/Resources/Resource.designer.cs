@@ -37,12 +37,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060005
-			public const int btnDemo1 = 2131099653;
-			
-			// aapt resource value: 0x7f060006
-			public const int btnNewPresentation = 2131099654;
-			
 			// aapt resource value: 0x7f060003
 			public const int frag_editdetail = 2131099651;
 			
@@ -51,9 +45,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			
 			// aapt resource value: 0x7f060001
 			public const int frags = 2131099649;
-			
-			// aapt resource value: 0x7f060007
-			public const int lvSlides = 2131099655;
 			
 			// aapt resource value: 0x7f060004
 			public const int textView1 = 2131099652;
@@ -89,8 +80,41 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f04000c
+			public const int Cancel = 2130968588;
+			
+			// aapt resource value: 0x7f040008
+			public const int DlgNewPresentationError = 2130968584;
+			
+			// aapt resource value: 0x7f040009
+			public const int DlgNewPresentationErrorNoName = 2130968585;
+			
+			// aapt resource value: 0x7f04000a
+			public const int DlgNewPresentationErrorPraesExists = 2130968586;
+			
+			// aapt resource value: 0x7f040006
+			public const int DlgNewPresentationErstellen = 2130968582;
+			
+			// aapt resource value: 0x7f040004
+			public const int DlgNewPresentationText = 2130968580;
+			
+			// aapt resource value: 0x7f040005
+			public const int DlgNewPresentationTitle = 2130968581;
+			
 			// aapt resource value: 0x7f040002
 			public const int EditTabInfo = 2130968578;
+			
+			// aapt resource value: 0x7f040007
+			public const int ErrMsgTitle = 2130968583;
+			
+			// aapt resource value: 0x7f04000d
+			public const int ErrorNoExternalStorage = 2130968589;
+			
+			// aapt resource value: 0x7f04000b
+			public const int Ok = 2130968587;
+			
+			// aapt resource value: 0x7f04000e
+			public const int PresentationTyp_GoogleIO2012Slides = 2130968590;
 			
 			// aapt resource value: 0x7f040000
 			public const int app_name = 2130968576;

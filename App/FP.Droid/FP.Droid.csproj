@@ -45,6 +45,14 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="System.Data" />
+    <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Json" />
+    <Reference Include="Mono.Data.Tds" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -55,8 +63,21 @@
     <Compile Include="Screens\EditDetailFragment.cs" />
     <Compile Include="Screens\EditSlidesListFragment.cs" />
     <Compile Include="..\FP.Buslog\Presentations.cs">
-      <Link>Libs\FP.Buslog\Presentations.cs</Link>
+      <Link>Libs\FP.Buslog\PresentationsHelper.cs</Link>
     </Compile>
+    <Compile Include="..\FP.Data\DataBase.cs">
+      <Link>Libs\FP.Data\DataBase.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Data\DBHelper.cs">
+      <Link>Libs\FP.Data\DBHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Data\DBSchema.cs">
+      <Link>Libs\FP.Data\DBSchema.cs</Link>
+    </Compile>
+    <Compile Include="Libs\FP.Buslog\AppInit.cs" />
+    <Compile Include="Libs\FP.Data\Types\Presentation.cs" />
+    <Compile Include="Libs\FP.Data\DBPresentation.cs" />
+    <Compile Include="AndroidHelper\SlidesAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -78,14 +99,11 @@
     <Folder Include="Screens\" />
     <Folder Include="Resources\layout\" />
     <Folder Include="Libs\" />
+    <Folder Include="Assets\FP.Assets\" />
+    <Folder Include="Libs\FP.Data\Types\" />
+    <Folder Include="AndroidHelper\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="..\FP.Assets\io-2012-slides\.git">
-      <Link>Assets\FP.Assets\io-2012-slides\.git</Link>
-    </AndroidAsset>
-    <AndroidAsset Include="..\FP.Assets\io-2012-slides\.gitignore">
-      <Link>Assets\FP.Assets\io-2012-slides\.gitignore</Link>
-    </AndroidAsset>
     <AndroidAsset Include="..\FP.Assets\io-2012-slides\README.html">
       <Link>Assets\FP.Assets\io-2012-slides\README.html</Link>
     </AndroidAsset>

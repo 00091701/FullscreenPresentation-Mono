@@ -3,5 +3,18 @@
 	<string name="app_name">Fullscreen-Presentation</string>
 	<string name="tvChoosePresentation">Bitte eine Präsentation anlegen oder auswählen.</string>
 	<string name="EditTabInfo">Info</string>
+	
 	<string name="btnNewPresentation">Neue Präsentation</string>
+	<string name="DlgNewPresentationText">Bitte geben Sie einen Namen für die neue Präsentation ein.</string>
+	<string name="DlgNewPresentationTitle">Name der Präsentation</string>
+	<string name="DlgNewPresentationErstellen">Erstellen</string>
+	
+	<string name="ErrMsgTitle">Fehler</string>
+	<string name="DlgNewPresentationError">Die Präsentation konnte nicht angelegt werden.</string>
+	<string name="DlgNewPresentationErrorNoName">Es wurde kein Name für die neue Präsentation eingegeben.</string>
+	<string name="DlgNewPresentationErrorPraesExists">Die Präsentation existiert bereits.</string>
+	<string name="Ok">Ok</string>
+	<string name="Cancel">Abbruch</string>
+	<string name="ErrorNoExternalStorage">Es steht kein externes Speichermedium zur Verfügung. Dieses ist aber zwingend erforderlich!</string>
+	<string name="PresentationTyp_GoogleIO2012Slides">Google IO 2012 Slides</string>
 </resources>
