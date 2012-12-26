@@ -36,6 +36,7 @@ using Android.InputMethodServices;
 using System.IO;
 using De.Dhoffmann.Mono.FullscreenPresentation.Data;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
@@ -51,14 +52,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		{
 
 			contentView = inflater.Inflate(Resource.Layout.EditSlidesList, null);
-			/*
+
 			DBPresentation dbPresentation = new DBPresentation();
 			List<Presentation> presentations = dbPresentation.Select();
-*/
 
-		//	ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
-			//lvSlides.Adapter = new SlidesAdapter(Activity, presentations);
-
+			ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
+			lvSlides.Adapter = new SlidesAdapter(Activity, presentations);
 
 			return contentView;
 		}

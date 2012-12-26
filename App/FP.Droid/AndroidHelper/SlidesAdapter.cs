@@ -27,7 +27,7 @@ using Android.Views;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 {
-	/*
+
 	public class SlidesAdapter : BaseAdapter
 	{
 		private Activity context;
@@ -54,11 +54,11 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 		public override Android.Views.View GetView (int position, Android.Views.View convertView, Android.Views.ViewGroup parent)
 		{
 			Presentation presentation = presentations[position];
-			View view = (convertView ?? context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, parent, false)) as LinearLayout; 
-			var view = (convertView ?? context.LayoutInflater.Inflate(Resource.Layout.SlidesItem, parent, false)) as LinearLayout;
+			//View view = (convertView ?? context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, parent, false)) as LinearLayout; 
+			View view = (convertView ?? context.LayoutInflater.Inflate(Resource.Layout.SlidesItem, parent, false)) as LinearLayout;
 
-			//TextView tvName = context.FindViewById<TextView>(Resource.Id.tvName);
-			//tvName.Text = presentation.Name;
+			TextView tvName = view.FindViewById<TextView>(Resource.Id.tvName);
+			tvName.Text = presentation.Name;
 
 			return view;
 		}
@@ -76,6 +76,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 
 		#endregion
 	}
-*/
+
 }
 

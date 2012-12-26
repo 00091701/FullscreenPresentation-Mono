@@ -4,11 +4,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
-    <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
+    android:minHeight="50px"
+    android:gravity="center_vertical">
+    <TextView
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/lvSlides" />
+        android:layout_height="wrap_content"
+        android:id="@+id/tvName" />
 </LinearLayout>
