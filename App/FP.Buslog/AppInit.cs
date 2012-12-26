@@ -24,6 +24,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Collections.Generic;
 using System.Linq;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
@@ -47,8 +48,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			{
 				presentationsHelper = new PresentationsHelper();
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				Logging.Log(this, Logging.LoggingTypeError, "Fehler beim instanziieren des PresentationsHelper()", ex);
 #if MONODROID
 				ShowErrorMsg(context, activity.GetText(De.Dhoffmann.Mono.FullscreenPresentation.Droid.Resource.String.ErrorNoExternalStorage));
 				return;
@@ -56,6 +58,32 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			}
 
 			DirectoryInfo dirInfo = new DirectoryInfo(presentationsHelper.PresentationsFolder);
+
+			List<Presentation> presentations = new DBPresentation().Select(null);
+
+			// Dateien für nicht registrierte Präsentationen löschen
+			if (presentations != null && presentations.Count > 0)
+			{
+				// Nicht registrierte Präsentationen löschen
+				foreach (DirectoryInfo dir in dirInfo.GetDirectories())
+				{
+					if (presentations.Where(p => Path.Combine(presentationsHelper.PresentationsFolder, p.PresentationUID.ToString()) == dir.ToString()).Count() == 0)
+						dir.Delete(true);
+				}
+
+				// Gelöschte Präsentationen aus der Datenbank entfernen
+				foreach(Presentation pres in presentations)
+				{
+					if (!Directory.Exists(Path.Combine(presentationsHelper.PresentationsFolder, pres.PresentationUID.ToString())))
+						new DBPresentation().Delete(pres.PresentationUID);
+				}
+			}
+			else
+			{
+				// Es gibt keine registrierten Präsentationen, also alle löschen
+				foreach (DirectoryInfo dir in dirInfo.GetDirectories())
+					dir.Delete(true);
+			}
 	
 			// Wenn es noch keine Präsentation gibt, die mitgelieferte als Demo / Vorlage kopieren
 			if (dirInfo.GetDirectories().Length == 0)
