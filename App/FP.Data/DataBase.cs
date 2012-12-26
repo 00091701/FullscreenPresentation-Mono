@@ -26,6 +26,7 @@ using System.Data.SqlClient;
 using System.Data.Common;
 using System.Text;
 using System.Collections.Generic;
+using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
@@ -54,18 +55,26 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 			// Eine neue Tabelle für die Versionsverwaltung anlegen.
 			if (!dbExists)
 			{
-				List<SqliteCommand> sqlCmds = new List<SqliteCommand>();
+				StringBuilder commands = new StringBuilder();
+				commands.AppendLine("BEGIN;");
+				commands.AppendLine("CREATE TABLE version (VersionID INTEGER PRIMARY KEY AUTOINCREMENT, DateCreate DATETIME NOT NULL);");
+				commands.AppendLine("INSERT INTO version (VersionID, DateCreate) VALUES (0, date('now'));");
+				commands.AppendLine("COMMIT;");
 
-				sqlCmds.Add(new SqliteCommand("BEGIN;", conn));
-				sqlCmds.Add(new SqliteCommand("CREATE TABLE version (VersionID INTEGER PRIMARY KEY AUTOINCREMENT, DateCreate DATETIME NOT NULL);", conn));
-				sqlCmds.Add(new SqliteCommand("INSERT INTO version (VersionID, DateCreate) VALUES (0, date('now'));", conn));
-				sqlCmds.Add(new SqliteCommand("COMMIT;", conn));
+				using (SqliteCommand sqlCmd = new SqliteCommand(commands.ToString(), conn))
+				{
+					conn.Open();
 
-				conn.Open();
+					try
+					{
+						sqlCmd.ExecuteNonQuery();
+					}
+					catch (SqliteException ex)
+					{
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
+					}
+				}
 
-				foreach(SqliteCommand cmd in sqlCmds)
-					cmd.ExecuteNonQuery();
-				
 				conn.Close();
 			}
 			

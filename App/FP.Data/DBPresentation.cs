@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 using Mono.Data.Sqlite;
 using System.Data.Common;
+using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 {
@@ -76,7 +77,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						//Logging.Log(this, Logging.LoggingTypeError, "Select()", ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
 					}
 					
 					conn.Close();
@@ -130,7 +131,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						//Logging.Log(this, Logging.LoggingTypeError, "Select()", ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
 					}
 					
 					conn.Close();
@@ -150,10 +151,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 			using (SqliteConnection conn = GetConnection())
 			{
 				using (SqliteCommand sqlCmd = new SqliteCommand(@"
-                    INSERT INTO presentations " +
+					BEGIN; " +
+                    "INSERT INTO presentations " +
                     "(PresentationUID, Name, DateCreate, Type) " +
                     "VALUES " +
-				    "(@PresentationUID, @Name, @DateCreate, @Type);", conn))
+				    "(@PresentationUID, @Name, @DateCreate, @Type); " +
+					"COMMIT;", conn))
 				{
 					sqlCmd.Parameters.AddWithValue("@PresentationUID", presentation.PresentationUID.ToString());
 					sqlCmd.Parameters.AddWithValue("@Name", presentation.Name);
@@ -169,7 +172,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						// Logging.Log(this, Logging.LoggingTypeError, "Insert()", ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
 					}
 					
 					conn.Close();
@@ -189,9 +192,11 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 			using (SqliteConnection conn = GetConnection())
 			{
 				using (SqliteCommand sqlCmd = new SqliteCommand(@"
-                    UPDATE presentations SET " +
+					BEGIN; " +
+                    "UPDATE presentations SET " +
                     "Name=@Name " +
-                    "WHERE PresentationUID=@PresentationUID;", conn))
+                    "WHERE PresentationUID=@PresentationUID;" +
+				    "COMMIT;", conn))
 				{
 					sqlCmd.Parameters.AddWithValue("@PresentationUID", presentation.PresentationUID.ToString());
 					sqlCmd.Parameters.AddWithValue("@Name", presentation.Name);
@@ -207,7 +212,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						// Logging.Log(this, Logging.LoggingTypeError, "Insert()", ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
 					}
 					
 					conn.Close();
@@ -227,8 +232,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 			using (SqliteConnection conn = GetConnection())
 			{
 				using (SqliteCommand sqlCmd = new SqliteCommand(@"
-                    DELETE FROM presentations " +
-				    "WHERE PresentationUID=@PresentationUID;", conn))
+					BEGIN; " +
+                    "DELETE FROM presentations " +
+				    "WHERE PresentationUID=@PresentationUID;" +
+					"COMMIT;", conn))
 				{
 					sqlCmd.Parameters.AddWithValue("@PresentationUID", presentationUID.ToString());
 
@@ -241,7 +248,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						// Logging.Log(this, Logging.LoggingTypeError, "Insert()", ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
 					}
 					
 					conn.Close();
