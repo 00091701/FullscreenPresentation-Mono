@@ -46,8 +46,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f060001
 			public const int frags = 2131099649;
 			
+			// aapt resource value: 0x7f060005
+			public const int lvSlides = 2131099653;
+			
 			// aapt resource value: 0x7f060004
 			public const int textView1 = 2131099652;
+			
+			// aapt resource value: 0x7f060006
+			public const int tvName = 2131099654;
 			
 			// aapt resource value: 0x7f060000
 			public const int webView = 2131099648;
@@ -71,6 +77,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			
 			// aapt resource value: 0x7f030003
 			public const int EditSlidesList = 2130903043;
+			
+			// aapt resource value: 0x7f030004
+			public const int SlidesItem = 2130903044;
 			
 			private Layout()
 			{

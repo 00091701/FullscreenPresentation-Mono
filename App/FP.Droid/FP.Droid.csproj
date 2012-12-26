@@ -63,7 +63,7 @@
     <Compile Include="Screens\EditDetailFragment.cs" />
     <Compile Include="Screens\EditSlidesListFragment.cs" />
     <Compile Include="..\FP.Buslog\Presentations.cs">
-      <Link>Libs\FP.Buslog\PresentationsHelper.cs</Link>
+      <Link>Libs\FP.Buslog\Presentations.cs</Link>
     </Compile>
     <Compile Include="..\FP.Data\DataBase.cs">
       <Link>Libs\FP.Data\DataBase.cs</Link>
@@ -74,10 +74,19 @@
     <Compile Include="..\FP.Data\DBSchema.cs">
       <Link>Libs\FP.Data\DBSchema.cs</Link>
     </Compile>
-    <Compile Include="Libs\FP.Buslog\AppInit.cs" />
-    <Compile Include="Libs\FP.Data\Types\Presentation.cs" />
-    <Compile Include="Libs\FP.Data\DBPresentation.cs" />
     <Compile Include="AndroidHelper\SlidesAdapter.cs" />
+    <Compile Include="..\FP.Buslog\Logging.cs">
+      <Link>Libs\FP.Buslog\Logging.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Buslog\AppInit.cs">
+      <Link>Libs\FP.Buslog\AppInit.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Data\DBPresentation.cs">
+      <Link>Libs\FP.Data\DBPresentation.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Data\Types\Presentation.cs">
+      <Link>Libs\FP.Data\Types\Presentation.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -93,6 +102,7 @@
     <AndroidResource Include="Resources\layout\EditDetail.axml" />
     <AndroidResource Include="Resources\layout\EditSlidesList.axml" />
     <AndroidResource Include="Resources\layout-port\Edit.axml" />
+    <AndroidResource Include="Resources\layout\SlidesItem.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
