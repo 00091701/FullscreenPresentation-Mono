@@ -26,6 +26,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types
 	{
 		public enum Typ : int
 		{
+			UNDEFINED = -1,
 			GoogleIO2012Slides = 0
 		}
 	

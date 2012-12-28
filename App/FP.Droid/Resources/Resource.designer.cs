@@ -37,6 +37,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f060007
+			public const int btnOpenFolder = 2131099655;
+			
 			// aapt resource value: 0x7f060003
 			public const int frag_editdetail = 2131099651;
 			
@@ -46,14 +49,23 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f060001
 			public const int frags = 2131099649;
 			
-			// aapt resource value: 0x7f060005
-			public const int lvSlides = 2131099653;
+			// aapt resource value: 0x7f060008
+			public const int llEditDetail = 2131099656;
 			
 			// aapt resource value: 0x7f060004
-			public const int textView1 = 2131099652;
+			public const int llPresentationFolder = 2131099652;
+			
+			// aapt resource value: 0x7f060009
+			public const int lvSlides = 2131099657;
+			
+			// aapt resource value: 0x7f060005
+			public const int textView1 = 2131099653;
+			
+			// aapt resource value: 0x7f06000a
+			public const int tvName = 2131099658;
 			
 			// aapt resource value: 0x7f060006
-			public const int tvName = 2131099654;
+			public const int tvPresentationPath = 2131099654;
 			
 			// aapt resource value: 0x7f060000
 			public const int webView = 2131099648;
@@ -76,10 +88,13 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			public const int EditDetail = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int EditSlidesList = 2130903043;
+			public const int EditDetailGoogleIO2012 = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int SlidesItem = 2130903044;
+			public const int EditSlidesList = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int SlidesItem = 2130903045;
 			
 			private Layout()
 			{
@@ -110,11 +125,20 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f040005
 			public const int DlgNewPresentationTitle = 2130968581;
 			
+			// aapt resource value: 0x7f04000f
+			public const int EditDetailSpeicherort = 2130968591;
+			
 			// aapt resource value: 0x7f040002
 			public const int EditTabInfo = 2130968578;
 			
+			// aapt resource value: 0x7f040010
+			public const int ErrMsgCouldNotOpenFileManager = 2130968592;
+			
 			// aapt resource value: 0x7f040007
 			public const int ErrMsgTitle = 2130968583;
+			
+			// aapt resource value: 0x7f040016
+			public const int ErrorMinimalPresentationCount = 2130968598;
 			
 			// aapt resource value: 0x7f04000d
 			public const int ErrorNoExternalStorage = 2130968589;
@@ -124,6 +148,21 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			
 			// aapt resource value: 0x7f04000e
 			public const int PresentationTyp_GoogleIO2012Slides = 2130968590;
+			
+			// aapt resource value: 0x7f040013
+			public const int PresentationsMenuCreate = 2130968595;
+			
+			// aapt resource value: 0x7f040015
+			public const int PresentationsMenuDelete = 2130968597;
+			
+			// aapt resource value: 0x7f040014
+			public const int PresentationsMenuRename = 2130968596;
+			
+			// aapt resource value: 0x7f040012
+			public const int PresentationsMenuStart = 2130968594;
+			
+			// aapt resource value: 0x7f040011
+			public const int PresentationsMenuTitle = 2130968593;
 			
 			// aapt resource value: 0x7f040000
 			public const int app_name = 2130968576;

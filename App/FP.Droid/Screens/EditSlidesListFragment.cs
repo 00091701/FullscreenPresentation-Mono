@@ -42,7 +42,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
 	public class EditSlidesListFragment : Fragment
 	{
+		private enum PresentationsMenu : int
+		{
+			Start = 0,
+			Create,
+			Rename,
+			Delete
+		}
+
+		private LayoutInflater inflater;
 		private View contentView;
+		private int selectedItemPosition;
 
 		public EditSlidesListFragment()
 		{ 
@@ -50,55 +60,116 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
+			this.inflater = inflater;
+			((EditActivity)Activity).FragEditSlidesList = this;
 
 			contentView = inflater.Inflate(Resource.Layout.EditSlidesList, null);
-
-			DBPresentation dbPresentation = new DBPresentation();
-			List<Presentation> presentations = dbPresentation.Select();
+			selectedItemPosition= -1;
 
 			ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
-			lvSlides.Adapter = new SlidesAdapter(Activity, presentations);
+			lvSlides.ItemClick += HandleItemClick;
+			RegisterForContextMenu(lvSlides);
+
+			LoadSlidesList();
 
 			return contentView;
 		}
-		/*
 
-		private void BtnDemo_Click1 (object sender, EventArgs e)
+		private void LoadSlidesList(Guid? selectedItemUID = null)
+		{
+			DBPresentation dbPresentation = new DBPresentation();
+			List<Presentation> presentations = dbPresentation.Select();
+			
+			ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
+			lvSlides.Adapter = new SlidesAdapter(Activity, presentations);
+		}
+
+		private void HandleItemClick (object sender, AdapterView.ItemClickEventArgs e)
+		{
+			ListView lv = (ListView)sender;
+			EditActivity activityEdit = Activity as EditActivity;
+			
+			if (activityEdit != null)
+			{
+				SlidesAdapter adapter = (SlidesAdapter)lv.Adapter;
+
+				// Die ausgewählte Präsentation laden
+				activityEdit.FragEditDetail.LoadPresentation(adapter.GetPresentation(lv.CheckedItemPosition));
+			}
+		}
+
+		public override void OnCreateContextMenu (IContextMenu menu, Android.Views.View v, IContextMenuContextMenuInfo menuInfo)
+		{
+			base.OnCreateContextMenu (menu, v, menuInfo);
+			selectedItemPosition = ((AdapterView.AdapterContextMenuInfo)menuInfo).Position;
+
+			menu.SetHeaderTitle(Resource.String.PresentationsMenuTitle);
+			menu.Add(0, (int)PresentationsMenu.Start, 0, Resource.String.PresentationsMenuStart);
+			menu.Add(0, (int)PresentationsMenu.Create, 1, Resource.String.PresentationsMenuCreate);
+			menu.Add(0, (int)PresentationsMenu.Rename, 2, Resource.String.PresentationsMenuRename);
+			menu.Add(0, (int)PresentationsMenu.Delete, 3, Resource.String.PresentationsMenuDelete);
+		}
+
+
+		public override bool OnContextItemSelected (IMenuItem item)
+		{
+			ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
+			Guid presentationUID = ((SlidesAdapter)lvSlides.Adapter).GetPresentation(selectedItemPosition).PresentationUID;
+
+			switch((PresentationsMenu)item.ItemId)
+			{
+			case PresentationsMenu.Start:
+				StartPresentation(presentationUID);
+				break;
+			case PresentationsMenu.Create:
+				CreatePresentation(presentationUID);
+				break;
+			case PresentationsMenu.Rename:
+				RenamePresentation(presentationUID);
+				break;
+			case PresentationsMenu.Delete:
+				DeletePresentation(presentationUID);
+				break;
+			}
+
+			selectedItemPosition = -1;
+			return base.OnContextItemSelected (item);
+		}
+
+
+		private void StartPresentation(Guid presentationUID)
 		{
 			Intent intent = new Intent(Activity, typeof(BrowserActivity));
-
-			string pFolder = Path.Combine(new PresentationsHelper().PresentationsFolder, Guid.Empty.ToString());
-
+			string pFolder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());			
 			string demo = pFolder + "/template.html";
-
+			
 			intent.PutExtra("url", "file://" + demo);
-			//intent.PutExtra("url", "http://io-2012-slides.googlecode.com/git/template.html");
 
 			StartActivity(intent);
 		}
-
-		private void BtnNewPresentation_Click (object sender, EventArgs e)
+	
+		private void CreatePresentation(Guid presentationUID)
 		{
 			// Per Dialog den Namen der neuen Presentation abfragen
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Activity);
 			dialog.SetTitle(GetText(Resource.String.DlgNewPresentationTitle));
 			dialog.SetMessage(GetText(Resource.String.DlgNewPresentationText));
 			dialog.SetCancelable(true);
-
+			
 			EditText etName = new EditText(Activity);
 			etName.SetSingleLine(true);
-
+			
 			dialog.SetView(etName);
-
+			
 			dialog.SetPositiveButton(GetText(Resource.String.DlgNewPresentationErstellen), delegate {
 				string name = etName.Text.Trim();
-
+				
 				if (String.IsNullOrEmpty(name))
 				{
 					// Fehlermeldung anzeigen
 					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorNoName));
 				}
-
+				
 				PresentationsHelper presentations;
 				try
 				{
@@ -108,15 +179,19 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				{
 					ShowErrorMsg(GetText(Resource.String.ErrorNoExternalStorage));
 				}
-		
+				
 				// Gibt es die Präsentation schon?
 				if (!presentations.Exists(name))
 				{
 					// Präsentation erstellen
-					if (presentations.CreateNew(Guid.Empty, name) != PresentationsHelper.ErrorCode.OK)
+					if (presentations.CreateNew(presentationUID, name) != PresentationsHelper.ErrorCode.OK)
 					{
 						// Fehlermeldung anzeigen
 						ShowErrorMsg(GetText(Resource.String.DlgNewPresentationError));
+					}
+					else
+					{
+						LoadSlidesList(presentationUID);
 					}
 				}
 				else
@@ -125,13 +200,63 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorPraesExists));
 				}
 			});
-
+			
 			dialog.SetNegativeButton(GetText(Resource.String.Cancel), delegate { });
-
+			
 			dialog.Show();
 		}
 
-*/
+		private void RenamePresentation(Guid presentationUID)
+		{
+			// Per Dialog den Namen der neuen Presentation abfragen
+			AlertDialog.Builder dialog = new AlertDialog.Builder(Activity);
+			dialog.SetTitle(GetText(Resource.String.DlgNewPresentationTitle));
+			dialog.SetMessage(GetText(Resource.String.DlgNewPresentationText));
+			dialog.SetCancelable(true);
+			
+			EditText etName = new EditText(Activity);
+			etName.SetSingleLine(true);
+			
+			dialog.SetView(etName);
+			
+			dialog.SetPositiveButton(GetText(Resource.String.DlgNewPresentationErstellen), delegate {
+				string name = etName.Text.Trim();
+				
+				if (String.IsNullOrEmpty(name))
+				{
+					// Fehlermeldung anzeigen
+					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorNoName));
+				}
+				
+				PresentationsHelper presentations;
+				try
+				{
+					presentations = new PresentationsHelper();
+				}
+				catch (Exception)
+				{
+					ShowErrorMsg(GetText(Resource.String.ErrorNoExternalStorage));
+				}
+
+				presentations.Rename(presentationUID, name);
+				LoadSlidesList(presentationUID);
+			});
+
+			dialog.SetNegativeButton(GetText(Resource.String.Cancel), delegate { });
+			
+			dialog.Show();
+		}
+
+		private void DeletePresentation(Guid presentationUID)
+		{
+			if (new PresentationsHelper().Delete(presentationUID) == PresentationsHelper.ErrorCode.MINIMALPRESENTATIONS)
+			{
+				ShowErrorMsg(GetText(Resource.String.ErrorMinimalPresentationCount));
+			}
+
+			LoadSlidesList();
+		}
+
 		private void ShowErrorMsg(string errMsg)
 		{
 			// Tastatur ausblenden

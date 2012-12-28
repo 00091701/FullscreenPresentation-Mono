@@ -62,9 +62,6 @@
     <Compile Include="Screens\EditActivity.cs" />
     <Compile Include="Screens\EditDetailFragment.cs" />
     <Compile Include="Screens\EditSlidesListFragment.cs" />
-    <Compile Include="..\FP.Buslog\Presentations.cs">
-      <Link>Libs\FP.Buslog\Presentations.cs</Link>
-    </Compile>
     <Compile Include="..\FP.Data\DataBase.cs">
       <Link>Libs\FP.Data\DataBase.cs</Link>
     </Compile>
@@ -87,6 +84,9 @@
     <Compile Include="..\FP.Data\Types\Presentation.cs">
       <Link>Libs\FP.Data\Types\Presentation.cs</Link>
     </Compile>
+    <Compile Include="..\FP.Buslog\PresentationsHelper.cs">
+      <Link>Libs\FP.Buslog\PresentationsHelper.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -103,6 +103,7 @@
     <AndroidResource Include="Resources\layout\EditSlidesList.axml" />
     <AndroidResource Include="Resources\layout-port\Edit.axml" />
     <AndroidResource Include="Resources\layout\SlidesItem.axml" />
+    <AndroidResource Include="Resources\layout\EditDetailGoogleIO2012.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>

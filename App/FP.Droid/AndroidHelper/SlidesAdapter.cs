@@ -24,6 +24,7 @@ using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 using System.Collections.Generic;
 using Android.App;
 using Android.Views;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 {
@@ -54,7 +55,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 		public override Android.Views.View GetView (int position, Android.Views.View convertView, Android.Views.ViewGroup parent)
 		{
 			Presentation presentation = presentations[position];
-			//View view = (convertView ?? context.LayoutInflater.Inflate(Android.Resource.Layout.SimpleListItem1, parent, false)) as LinearLayout; 
 			View view = (convertView ?? context.LayoutInflater.Inflate(Resource.Layout.SlidesItem, parent, false)) as LinearLayout;
 
 			TextView tvName = view.FindViewById<TextView>(Resource.Id.tvName);
@@ -75,6 +75,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 		}
 
 		#endregion
+
+		public Presentation GetPresentation (int checkedItemPosition)
+		{
+			if (presentations == null)
+				return null;
+			else
+				return presentations[checkedItemPosition];
+		}
 	}
 
 }

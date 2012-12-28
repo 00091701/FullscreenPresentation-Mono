@@ -226,7 +226,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 		{
 			bool ret = false;
 			
-			if (presentationUID != Guid.Empty)
+			if (presentationUID == Guid.Empty)
 				return false;
 			
 			using (SqliteConnection conn = GetConnection())

@@ -35,7 +35,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 		{
 			OK,
 			ERROR,
-			PRESENTATIONEXISTS
+			PRESENTATIONEXISTS,
+			MINIMALPRESENTATIONS
 		}
 
 		public PresentationsHelper ()
@@ -85,6 +86,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			return CreateNew(newPresentationUID, name, template.Type);
 		}
 
+		public ErrorCode Rename(Guid presentationUID, string name)
+		{
+			DBPresentation dbPresentation = new DBPresentation();
+			Presentation presentation = dbPresentation.Select(presentationUID).FirstOrDefault();
+			presentation.Name = name;
+			if (dbPresentation.Update(presentation))
+				return ErrorCode.OK;
+			else 
+				return ErrorCode.ERROR;
+		}
+
 		public ErrorCode CreateNew(Guid presentationUID, string name, Presentation.Typ typ)
 		{
 			if (presentationUID == Guid.Empty || String.IsNullOrEmpty(name))
@@ -100,6 +112,27 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 				return ErrorCode.OK;
 			else
 				return ErrorCode.ERROR;
+		}
+
+		public ErrorCode Delete(Guid presentationUID)
+		{
+			DBPresentation dbPresentation = new DBPresentation();
+
+			List<Presentation> presentations = dbPresentation.Select(null);
+			if (presentations.Count <= 1)
+				return ErrorCode.MINIMALPRESENTATIONS;
+
+			if (dbPresentation.Delete(presentationUID))
+			{
+				string path = Path.Combine(presentationsFolder, presentationUID.ToString());
+
+				if (Directory.Exists(path))
+					Directory.Delete(path, true);
+
+				return ErrorCode.OK;
+			}
+
+			return ErrorCode.ERROR;
 		}
 
 

@@ -35,6 +35,16 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 	[Activity (Label = "EditActivity")]			
 	public class EditActivity : Activity
 	{
+		public EditSlidesListFragment FragEditSlidesList {
+			get;
+			set;
+		}
+
+		public EditDetailFragment FragEditDetail {
+			get;
+			set;
+		}
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
