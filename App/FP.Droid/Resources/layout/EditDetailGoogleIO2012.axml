@@ -42,15 +42,15 @@
             android:minHeight="25px"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/linearLayout3">
+            android:id="@+id/llGoogleIOWrapper">
             <LinearLayout
                 android:orientation="vertical"
                 android:minWidth="25px"
                 android:minHeight="25px"
-                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="2"
-                android:id="@+id/linearLayout3">
+                android:id="@+id/llGoogleIOContent"
+                android:layout_width="fill_parent"
+                android:layout_weight="1">
                 <TextView
                     android:text="@string/EditGoogleIOContent"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -68,24 +68,23 @@
                 android:orientation="vertical"
                 android:minWidth="25px"
                 android:minHeight="25px"
-                android:layout_weight="4"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/linearLayout3">
+                android:id="@+id/llGoogleIOSettings"
+                android:layout_weight="1">
                 <ScrollView
                     android:minWidth="25px"
                     android:minHeight="25px"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="fill_parent"
                     android:id="@+id/scrollView1">
                     <LinearLayout
                         android:paddingLeft="15dp"
                         android:orientation="vertical"
                         android:minWidth="25px"
                         android:minHeight="25px"
-                        android:maxWidth="550dp"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="fill_parent">
                         <TableLayout
                             android:minWidth="25px"
                             android:minHeight="25px"
