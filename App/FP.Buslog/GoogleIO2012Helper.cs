@@ -106,7 +106,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			// Javascript Kommentare entfernen
 			sCfg = Regex.Replace(sCfg, "[^:](//.*?)\n", "\n", RegexOptions.Multiline);
 			sCfg = Regex.Replace(sCfg, @"/\*(.*?)\*/", "", RegexOptions.Singleline);
-			sCfg = Regex.Replace(sCfg, @"(\t|\n|\r)*", "", RegexOptions.Singleline);
 
 			// Json parsen
 			JsonValue jsonCfg = JsonObject.Parse(sCfg);
