@@ -24,10 +24,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 	{
 		public string Title { get; set; }
 		public string SubTitle { get; set; }
-
 		public bool SlideAnimation { get; set; }
+		public bool Prettify { get; set; }
 		public bool SlideAreas { get; set; }
 		public bool Touch { get; set; }
+		public string AnalyticsKey { get; set; }
+		public string Favicon {	get; set; }
+		public List<string> Fonts { get; set; }
+		public string Theme { get; set; }
 
 		public List<GoogleIO2012ConfigPresenters> Presenters { get; set; }
 	}

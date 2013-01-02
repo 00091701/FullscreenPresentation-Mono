@@ -22,6 +22,7 @@ using System;
 using System.IO;
 using System.Json;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
@@ -110,6 +111,79 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			// Json parsen
 			JsonValue jsonCfg = JsonObject.Parse(sCfg);
 
+			if (jsonCfg != null && jsonCfg.Count >= 0)
+			{
+				if (jsonCfg.ContainsKey("settings"))
+				{
+					JsonValue settings = jsonCfg["settings"];
+
+					if (settings.ContainsKey("title"))
+						ret.Title = settings["title"];
+
+					if (settings.ContainsKey("subtitle"))
+						ret.SubTitle = settings["subtitle"];
+
+					if (settings.ContainsKey("useBuilds"))
+						ret.SlideAnimation = settings["useBuilds"];
+
+					if (settings.ContainsKey("usePrettify"))
+						ret.Prettify = settings["usePrettify"];
+
+					if (settings.ContainsKey("enableSlideAreas"))
+						ret.SlideAreas = settings["enableSlideAreas"];
+
+					if (settings.ContainsKey("enableTouch"))
+						ret.Touch = settings["enableTouch"];
+
+					if (settings.ContainsKey("analytics"))
+						ret.AnalyticsKey = settings["analytics"];
+
+					if (settings.ContainsKey("favIcon"))
+						ret.Favicon = settings["favIcon"];
+
+					if (settings.ContainsKey("fonts"))
+					{
+						ret.Fonts = new List<string>();
+
+						foreach(JsonValue font in settings["fonts"] as JsonArray)
+							ret.Fonts.Add(font.ToString().Substring(1, font.ToString().Length - 2));
+					}
+
+					if (settings.ContainsKey("theme"))
+						ret.Theme = settings["theme"];
+				}
+
+				if (jsonCfg.ContainsKey("presenters"))
+				{
+					ret.Presenters = new List<GoogleIO2012ConfigPresenters>();
+					JsonValue presenters = jsonCfg["presenters"];
+
+					foreach(JsonValue presenter in presenters as JsonArray)
+					{
+						GoogleIO2012ConfigPresenters pres = new GoogleIO2012ConfigPresenters();
+
+						if (presenter.ContainsKey("name"))
+							pres.Name = presenter["name"];
+						
+						if (presenter.ContainsKey("company"))
+							pres.Company = presenter["company"];
+						
+						if (presenter.ContainsKey("gplus"))
+							pres.GooglePlus = presenter["gplus"];
+						
+						if (presenter.ContainsKey("twitter"))
+							pres.Twitter = presenter["twitter"];
+						
+						if (presenter.ContainsKey("www"))
+							pres.Website = presenter["www"];
+
+						if (presenter.ContainsKey("github"))
+							pres.Github = presenter["github"];
+
+						ret.Presenters.Add(pres);
+					}
+				}
+			}
 
 			return ret;
 		}
