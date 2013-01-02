@@ -25,4 +25,25 @@
 	<string name="PresentationsMenuRename">umbennen</string>
 	<string name="PresentationsMenuDelete">löschen</string>
 	<string name="ErrorMinimalPresentationCount">Es muss mindestens eine Präsentation als Vorlage erhalten bleiben.</string>
+	
+	
+	<string name="btnSave">Speichern</string>
+	<string name="btnRender">Rendern</string>
+	<string name="btnPresent">Präsentieren</string>
+	<string name="EditGoogleIOContent">Inhalt</string>
+	<string name="EditGoogleIOSettings">Einstellungen</string>
+	<string name="EditGoogleIOTitle">Titel</string>
+	<string name="EditGoogleIOSubTitle">Untertitel</string>
+	<string name="EditGoogleIOSlideAnimation">Animierte Übergänge</string>
+	<string name="EditGoogleIOSlideAreas">Übergangsflächen</string>
+	<string name="EditGoogleIOTouch">Touch</string>
+	<string name="EditGoogleIOAuthor">Autor</string>
+	<string name="EditGoogleIOName">Name</string>
+	<string name="EditGoogleIOCompany">Firma</string>
+	<string name="EditGoogleIOGooglePlus">Google+</string>
+	<string name="EditGoogleIOTwitter">Twitter</string>
+	<string name="EditGoogleIOWebsite">Webseite</string>
+	<string name="EditGoogleIOGithub">Github</string>
+
+
 </resources>

@@ -40,6 +40,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		private Presentation currentEditDetail = null;
 		private View contentView;
 		private LayoutInflater inflater;
+		private View viewEditDetail;
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
@@ -101,18 +102,124 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			// Bereits vorhandene Details entfernen
 			llEditDetail.RemoveAllViews();
 
-			View viewEditDetail = null;
+			viewEditDetail = null;
 
 			// View für die entsprechenden Typen laden
 			switch(presentation.Type)
 			{
 			case Presentation.Typ.GoogleIO2012Slides:
 				viewEditDetail = inflater.Inflate(Resource.Layout.EditDetailGoogleIO2012, null);
+
+				GoogleIO2012Helper helper = new GoogleIO2012Helper();
+
+				Button btnSave = (Button)viewEditDetail.FindViewById(Resource.Id.btnSave);
+				btnSave.Click += BtnSave_Click;
+
+				// Präsentations Content laden und anzeigen
+				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
+				etContent.SetSingleLine(false);
+				etContent.Text = helper.LoadContent(presentation.PresentationUID);
+
+				// Die Anzeige zurücksetzen
+				EditText etTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle);
+				etTitle.Text = String.Empty;
+
+				EditText etSubTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle);
+				etSubTitle.Text = String.Empty;
+
+				ToggleButton tbtnAnimation = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation);
+				tbtnAnimation.Checked = false;
+
+				ToggleButton tbtnAreas = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas);
+				tbtnAreas.Checked = false;
+
+				ToggleButton tbtnTouch = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch);
+				tbtnTouch.Checked = false;
+
+				EditText etName = (EditText)viewEditDetail.FindViewById(Resource.Id.etName);
+				etName.Text = String.Empty;
+
+				EditText etCompany = (EditText)viewEditDetail.FindViewById(Resource.Id.etCompany);
+				etCompany.Text = String.Empty;
+
+				EditText etGooglePlus = (EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus);
+				etGooglePlus.Text = String.Empty;
+
+				EditText etTwitter = (EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter);
+				etTwitter.Text = String.Empty;
+
+				EditText etWebsite = (EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite);
+				etWebsite.Text = String.Empty;
+
+				EditText etGithub = (EditText)viewEditDetail.FindViewById(Resource.Id.etGithub);
+				etGithub.Text = String.Empty;
+
+				// Konfiguration laden und anzeigen
+				GoogleIO2012Config config = helper.LoadConfig(presentation.PresentationUID);
+
+				if (config != null)
+				{
+					etTitle.Text = config.Title;
+					etSubTitle.Text = config.SubTitle;
+					tbtnAnimation.Checked = config.SlideAnimation;
+					tbtnAreas.Checked = config.SlideAreas;
+					tbtnTouch.Checked = config.Touch;
+
+					if (config.Presenters != null && config.Presenters.Count > 0)
+					{
+						// Das UI unterstützt derzeit nur einen Presenter
+						GoogleIO2012ConfigPresenters presenter = config.Presenters.FirstOrDefault();
+
+						if (presenter != null)
+						{
+							etName.Text = presenter.Name;
+							etCompany.Text = presenter.Company;
+							etGooglePlus.Text = presenter.GooglePlus;
+							etTwitter.Text = presenter.Twitter;
+							etWebsite.Text = presenter.Website;
+							etGithub.Text = presenter.Github;
+						}
+					}
+				}
+
 				break;
 			}
 
 			// ... und anzeigen
 			llEditDetail.AddView(viewEditDetail);
+		}
+
+		private void BtnSave_Click (object sender, EventArgs e)
+		{
+			if (currentEditDetail != null)
+				SavePresentation(currentEditDetail);
+		}
+
+		public bool SavePresentation(Presentation presentation)
+		{
+			if (presentation == null || viewEditDetail == null)
+			{
+				// TODO Fehlermeldung
+				return false;
+			}
+			
+			// View für die entsprechenden Typen laden
+			switch(presentation.Type)
+			{
+			case Presentation.Typ.GoogleIO2012Slides:
+				GoogleIO2012Helper helper = new GoogleIO2012Helper();
+				
+				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
+				if (!helper.SaveContent(presentation.PresentationUID, etContent.Text.Trim()))
+				{
+					// ToDo Fehlermeldung
+				}
+				
+				break;
+			}
+
+
+			return false;
 		}
 	}
 }

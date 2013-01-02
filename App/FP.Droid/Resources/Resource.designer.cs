@@ -40,6 +40,42 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f060007
 			public const int btnOpenFolder = 2131099655;
 			
+			// aapt resource value: 0x7f06000c
+			public const int btnPresent = 2131099660;
+			
+			// aapt resource value: 0x7f06000b
+			public const int btnRender = 2131099659;
+			
+			// aapt resource value: 0x7f06000a
+			public const int btnSave = 2131099658;
+			
+			// aapt resource value: 0x7f06001b
+			public const int etCompany = 2131099675;
+			
+			// aapt resource value: 0x7f06000d
+			public const int etContent = 2131099661;
+			
+			// aapt resource value: 0x7f06001f
+			public const int etGithub = 2131099679;
+			
+			// aapt resource value: 0x7f06001c
+			public const int etGooglePlus = 2131099676;
+			
+			// aapt resource value: 0x7f06001a
+			public const int etName = 2131099674;
+			
+			// aapt resource value: 0x7f060014
+			public const int etSubTitle = 2131099668;
+			
+			// aapt resource value: 0x7f060012
+			public const int etTitle = 2131099666;
+			
+			// aapt resource value: 0x7f06001d
+			public const int etTwitter = 2131099677;
+			
+			// aapt resource value: 0x7f06001e
+			public const int etWebsite = 2131099678;
+			
 			// aapt resource value: 0x7f060003
 			public const int frag_editdetail = 2131099651;
 			
@@ -49,20 +85,53 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f060001
 			public const int frags = 2131099649;
 			
+			// aapt resource value: 0x7f060009
+			public const int linearLayout3 = 2131099657;
+			
 			// aapt resource value: 0x7f060008
 			public const int llEditDetail = 2131099656;
 			
 			// aapt resource value: 0x7f060004
 			public const int llPresentationFolder = 2131099652;
 			
-			// aapt resource value: 0x7f060009
-			public const int lvSlides = 2131099657;
+			// aapt resource value: 0x7f060020
+			public const int lvSlides = 2131099680;
+			
+			// aapt resource value: 0x7f06000e
+			public const int scrollView1 = 2131099662;
+			
+			// aapt resource value: 0x7f06000f
+			public const int tableLayout1 = 2131099663;
+			
+			// aapt resource value: 0x7f060016
+			public const int tbtnAnimation = 2131099670;
+			
+			// aapt resource value: 0x7f060017
+			public const int tbtnAreas = 2131099671;
+			
+			// aapt resource value: 0x7f060018
+			public const int tbtnTouch = 2131099672;
 			
 			// aapt resource value: 0x7f060005
 			public const int textView1 = 2131099653;
 			
-			// aapt resource value: 0x7f06000a
-			public const int tvName = 2131099658;
+			// aapt resource value: 0x7f060010
+			public const int textView2 = 2131099664;
+			
+			// aapt resource value: 0x7f060011
+			public const int textView3 = 2131099665;
+			
+			// aapt resource value: 0x7f060013
+			public const int textView4 = 2131099667;
+			
+			// aapt resource value: 0x7f060015
+			public const int textView5 = 2131099669;
+			
+			// aapt resource value: 0x7f060019
+			public const int textView8 = 2131099673;
+			
+			// aapt resource value: 0x7f060021
+			public const int tvName = 2131099681;
 			
 			// aapt resource value: 0x7f060006
 			public const int tvPresentationPath = 2131099654;
@@ -128,6 +197,48 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f04000f
 			public const int EditDetailSpeicherort = 2130968591;
 			
+			// aapt resource value: 0x7f040021
+			public const int EditGoogleIOAuthor = 2130968609;
+			
+			// aapt resource value: 0x7f040023
+			public const int EditGoogleIOCompany = 2130968611;
+			
+			// aapt resource value: 0x7f04001a
+			public const int EditGoogleIOContent = 2130968602;
+			
+			// aapt resource value: 0x7f040027
+			public const int EditGoogleIOGithub = 2130968615;
+			
+			// aapt resource value: 0x7f040024
+			public const int EditGoogleIOGooglePlus = 2130968612;
+			
+			// aapt resource value: 0x7f040022
+			public const int EditGoogleIOName = 2130968610;
+			
+			// aapt resource value: 0x7f04001b
+			public const int EditGoogleIOSettings = 2130968603;
+			
+			// aapt resource value: 0x7f04001e
+			public const int EditGoogleIOSlideAnimation = 2130968606;
+			
+			// aapt resource value: 0x7f04001f
+			public const int EditGoogleIOSlideAreas = 2130968607;
+			
+			// aapt resource value: 0x7f04001d
+			public const int EditGoogleIOSubTitle = 2130968605;
+			
+			// aapt resource value: 0x7f04001c
+			public const int EditGoogleIOTitle = 2130968604;
+			
+			// aapt resource value: 0x7f040020
+			public const int EditGoogleIOTouch = 2130968608;
+			
+			// aapt resource value: 0x7f040025
+			public const int EditGoogleIOTwitter = 2130968613;
+			
+			// aapt resource value: 0x7f040026
+			public const int EditGoogleIOWebsite = 2130968614;
+			
 			// aapt resource value: 0x7f040002
 			public const int EditTabInfo = 2130968578;
 			
@@ -169,6 +280,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			
 			// aapt resource value: 0x7f040003
 			public const int btnNewPresentation = 2130968579;
+			
+			// aapt resource value: 0x7f040019
+			public const int btnPresent = 2130968601;
+			
+			// aapt resource value: 0x7f040018
+			public const int btnRender = 2130968600;
+			
+			// aapt resource value: 0x7f040017
+			public const int btnSave = 2130968599;
 			
 			// aapt resource value: 0x7f040001
 			public const int tvChoosePresentation = 2130968577;

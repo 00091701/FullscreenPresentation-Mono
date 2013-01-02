@@ -5,10 +5,279 @@
     android:layout_height="fill_parent"
     android:minWidth="25px"
     android:minHeight="25px">
-    <TextView
-        android:text="google io"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView1" />
+        android:layout_height="fill_parent"
+        android:id="@+id/linearLayout3">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout3"
+            android:gravity="right">
+            <Button
+                android:text="@string/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSave" />
+            <Button
+                android:text="@string/btnRender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnRender" />
+            <Button
+                android:text="@string/btnPresent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnPresent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/linearLayout3">
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:id="@+id/linearLayout3">
+                <TextView
+                    android:text="@string/EditGoogleIOContent"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView1" />
+                <EditText
+                    android:inputType="textMultiLine"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/etContent"
+                    android:gravity="top" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_weight="4"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/linearLayout3">
+                <ScrollView
+                    android:minWidth="25px"
+                    android:minHeight="25px"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scrollView1">
+                    <LinearLayout
+                        android:paddingLeft="15dp"
+                        android:orientation="vertical"
+                        android:minWidth="25px"
+                        android:minHeight="25px"
+                        android:maxWidth="550dp"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+                        <TableLayout
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tableLayout1"
+                            android:stretchColumns="1">
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOSettings"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:layout_width="fill_parent"
+                                    android:layout_column="0"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/textView2" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOTitle"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:id="@+id/textView3"
+                                    android:layout_column="0"
+                                    android:layout_width="125dp"
+                                    android:layout_height="wrap_content" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etTitle"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOSubTitle"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:id="@+id/textView4"
+                                    android:layout_column="0"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etSubTitle"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOSlideAnimation"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_column="0"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/textView5" />
+                                <ToggleButton
+                                    android:layout_column="1"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tbtnAnimation"
+                                    android:layout_width="50dp" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOSlideAreas"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_column="0"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/textView5" />
+                                <ToggleButton
+                                    android:layout_column="1"
+                                    android:layout_width="50dp"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/tbtnAreas" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOTouch"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_column="0"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/textView5" />
+                                <ToggleButton
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="1"
+                                    android:layout_width="50dp"
+                                    android:id="@+id/tbtnTouch" />
+                            </TableRow>
+                        </TableLayout>
+                        <TableLayout
+                            android:layout_marginTop="30dp"
+                            android:minWidth="25px"
+                            android:minHeight="25px"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tableLayout1"
+                            android:stretchColumns="1">
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOAuthor"
+                                    android:textAppearance="?android:attr/textAppearanceMedium"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:id="@+id/textView8" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOName"
+                                    android:layout_width="125dp"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:id="@+id/textView8" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etName"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOCompany"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:id="@+id/textView8" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etCompany"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOGooglePlus"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:id="@+id/textView8" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etGooglePlus"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOTwitter"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:id="@+id/textView8" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etTwitter"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOWebsite"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:id="@+id/textView8" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etWebsite"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                            <TableRow>
+                                <TextView
+                                    android:text="@string/EditGoogleIOGithub"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:id="@+id/textView8" />
+                                <EditText
+                                    android:layout_column="1"
+                                    android:id="@+id/etGithub"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content" />
+                            </TableRow>
+                        </TableLayout>
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

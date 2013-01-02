@@ -87,6 +87,15 @@
     <Compile Include="..\FP.Buslog\PresentationsHelper.cs">
       <Link>Libs\FP.Buslog\PresentationsHelper.cs</Link>
     </Compile>
+    <Compile Include="..\FP.Buslog\GoogleIO2012Helper.cs">
+      <Link>Libs\FP.Buslog\GoogleIO2012Helper.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Buslog\Types\GoogleIO2012Config.cs">
+      <Link>Libs\FP.Buslog\Types\GoogleIO2012Config.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Buslog\Types\GoogleIO2012ConfigPresenters.cs">
+      <Link>Libs\FP.Buslog\Types\GoogleIO2012ConfigPresenters.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
