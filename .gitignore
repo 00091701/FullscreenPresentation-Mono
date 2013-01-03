@@ -1,3 +1,5 @@
 App/FP.Droid.userprefs
 App/FP.Droid/bin/*
 App/FP.Droid/obj/*
+*.pyc
+
