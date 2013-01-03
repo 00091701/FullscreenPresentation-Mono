@@ -50,7 +50,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			Delete
 		}
 
-		private LayoutInflater inflater;
 		private View contentView;
 		private int selectedItemPosition;
 
@@ -60,7 +59,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			this.inflater = inflater;
 			((EditActivity)Activity).FragEditSlidesList = this;
 
 			contentView = inflater.Inflate(Resource.Layout.EditSlidesList, null);

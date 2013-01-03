@@ -1,6 +1,6 @@
 /*
  * This file is part of Fullscreen-Presentation
- * Copyright (C) 2012 David Hoffmann
+ * Copyright (C) 2013 David Hoffmann
  *
  * Fullscreen-Presentation is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,16 +16,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
  */
+using System.Collections.Generic;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
-	public class GoogleIO2012ConfigPresenters
+	public class GoogleIO2012ConfigSettings
 	{
-		public string name { get; set; }
-		public string company { get; set; }
-		public string gplus { get; set; }
-		public string twitter { get; set; }
-		public string www { get; set; }
-		public string github { get; set; }
+		public string title { get; set; }
+		public string subtitle { get; set; }
+		public bool useBuilds { get; set; }
+		public bool usePrettify { get; set; }
+		public bool enableSlideAreas { get; set; }
+		public bool enableTouch { get; set; }
+		public string analytics { get; set; }
+		public string favIcon {	get; set; }
+		public List<string> fonts { get; set; }
+		public string theme { get; set; }
 	}
 }

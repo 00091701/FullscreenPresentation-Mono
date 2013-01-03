@@ -53,6 +53,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Json" />
     <Reference Include="Mono.Data.Tds" />
+    <Reference Include="System.Data.Services.Client" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -95,6 +96,9 @@
     </Compile>
     <Compile Include="..\FP.Buslog\Types\GoogleIO2012ConfigPresenters.cs">
       <Link>Libs\FP.Buslog\Types\GoogleIO2012ConfigPresenters.cs</Link>
+    </Compile>
+    <Compile Include="..\FP.Buslog\Types\GoogleIO2012ConfigSettings.cs">
+      <Link>Libs\FP.Buslog\Types\GoogleIO2012ConfigSettings.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

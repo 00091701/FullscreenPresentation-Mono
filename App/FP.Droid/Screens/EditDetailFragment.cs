@@ -113,7 +113,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				GoogleIO2012Helper helper = new GoogleIO2012Helper();
 
 				Button btnSave = (Button)viewEditDetail.FindViewById(Resource.Id.btnSave);
-				btnSave.Click += BtnSave_Click;
+				btnSave.Click += BtnSave_GloogleIO2012Slides_Click;
+
+				Button btnPresent = (Button)viewEditDetail.FindViewById(Resource.Id.btnPresent);
+				btnPresent.Click += BtnPresent_GloogleIO2012Slides_Click;
 
 				// Präsentations Content laden und anzeigen
 				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
@@ -159,25 +162,30 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 				if (config != null)
 				{
-					etTitle.Text = config.Title;
-					etSubTitle.Text = config.SubTitle;
-					tbtnAnimation.Checked = config.SlideAnimation;
-					tbtnAreas.Checked = config.SlideAreas;
-					tbtnTouch.Checked = config.Touch;
+					if (config.settings != null)
+					{
+						GoogleIO2012ConfigSettings settings = config.settings;
 
-					if (config.Presenters != null && config.Presenters.Count > 0)
+						etTitle.Text = settings.title;
+						etSubTitle.Text = settings.subtitle;
+						tbtnAnimation.Checked = settings.useBuilds;
+						tbtnAreas.Checked = settings.enableSlideAreas;
+						tbtnTouch.Checked = settings.enableTouch;
+					}
+
+					if (config.presenters != null && config.presenters.Count > 0)
 					{
 						// Das UI unterstützt derzeit nur einen Presenter
-						GoogleIO2012ConfigPresenters presenter = config.Presenters.FirstOrDefault();
+						GoogleIO2012ConfigPresenters presenter = config.presenters.FirstOrDefault();
 
 						if (presenter != null)
 						{
-							etName.Text = presenter.Name;
-							etCompany.Text = presenter.Company;
-							etGooglePlus.Text = presenter.GooglePlus;
-							etTwitter.Text = presenter.Twitter;
-							etWebsite.Text = presenter.Website;
-							etGithub.Text = presenter.Github;
+							etName.Text = presenter.name;
+							etCompany.Text = presenter.company;
+							etGooglePlus.Text = presenter.gplus;
+							etTwitter.Text = presenter.twitter;
+							etWebsite.Text = presenter.www;
+							etGithub.Text = presenter.github;
 						}
 					}
 				}
@@ -189,7 +197,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			llEditDetail.AddView(viewEditDetail);
 		}
 
-		private void BtnSave_Click (object sender, EventArgs e)
+		private void BtnPresent_GloogleIO2012Slides_Click (object sender, EventArgs e)
+		{
+			StartPresentation(currentEditDetail.PresentationUID);
+		}
+
+		private void BtnSave_GloogleIO2012Slides_Click (object sender, EventArgs e)
 		{
 			if (currentEditDetail != null)
 				SavePresentation(currentEditDetail);
@@ -214,12 +227,51 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				{
 					// ToDo Fehlermeldung
 				}
+
+				// Die vorhande Konfiguration laden um nur geänderte Stellen zu überschreiben
+				GoogleIO2012Config cfg = helper.LoadConfig(presentation.PresentationUID);
+
+				if (cfg.settings != null)
+				{
+					GoogleIO2012ConfigSettings settings = cfg.settings;
+
+					settings.title = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle)).Text;
+					settings.subtitle = ((EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle)).Text;
+					settings.useBuilds = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation)).Checked;
+					settings.enableSlideAreas = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas)).Checked;
+					settings.enableTouch = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch)).Checked;
+				}
+
+				if (cfg.presenters != null && cfg.presenters.Count > 0)
+				{
+					GoogleIO2012ConfigPresenters pres = cfg.presenters.FirstOrDefault();
+
+					pres.name = ((EditText)viewEditDetail.FindViewById(Resource.Id.etName)).Text;
+					pres.company = ((EditText)viewEditDetail.FindViewById(Resource.Id.etCompany)).Text;
+					pres.gplus = ((EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus)).Text;
+					pres.twitter = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter)).Text;
+					pres.www = ((EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite)).Text;
+					pres.github = ((EditText)viewEditDetail.FindViewById(Resource.Id.etGithub)).Text;
+				}
+
+				helper.SaveConfig(presentation.PresentationUID, cfg);
 				
 				break;
 			}
 
 
 			return false;
+		}
+
+		private void StartPresentation(Guid presentationUID)
+		{
+			Intent intent = new Intent(Activity, typeof(BrowserActivity));
+			string pFolder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());			
+			string demo = pFolder + "/template.html";
+			
+			intent.PutExtra("url", "file://" + demo);
+			
+			StartActivity(intent);
 		}
 	}
 }

@@ -23,6 +23,7 @@ using System.IO;
 using System.Json;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
@@ -115,47 +116,49 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			{
 				if (jsonCfg.ContainsKey("settings"))
 				{
+					ret.settings = new GoogleIO2012ConfigSettings();
+
 					JsonValue settings = jsonCfg["settings"];
 
 					if (settings.ContainsKey("title"))
-						ret.Title = settings["title"];
+						ret.settings.title = settings["title"];
 
 					if (settings.ContainsKey("subtitle"))
-						ret.SubTitle = settings["subtitle"];
+						ret.settings.subtitle = settings["subtitle"];
 
 					if (settings.ContainsKey("useBuilds"))
-						ret.SlideAnimation = settings["useBuilds"];
+						ret.settings.useBuilds = settings["useBuilds"];
 
 					if (settings.ContainsKey("usePrettify"))
-						ret.Prettify = settings["usePrettify"];
+						ret.settings.usePrettify = settings["usePrettify"];
 
 					if (settings.ContainsKey("enableSlideAreas"))
-						ret.SlideAreas = settings["enableSlideAreas"];
+						ret.settings.enableSlideAreas = settings["enableSlideAreas"];
 
 					if (settings.ContainsKey("enableTouch"))
-						ret.Touch = settings["enableTouch"];
+						ret.settings.enableTouch = settings["enableTouch"];
 
 					if (settings.ContainsKey("analytics"))
-						ret.AnalyticsKey = settings["analytics"];
+						ret.settings.analytics = settings["analytics"];
 
 					if (settings.ContainsKey("favIcon"))
-						ret.Favicon = settings["favIcon"];
+						ret.settings.favIcon = settings["favIcon"];
 
 					if (settings.ContainsKey("fonts"))
 					{
-						ret.Fonts = new List<string>();
+						ret.settings.fonts = new List<string>();
 
 						foreach(JsonValue font in settings["fonts"] as JsonArray)
-							ret.Fonts.Add(font.ToString().Substring(1, font.ToString().Length - 2));
+							ret.settings.fonts.Add(font.ToString().Substring(1, font.ToString().Length - 2));
 					}
 
 					if (settings.ContainsKey("theme"))
-						ret.Theme = settings["theme"];
+						ret.settings.theme = settings["theme"];
 				}
 
 				if (jsonCfg.ContainsKey("presenters"))
 				{
-					ret.Presenters = new List<GoogleIO2012ConfigPresenters>();
+					ret.presenters = new List<GoogleIO2012ConfigPresenters>();
 					JsonValue presenters = jsonCfg["presenters"];
 
 					foreach(JsonValue presenter in presenters as JsonArray)
@@ -163,24 +166,24 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 						GoogleIO2012ConfigPresenters pres = new GoogleIO2012ConfigPresenters();
 
 						if (presenter.ContainsKey("name"))
-							pres.Name = presenter["name"];
+							pres.name = presenter["name"];
 						
 						if (presenter.ContainsKey("company"))
-							pres.Company = presenter["company"];
+							pres.company = presenter["company"];
 						
 						if (presenter.ContainsKey("gplus"))
-							pres.GooglePlus = presenter["gplus"];
+							pres.gplus = presenter["gplus"];
 						
 						if (presenter.ContainsKey("twitter"))
-							pres.Twitter = presenter["twitter"];
+							pres.twitter = presenter["twitter"];
 						
 						if (presenter.ContainsKey("www"))
-							pres.Website = presenter["www"];
+							pres.www = presenter["www"];
 
 						if (presenter.ContainsKey("github"))
-							pres.Github = presenter["github"];
+							pres.github = presenter["github"];
 
-						ret.Presenters.Add(pres);
+						ret.presenters.Add(pres);
 					}
 				}
 			}
@@ -188,11 +191,45 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			return ret;
 		}
 
-		public bool SaveConfig(GoogleIO2012Config config)
+		public bool SaveConfig(Guid presentationUID, GoogleIO2012Config config)
 		{
+			// Json erstellen
 			string sCfg = "var SLIDE_CONFIG = ";
 
-				sCfg += ";";
+			var serializer = new DataContractJsonSerializer(typeof(GoogleIO2012Config));
+			using (var stream = new MemoryStream())
+			{
+				serializer.WriteObject(stream, config);
+				sCfg += System.Text.Encoding.Default.GetString(stream.ToArray());
+			}
+
+			sCfg += ";";
+
+			// Format korrigieren
+			sCfg = sCfg.Replace("\"__type\":\"GoogleIO2012ConfigPresenters:#De.Dhoffmann.Mono.FullscreenPresentation.Buslog\",", "");
+			sCfg = sCfg.Replace("\\/", "/");
+
+			// Dateinamen zusammenbauen
+			PresentationsHelper presentationHelper = new PresentationsHelper();
+			
+			string settingsFileName = Path.Combine(presentationHelper.PresentationsFolder, presentationUID.ToString());
+			settingsFileName = Path.Combine(settingsFileName, "slide_config.js");
+			
+			// Datei schreiben
+			try
+			{
+				TextWriter txtWriter = new StreamWriter(settingsFileName, false);
+				txtWriter.Write(sCfg);
+				txtWriter.Flush();
+				txtWriter.Close();
+				
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Logging.Log(this, Logging.LoggingTypeError, "can't save presentation settings", ex);
+			}
+
 			return false;
 		}
 	}
