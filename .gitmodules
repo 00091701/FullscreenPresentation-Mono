@@ -1,3 +1,9 @@
 [submodule "App/FP.Assets/io-2012-slides"]
 	path = App/FP.Assets/io-2012-slides
 	url = https://github.com/00091701/GoogleIO-2012-slides-fork.git
+[submodule "fp-webservice/io-2012-slides"]
+	path = fp-webservice/io-2012-slides
+	url = https://github.com/00091701/GoogleIO-2012-slides-fork.git
+[submodule "fp-webservice/lib/python-markdown"]
+	path = fp-webservice/lib/python-markdown
+	url = https://github.com/waylan/Python-Markdown.git
