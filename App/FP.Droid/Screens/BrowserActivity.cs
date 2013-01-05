@@ -30,12 +30,15 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Webkit;
+using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
 	[Activity (Label = "BrowserActivity")]			
 	public class BrowserActivity : Activity
 	{
+		private WebView webView;
+
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
 			base.OnCreate (savedInstanceState);
@@ -48,18 +51,26 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			SetContentView(Resource.Layout.Browser);
 
 			// load presentation
-			WebView webView = FindViewById<WebView>(Resource.Id.webView);
+			webView = FindViewById<WebView>(Resource.Id.webView);
 			webView.Settings.JavaScriptEnabled = true;
 			webView.Settings.BuiltInZoomControls = false;
-
+			
 			webView.SetWebViewClient(new MyWebViewClient(Window));
 
 			string url = Intent.GetStringExtra("url");
-
-			// für Testzwecke ersteinmal die Slides direkt von Google nutzen
+			
+			// Präsentation anzeigen
 			webView.LoadUrl(url);
+
 		}
 
+		public override bool OnKeyUp (Keycode keyCode, KeyEvent e)
+		{
+			if (keyCode == Keycode.Back)
+				webView.ClearCache(true);
+
+			return base.OnKeyUp (keyCode, e);
+		}
 
 		// don't use default browser
 		class MyWebViewClient : WebViewClient

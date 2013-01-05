@@ -92,7 +92,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				SlidesAdapter adapter = (SlidesAdapter)lv.Adapter;
 
 				// Die ausgewählte Präsentation laden
-				activityEdit.FragEditDetail.LoadPresentation(adapter.GetPresentation(lv.CheckedItemPosition));
+				if (activityEdit.FragEditDetail != null)
+					activityEdit.FragEditDetail.LoadPresentation(adapter.GetPresentation(lv.CheckedItemPosition));
+				else
+				{
+					AlertDialog adlg = new AlertDialog.Builder(Activity).Create();
+					adlg.SetTitle(GetText(Resource.String.Error));
+					adlg.SetMessage(GetText(Resource.String.OnlyLandscape));
+					adlg.Show();
+				}
 			}
 		}
 

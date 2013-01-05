@@ -50,4 +50,5 @@
 	<string name="ToastErrorRenderPresentation">Die Präsentation konnte nicht erstellt werden.</string>
 	<string name="PleaseWait">Bitte warten...</string>
 	<string name="Error">Fehler</string>
+	<string name="OnlyLandscape">Es wird nur das Querformat unterstützt!</string>
 </resources>

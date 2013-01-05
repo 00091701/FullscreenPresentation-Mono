@@ -269,6 +269,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f04000b
 			public const int Ok = 2130968587;
 			
+			// aapt resource value: 0x7f04002e
+			public const int OnlyLandscape = 2130968622;
+			
 			// aapt resource value: 0x7f04002c
 			public const int PleaseWait = 2130968620;
 			
