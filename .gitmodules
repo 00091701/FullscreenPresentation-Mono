@@ -1,0 +1,9 @@
+[submodule "App/FP.Assets/io-2012-slides"]
+	path = App/FP.Assets/io-2012-slides
+	url = https://github.com/00091701/GoogleIO-2012-slides-fork.git
+[submodule "ws-fp-app/lib/python-markdown"]
+	path = ws-fp-app/lib/python-markdown
+	url = https://github.com/waylan/Python-Markdown.git
+[submodule "ws-fp-app/io-2012-slides"]
+	path = ws-fp-app/io-2012-slides
+	url = https://github.com/00091701/GoogleIO-2012-slides-fork.git
