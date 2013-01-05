@@ -15,10 +15,43 @@
 # limitations under the License.
 #
 import webapp2
+import sys
+import os.path
+
+# import path for google io 2012 slides
+sys.path.append(os.path.join(os.path.join(os.path.join('.', 'io-2012-slides'), 'scripts'), 'md'))
+
+# import path for markdown lib
+sys.path.append(os.path.join(os.path.join('.', 'lib'), 'python-markdown'))
+
+import codecs
+import re
+import jinja2
+import markdown
+
+import render
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write('wrong request')
+
+    def post(self):
+
+        baseHTML = self.request.get('base')
+        md = self.request.get('slides')
+
+
+	if not baseHTML or baseHTML == "" or not md or md == "":
+            self.response.write('missing parameter')
+            return
+
+        template = jinja2.Template(baseHTML)
+        md = md.replace('\r', '') 
+        md_slides = md.split('\n---\n')
+
+        outHTML = render.render_slides(template, md_slides)
+
+        self.response.write(outHTML)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)

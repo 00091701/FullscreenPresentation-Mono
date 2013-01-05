@@ -115,6 +115,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				Button btnSave = (Button)viewEditDetail.FindViewById(Resource.Id.btnSave);
 				btnSave.Click += BtnSave_GloogleIO2012Slides_Click;
 
+				Button btnRender = (Button)viewEditDetail.FindViewById(Resource.Id.btnRender);
+				btnRender.Click += BtnRender_GoogleIO2012Slides_Click;
+
+
 				Button btnPresent = (Button)viewEditDetail.FindViewById(Resource.Id.btnPresent);
 				btnPresent.Click += BtnPresent_GloogleIO2012Slides_Click;
 
@@ -195,6 +199,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			// ... und anzeigen
 			llEditDetail.AddView(viewEditDetail);
+		}
+
+		void BtnRender_GoogleIO2012Slides_Click (object sender, EventArgs e)
+		{
+			// ToDo - Async
+
+			new WSRenderGoogleIO2012().RenderPresentation(currentEditDetail.PresentationUID);
+
+
 		}
 
 		private void BtnPresent_GloogleIO2012Slides_Click (object sender, EventArgs e)

@@ -100,6 +100,9 @@
     <Compile Include="..\FP.Buslog\Types\GoogleIO2012ConfigSettings.cs">
       <Link>Libs\FP.Buslog\Types\GoogleIO2012ConfigSettings.cs</Link>
     </Compile>
+    <Compile Include="..\FP.Buslog\WSRenderGoogleIO2012.cs">
+      <Link>Libs\FP.Buslog\WSRenderGoogleIO2012.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
