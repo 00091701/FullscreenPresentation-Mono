@@ -257,6 +257,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f040007
 			public const int ErrMsgTitle = 2130968583;
 			
+			// aapt resource value: 0x7f04002d
+			public const int Error = 2130968621;
+			
 			// aapt resource value: 0x7f040016
 			public const int ErrorMinimalPresentationCount = 2130968598;
 			
@@ -265,6 +268,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			
 			// aapt resource value: 0x7f04000b
 			public const int Ok = 2130968587;
+			
+			// aapt resource value: 0x7f04002c
+			public const int PleaseWait = 2130968620;
 			
 			// aapt resource value: 0x7f04000e
 			public const int PresentationTyp_GoogleIO2012Slides = 2130968590;
@@ -283,6 +289,18 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			
 			// aapt resource value: 0x7f040011
 			public const int PresentationsMenuTitle = 2130968593;
+			
+			// aapt resource value: 0x7f04002a
+			public const int ProgressRenderPresentation = 2130968618;
+			
+			// aapt resource value: 0x7f04002b
+			public const int ToastErrorRenderPresentation = 2130968619;
+			
+			// aapt resource value: 0x7f040029
+			public const int ToastPresentationRendered = 2130968617;
+			
+			// aapt resource value: 0x7f040028
+			public const int ToastPresentationSaved = 2130968616;
 			
 			// aapt resource value: 0x7f040000
 			public const int app_name = 2130968576;

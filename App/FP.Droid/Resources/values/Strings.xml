@@ -44,6 +44,10 @@
 	<string name="EditGoogleIOTwitter">Twitter</string>
 	<string name="EditGoogleIOWebsite">Webseite</string>
 	<string name="EditGoogleIOGithub">Github</string>
-
-
+	<string name="ToastPresentationSaved">Die Präsentation ist gespeichert.</string>
+	<string name="ToastPresentationRendered">Die Präsentation ist erstellt worden.</string>
+	<string name="ProgressRenderPresentation">Die Präsentation wird erstellt.</string>
+	<string name="ToastErrorRenderPresentation">Die Präsentation konnte nicht erstellt werden.</string>
+	<string name="PleaseWait">Bitte warten...</string>
+	<string name="Error">Fehler</string>
 </resources>

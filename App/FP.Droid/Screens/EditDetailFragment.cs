@@ -32,6 +32,7 @@ using Android.Widget;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
@@ -203,11 +204,33 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		void BtnRender_GoogleIO2012Slides_Click (object sender, EventArgs e)
 		{
-			// ToDo - Async
+			// Async Daten Asyncron rendern lassen
+			TaskScheduler context = TaskScheduler.FromCurrentSynchronizationContext();
+			ProgressDialog pdlg = new ProgressDialog(Activity);
+			pdlg.SetCancelable(false);
+			pdlg.SetTitle(GetText(Resource.String.ProgressRenderPresentation));
+			pdlg.SetMessage(GetText(Resource.String.PleaseWait));
+			pdlg.Show();
 
-			new WSRenderGoogleIO2012().RenderPresentation(currentEditDetail.PresentationUID);
+			Task.Factory.StartNew(() => {
 
 
+				return new WSRenderGoogleIO2012().RenderPresentation(currentEditDetail.PresentationUID);
+			}).ContinueWith(t => {
+				pdlg.Cancel();
+				
+				if (t.Exception == null && t.Result)
+					Toast.MakeText(Activity, Resource.String.ToastPresentationRendered, ToastLength.Long).Show();
+				else
+				{
+					Activity.RunOnUiThread(delegate() {
+						AlertDialog adlg = new AlertDialog.Builder(Activity).Create();
+						adlg.SetTitle(GetText(Resource.String.Error));
+						adlg.SetMessage(GetText(Resource.String.ToastErrorRenderPresentation));
+						adlg.Show();
+					});
+				}
+			}, context);
 		}
 
 		private void BtnPresent_GloogleIO2012Slides_Click (object sender, EventArgs e)
@@ -218,7 +241,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		private void BtnSave_GloogleIO2012Slides_Click (object sender, EventArgs e)
 		{
 			if (currentEditDetail != null)
+			{
 				SavePresentation(currentEditDetail);
+				Toast.MakeText(Activity, Resource.String.ToastPresentationSaved, ToastLength.Long).Show();
+			}
 		}
 
 		public bool SavePresentation(Presentation presentation)
