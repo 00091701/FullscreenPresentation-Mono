@@ -210,6 +210,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			llEditDetail.AddView(viewEditDetail);
 		}
 
+
+		public void Reset()
+		{
+			// Pfad anzeigen
+			((LinearLayout)contentView.FindViewById(Resource.Id.llPresentationFolder)).Visibility = ViewStates.Gone;
+
+			// Bereits vorhandene Details entfernen
+			LinearLayout llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
+			llEditDetail.RemoveAllViews();
+		}
+
 		void BtnRender_GoogleIO2012Slides_Click (object sender, EventArgs e)
 		{
 			// Async Daten Asyncron rendern lassen

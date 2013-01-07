@@ -51,7 +51,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		}
 
 		private View contentView;
-		private int selectedItemPosition;
+		private int selectedClickItemPosition;
+		private int selectedLongClickItemPosition;
+		private View currentItem = null;
 
 		public EditSlidesListFragment()
 		{ 
@@ -62,7 +64,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			((EditActivity)Activity).FragEditSlidesList = this;
 
 			contentView = inflater.Inflate(Resource.Layout.EditSlidesList, null);
-			selectedItemPosition= -1;
+			selectedClickItemPosition = -1;
+			selectedLongClickItemPosition= -1;
 
 			ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
 			lvSlides.ItemClick += HandleItemClick;
@@ -73,19 +76,31 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			return contentView;
 		}
 
-		private void LoadSlidesList(Guid? selectedItemUID = null)
+		private List<Presentation> LoadSlidesList(Guid? selectedItemUID = null)
 		{
 			DBPresentation dbPresentation = new DBPresentation();
 			List<Presentation> presentations = dbPresentation.Select();
 			
 			ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
 			lvSlides.Adapter = new SlidesAdapter(Activity, presentations);
+
+			return presentations;
 		}
 
 		private void HandleItemClick (object sender, AdapterView.ItemClickEventArgs e)
 		{
 			ListView lv = (ListView)sender;
 			EditActivity activityEdit = Activity as EditActivity;
+
+			selectedClickItemPosition = lv.CheckedItemPosition;
+
+			// Ist schon eine ausgewählt?
+			if (currentItem != null)
+				currentItem.SetBackgroundColor(Android.Graphics.Color.Black);
+
+			// Ausgewählte Zeile markieren.
+			currentItem = lv.GetChildAt(lv.CheckedItemPosition);
+			currentItem.SetBackgroundColor(Android.Graphics.Color.Rgb(49, 182, 231));
 			
 			if (activityEdit != null)
 			{
@@ -107,7 +122,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		public override void OnCreateContextMenu (IContextMenu menu, Android.Views.View v, IContextMenuContextMenuInfo menuInfo)
 		{
 			base.OnCreateContextMenu (menu, v, menuInfo);
-			selectedItemPosition = ((AdapterView.AdapterContextMenuInfo)menuInfo).Position;
+			selectedLongClickItemPosition = ((AdapterView.AdapterContextMenuInfo)menuInfo).Position;
 
 			menu.SetHeaderTitle(Resource.String.PresentationsMenuTitle);
 			menu.Add(0, (int)PresentationsMenu.Start, 0, Resource.String.PresentationsMenuStart);
@@ -120,7 +135,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		public override bool OnContextItemSelected (IMenuItem item)
 		{
 			ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
-			Guid presentationUID = ((SlidesAdapter)lvSlides.Adapter).GetPresentation(selectedItemPosition).PresentationUID;
+			Guid presentationUID = ((SlidesAdapter)lvSlides.Adapter).GetPresentation(selectedLongClickItemPosition).PresentationUID;
 
 			switch((PresentationsMenu)item.ItemId)
 			{
@@ -138,7 +153,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				break;
 			}
 
-			selectedItemPosition = -1;
+			selectedLongClickItemPosition = -1;
 			return base.OnContextItemSelected (item);
 		}
 
@@ -234,18 +249,28 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorNoName));
 				}
 				
-				PresentationsHelper presentations = null;
+				PresentationsHelper presentationsHelper = null;
 				try
 				{
-					presentations = new PresentationsHelper();
+					presentationsHelper = new PresentationsHelper();
 				}
 				catch (Exception)
 				{
 					ShowErrorMsg(GetText(Resource.String.ErrorNoExternalStorage));
 				}
 
-				presentations.Rename(presentationUID, name);
-				LoadSlidesList(presentationUID);
+				presentationsHelper.Rename(presentationUID, name);
+
+				ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
+
+				foreach (Presentation p in ((List<Presentation>)((SlidesAdapter)lvSlides.Adapter).GetData))
+				{
+					if (p.PresentationUID == presentationUID)
+					{
+						p.Name = name;
+						break;
+					}
+				}
 			});
 
 			dialog.SetNegativeButton(GetText(Resource.String.Cancel), delegate { });
@@ -261,6 +286,16 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			}
 
 			LoadSlidesList();
+
+			// Inhalt entfernen
+			if (selectedClickItemPosition == selectedLongClickItemPosition)
+			{
+				if (((EditActivity)Activity).FragEditDetail != null)
+					((EditActivity)Activity).FragEditDetail.Reset();
+			}
+
+			currentItem = null;
+			selectedClickItemPosition = -1;
 		}
 
 		private void ShowErrorMsg(string errMsg)

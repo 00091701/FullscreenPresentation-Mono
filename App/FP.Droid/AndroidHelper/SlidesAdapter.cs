@@ -83,6 +83,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 			else
 				return presentations[checkedItemPosition];
 		}
+
+		public List<Presentation> GetData
+		{
+			get
+			{
+				return this.presentations;
+			}
+		}
 	}
 
 }
