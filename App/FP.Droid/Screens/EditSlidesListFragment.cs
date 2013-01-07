@@ -188,7 +188,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				if (String.IsNullOrEmpty(name))
 				{
 					// Fehlermeldung anzeigen
-					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorNoName));
+					ShowErrorMsg(GetText(Resource.String.DlgPresentationErrorNoName));
 				}
 				
 				PresentationsHelper presentations = null;
@@ -218,7 +218,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				else
 				{
 					// Fehlermeldung anzeigen
-					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorPraesExists));
+					ShowErrorMsg(GetText(Resource.String.DlgPresentationErrorPraesExists));
 				}
 			});
 			
@@ -231,8 +231,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		{
 			// Per Dialog den Namen der neuen Presentation abfragen
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Activity);
-			dialog.SetTitle(GetText(Resource.String.DlgNewPresentationTitle));
-			dialog.SetMessage(GetText(Resource.String.DlgNewPresentationText));
+			dialog.SetTitle(GetText(Resource.String.DlgRenamePresentationTitle));
+			dialog.SetMessage(GetText(Resource.String.DlgRenamePresentationText));
 			dialog.SetCancelable(true);
 			
 			EditText etName = new EditText(Activity);
@@ -240,13 +240,13 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			
 			dialog.SetView(etName);
 			
-			dialog.SetPositiveButton(GetText(Resource.String.DlgNewPresentationErstellen), delegate {
+			dialog.SetPositiveButton(GetText(Resource.String.DlgRenamePresentationErstellen), delegate {
 				string name = etName.Text.Trim();
 				
 				if (String.IsNullOrEmpty(name))
 				{
 					// Fehlermeldung anzeigen
-					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorNoName));
+					ShowErrorMsg(GetText(Resource.String.DlgPresentationErrorNoName));
 				}
 				
 				PresentationsHelper presentationsHelper = null;
