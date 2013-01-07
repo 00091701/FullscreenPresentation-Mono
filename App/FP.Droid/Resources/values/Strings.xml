@@ -51,4 +51,30 @@
 	<string name="PleaseWait">Bitte warten...</string>
 	<string name="Error">Fehler</string>
 	<string name="OnlyLandscape">Es wird nur das Querformat unterstützt!</string>
+	<string name="AppInfoUseHeadline">Bedienungshinweise</string>
+	<string name="AppInfoUse">Auf der rechten Seite finden Sie eine Liste mit den vorhandenen Präsentationen. Durch
+anklicken wird die gewünschte Präsentation geladen. Wenn die Präsentation durch einen langen klick ausgewählt werden,
+erscheint ein Kontextmenü. Hier kann die Präsentation
+\n- gestartet
+\n- auf der Basis eine neue Präsentation erstellt
+\n- umbennant
+\n- gelöscht\nwerden. Die Idee hinter dem Editor ist, das eine belibige Präsentation als Vorlage benutzt werden kann um eine neue
+zu erstellen. Dadurch wird auch das Design der Präsentation übernommen. Um ein neues Design zu erstellen, wenden
+Sie sich bitte an ihren Webdesigner. Das Verzeichnis in dem sich die ausgewählte Präsentation befinden wird oben
+dargestellt.
+\n
+</string>
+	<string name="AppInfoHeadline">Hinweise zur App</string>
+	<string name="AppInfo">Die App ist als ein Freizeitprojekt entwickelt und umgesetzt worden.
+\n
+\nDas Projekt steht unter der GPL2 Lizenz frei zur Verfügung. Über Anregungen, Hinweise zu Fehlern und Mitenwickler sind sehr willkommen.
+\nÄnderungen die per signoff committed wurden (git commit -s) werden gerne übernommen. Dazu bitte ich die um Patches (git format-patch -s) per email an: fullscreen-presentation@hoffmann-projects.de\n</string>
+	<string name="AppInfoLicHeadline">Lizenzen</string>
+	<string name="AppInfoLic">Der Editor "Fullscreen-Presentation" ist unter der Opensource Lizenz GPL2 verfügbar.
+\nURL: https://github.com/00091701/FullscreenPresentation-Mono
+\n
+\nInnerhalb des Projektes wird ein Fork des Google Projekts "Google IO 2012 slides" eingesetzt. Dieses Projekt befindet sich unter der Apache 2.0 lizenz.
+\nURL des Projekts: https://code.google.com/p/io-2012-slides
+\nURL des Fork: https://github.com/00091701/GoogleIO-2012-slides-fork
+\n</string>
 </resources>

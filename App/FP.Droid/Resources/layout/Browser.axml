@@ -10,5 +10,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/webView"
-        android:background="#ff000000" />
+        android:background="#ff000000"
+        android:keepScreenOn="true" />
 </LinearLayout>

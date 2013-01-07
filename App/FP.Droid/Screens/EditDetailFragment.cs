@@ -51,6 +51,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			((LinearLayout)contentView.FindViewById(Resource.Id.llPresentationFolder)).Visibility = ViewStates.Gone;
 
+			// Info einblenden
+			ScrollView svInfo = (ScrollView)contentView.FindViewById(Resource.Id.svInfo);
+			svInfo.Visibility = ViewStates.Visible;
+
 			ImageButton btnOpenFolder = (ImageButton)contentView.FindViewById(Resource.Id.btnOpenFolder);
 			btnOpenFolder.Click += BtnOpenFolder_Click;
 
@@ -97,6 +101,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			// Pfad anzeigen
 			((TextView)contentView.FindViewById(Resource.Id.tvPresentationPath)).Text = Path.Combine(presentationsHelper.PresentationsFolder, presentation.PresentationUID.ToString()).ToString();
+
+			// Info ausblenden
+			ScrollView svInfo = (ScrollView)contentView.FindViewById(Resource.Id.svInfo);
+			svInfo.Visibility = ViewStates.Gone;
 
 			LinearLayout llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
 
