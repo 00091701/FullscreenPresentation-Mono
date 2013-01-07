@@ -32,7 +32,7 @@ using Android.Widget;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
-	[Activity (Label = "EditActivity")]			
+	[Activity (Label = "@string/app_name")]			
 	public class EditActivity : Activity
 	{
 		public EditSlidesListFragment FragEditSlidesList {
