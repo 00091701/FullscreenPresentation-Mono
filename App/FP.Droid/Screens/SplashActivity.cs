@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
-	[Activity (Label = "@string/app_name", MainLauncher = true, NoHistory = true, Theme = "@style/Theme.Splash")]			
+	[Activity (Label = "@string/app_name", MainLauncher = true, NoHistory = true, Theme = "@style/Theme.Splash", ScreenOrientation=Android.Content.PM.ScreenOrientation.Landscape)]
 	public class SplashActivity : Activity
 	{
 		protected override void OnCreate (Bundle savedInstanceState)

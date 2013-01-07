@@ -34,7 +34,7 @@ using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
-	[Activity (Label = "BrowserActivity")]			
+	[Activity (Label = "BrowserActivity", ScreenOrientation=Android.Content.PM.ScreenOrientation.Landscape)]
 	public class BrowserActivity : Activity
 	{
 		private WebView webView;
