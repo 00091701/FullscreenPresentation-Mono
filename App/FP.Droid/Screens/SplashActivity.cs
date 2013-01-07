@@ -52,7 +52,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				if (!(bool)t.Result)
 				{
 					// Ein bißchen Splashscreen ist immer erlaubt
-					System.Threading.Thread.Sleep(200);
+					System.Threading.Thread.Sleep(1000);
 
 					// und weiter gehts
 					StartActivity(typeof(EditActivity));
