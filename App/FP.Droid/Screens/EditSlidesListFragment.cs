@@ -176,7 +176,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorNoName));
 				}
 				
-				PresentationsHelper presentations;
+				PresentationsHelper presentations = null;
 				try
 				{
 					presentations = new PresentationsHelper();
@@ -234,7 +234,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 					ShowErrorMsg(GetText(Resource.String.DlgNewPresentationErrorNoName));
 				}
 				
-				PresentationsHelper presentations;
+				PresentationsHelper presentations = null;
 				try
 				{
 					presentations = new PresentationsHelper();
