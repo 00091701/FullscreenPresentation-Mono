@@ -34,7 +34,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 	{
 		private Activity context;
 		private List<Presentation> presentations;
-		public  Guid? SelectedItemUID { get; private set; }
+		public  Guid? SelectedItemUID { get; set; }
 		public View SelectedItem { get; private set; }
 		private Action SelectedItemBound;
 

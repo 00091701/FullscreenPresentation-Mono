@@ -52,6 +52,7 @@
 	<string name="ToastPresentationSaved">Die Präsentation ist gespeichert.</string>
 	<string name="ToastPresentationRendered">Die Präsentation ist erstellt worden.</string>
 	<string name="ProgressRenderPresentation">Die Präsentation wird erstellt.</string>
+	<string name="ProgressLoadPresentation">Die Präsentation wird geladen.</string>
 	<string name="ToastErrorRenderPresentation">Die Präsentation konnte nicht erstellt werden.</string>
 	<string name="PleaseWait">Bitte warten...</string>
 	<string name="Error">Fehler</string>

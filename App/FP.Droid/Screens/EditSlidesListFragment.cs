@@ -123,10 +123,18 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			if (activityEdit != null)
 			{
 				SlidesAdapter adapter = (SlidesAdapter)lvSlides.Adapter;
+				Presentation curPres = adapter.GetPresentation(lvSlides.CheckedItemPosition);
+				adapter.SelectedItemUID = curPres.PresentationUID;
 
 				// Die ausgewählte Präsentation laden
 				if (activityEdit.FragEditDetail != null)
-					activityEdit.FragEditDetail.LoadPresentation(adapter.GetPresentation(lvSlides.CheckedItemPosition));
+				{
+					Task.Factory.StartNew(() => {
+						Activity.RunOnUiThread(delegate() {
+							activityEdit.FragEditDetail.LoadPresentation(curPres);
+						});
+					});
+				}
 				else
 				{
 					AlertDialog adlg = new AlertDialog.Builder(Activity).Create();
@@ -240,12 +248,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 						{
 							if (p.PresentationUID == newPresentationUID)
 							{
-								Task.Factory.StartNew(() => {
-								//	System.Threading.Thread.Sleep(50);
-									Activity.RunOnUiThread(delegate() {
-										lvSlides.PerformItemClick(lvSlides, pos, lvSlides.GetItemIdAtPosition(pos)); 
-									});
-								});
+								lvSlides.PerformItemClick(lvSlides, pos, lvSlides.GetItemIdAtPosition(pos)); 
 								break;
 							}
 

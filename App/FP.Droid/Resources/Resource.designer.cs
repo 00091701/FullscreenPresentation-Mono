@@ -212,23 +212,23 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040034
-			public const int AppInfo = 2130968628;
+			// aapt resource value: 0x7f040035
+			public const int AppInfo = 2130968629;
 			
-			// aapt resource value: 0x7f040033
-			public const int AppInfoHeadline = 2130968627;
+			// aapt resource value: 0x7f040034
+			public const int AppInfoHeadline = 2130968628;
+			
+			// aapt resource value: 0x7f040037
+			public const int AppInfoLic = 2130968631;
 			
 			// aapt resource value: 0x7f040036
-			public const int AppInfoLic = 2130968630;
+			public const int AppInfoLicHeadline = 2130968630;
 			
-			// aapt resource value: 0x7f040035
-			public const int AppInfoLicHeadline = 2130968629;
+			// aapt resource value: 0x7f040033
+			public const int AppInfoUse = 2130968627;
 			
 			// aapt resource value: 0x7f040032
-			public const int AppInfoUse = 2130968626;
-			
-			// aapt resource value: 0x7f040031
-			public const int AppInfoUseHeadline = 2130968625;
+			public const int AppInfoUseHeadline = 2130968626;
 			
 			// aapt resource value: 0x7f04000e
 			public const int Cancel = 2130968590;
@@ -314,8 +314,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f040009
 			public const int ErrMsgTitle = 2130968585;
 			
-			// aapt resource value: 0x7f04002f
-			public const int Error = 2130968623;
+			// aapt resource value: 0x7f040030
+			public const int Error = 2130968624;
 			
 			// aapt resource value: 0x7f040018
 			public const int ErrorMinimalPresentationCount = 2130968600;
@@ -326,11 +326,11 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f04000d
 			public const int Ok = 2130968589;
 			
-			// aapt resource value: 0x7f040030
-			public const int OnlyLandscape = 2130968624;
+			// aapt resource value: 0x7f040031
+			public const int OnlyLandscape = 2130968625;
 			
-			// aapt resource value: 0x7f04002e
-			public const int PleaseWait = 2130968622;
+			// aapt resource value: 0x7f04002f
+			public const int PleaseWait = 2130968623;
 			
 			// aapt resource value: 0x7f040010
 			public const int PresentationTyp_GoogleIO2012Slides = 2130968592;
@@ -350,11 +350,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid
 			// aapt resource value: 0x7f040013
 			public const int PresentationsMenuTitle = 2130968595;
 			
+			// aapt resource value: 0x7f04002d
+			public const int ProgressLoadPresentation = 2130968621;
+			
 			// aapt resource value: 0x7f04002c
 			public const int ProgressRenderPresentation = 2130968620;
 			
-			// aapt resource value: 0x7f04002d
-			public const int ToastErrorRenderPresentation = 2130968621;
+			// aapt resource value: 0x7f04002e
+			public const int ToastErrorRenderPresentation = 2130968622;
 			
 			// aapt resource value: 0x7f04002b
 			public const int ToastPresentationRendered = 2130968619;
