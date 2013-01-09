@@ -24,6 +24,7 @@ using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 using System.Collections.Generic;
 using Android.App;
 using Android.Views;
+using System.Linq;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
@@ -33,11 +34,16 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 	{
 		private Activity context;
 		private List<Presentation> presentations;
+		public  Guid? SelectedItemUID { get; private set; }
+		public View SelectedItem { get; private set; }
+		private Action SelectedItemBound;
 
-		public SlidesAdapter (Activity context, List<Presentation> presentations)
+		public SlidesAdapter (Activity context, List<Presentation> presentations, Action SelectedItemBound, Guid? selectedItemUID = null)
 		{
 			this.context = context;
 			this.presentations = presentations;
+			this.SelectedItemUID = selectedItemUID;
+			this.SelectedItemBound = SelectedItemBound;
 		}
 
 		#region implemented abstract members of BaseAdapter
@@ -59,6 +65,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 
 			TextView tvName = view.FindViewById<TextView>(Resource.Id.tvName);
 			tvName.Text = presentation.Name;
+
+			if (SelectedItemUID.HasValue && presentation.PresentationUID == SelectedItemUID.Value)
+			{
+				view.SetBackgroundColor(Android.Graphics.Color.Rgb(49, 182, 231));
+				this.SelectedItem = view;
+
+				if (SelectedItemBound != null)
+					SelectedItemBound();
+			}
+			else
+				view.SetBackgroundColor(Android.Graphics.Color.Black);
 
 			return view;
 		}
@@ -90,6 +107,18 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 			{
 				return this.presentations;
 			}
+		}
+
+		public void Remove(Guid presentationUID, Guid? selectedItemUID = null)
+		{
+			if (presentations == null)
+				return;
+
+			SelectedItemUID = selectedItemUID;
+
+			presentations.Remove(presentations.Where(p => p.PresentationUID == presentationUID).FirstOrDefault());
+
+			NotifyDataSetChanged();
 		}
 	}
 

@@ -43,16 +43,23 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		private LayoutInflater inflater;
 		private View viewEditDetail;
 
+		private LinearLayout llPresentationFolder;
+		private ScrollView svInfo;
+		private LinearLayout llEditDetail;
+
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 			((EditActivity)Activity).FragEditDetail = this;
 			this.inflater = inflater;
 			contentView = inflater.Inflate(Resource.Layout.EditDetail, null);
 
-			((LinearLayout)contentView.FindViewById(Resource.Id.llPresentationFolder)).Visibility = ViewStates.Gone;
+			llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
+
+			llPresentationFolder = (LinearLayout)contentView.FindViewById(Resource.Id.llPresentationFolder);
+			llPresentationFolder.Visibility = ViewStates.Gone;
 
 			// Info einblenden
-			ScrollView svInfo = (ScrollView)contentView.FindViewById(Resource.Id.svInfo);
+			svInfo = (ScrollView)contentView.FindViewById(Resource.Id.svInfo);
 			svInfo.Visibility = ViewStates.Visible;
 
 			ImageButton btnOpenFolder = (ImageButton)contentView.FindViewById(Resource.Id.btnOpenFolder);
@@ -96,28 +103,24 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			}
 
 			currentEditDetail = presentation;
-			((LinearLayout)contentView.FindViewById(Resource.Id.llPresentationFolder)).Visibility = ViewStates.Visible;
 			PresentationsHelper presentationsHelper = new PresentationsHelper();
 
 			// Pfad anzeigen
 			((TextView)contentView.FindViewById(Resource.Id.tvPresentationPath)).Text = Path.Combine(presentationsHelper.PresentationsFolder, presentation.PresentationUID.ToString()).ToString();
 
 			// Info ausblenden
-			ScrollView svInfo = (ScrollView)contentView.FindViewById(Resource.Id.svInfo);
 			svInfo.Visibility = ViewStates.Gone;
 
-			LinearLayout llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
-
 			// Bereits vorhandene Details entfernen
-			llEditDetail.RemoveAllViews();
-
-			viewEditDetail = null;
+			Reset();
+			llPresentationFolder.Visibility = ViewStates.Visible;
 
 			// View für die entsprechenden Typen laden
 			switch(presentation.Type)
 			{
 			case Presentation.Typ.GoogleIO2012Slides:
-				viewEditDetail = inflater.Inflate(Resource.Layout.EditDetailGoogleIO2012, null);
+				if (viewEditDetail == null)
+					viewEditDetail = inflater.Inflate(Resource.Layout.EditDetailGoogleIO2012, null);
 
 				GoogleIO2012Helper helper = new GoogleIO2012Helper();
 
@@ -214,11 +217,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		public void Reset()
 		{
 			// Pfad anzeigen
-			((LinearLayout)contentView.FindViewById(Resource.Id.llPresentationFolder)).Visibility = ViewStates.Gone;
+			llPresentationFolder.Visibility = ViewStates.Gone;
 
 			// Bereits vorhandene Details entfernen
-			LinearLayout llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
 			llEditDetail.RemoveAllViews();
+
+			viewEditDetail = null;
 		}
 
 		void BtnRender_GoogleIO2012Slides_Click (object sender, EventArgs e)

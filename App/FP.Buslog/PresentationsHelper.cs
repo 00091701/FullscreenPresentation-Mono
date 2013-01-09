@@ -64,8 +64,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			return ret;
 		}
 
-		public ErrorCode CreateNew(Guid templateUID, string name)
+		public ErrorCode CreateNew(Guid templateUID, out Guid newPresentationUID, string name)
 		{
+			newPresentationUID = Guid.Empty;
+
 			if (templateUID == Guid.Empty || String.IsNullOrEmpty(name))
 				return ErrorCode.ERROR;
 
@@ -79,7 +81,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			Presentation template = templates.FirstOrDefault();
 
 			// copy files
-			Guid newPresentationUID = Guid.NewGuid();
+			newPresentationUID = Guid.NewGuid();
 
 			CopyDirectory(new DirectoryInfo(Path.Combine(PresentationsFolder, templateUID.ToString())), new DirectoryInfo(Path.Combine(PresentationsFolder, newPresentationUID.ToString())));
 
