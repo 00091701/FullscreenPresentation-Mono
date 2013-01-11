@@ -48,7 +48,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			Start = 0,
 			Create,
 			Rename,
-			Delete
+			Delete,
+			ShowFolder
 		}
 
 		private View contentView;
@@ -156,6 +157,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			menu.Add(0, (int)PresentationsMenu.Create, 1, Resource.String.PresentationsMenuCreate);
 			menu.Add(0, (int)PresentationsMenu.Rename, 2, Resource.String.PresentationsMenuRename);
 			menu.Add(0, (int)PresentationsMenu.Delete, 3, Resource.String.PresentationsMenuDelete);
+			menu.Add(0, (int)PresentationsMenu.ShowFolder, 4, Resource.String.PresentationsMenuShowFolder);
 		}
 
 
@@ -177,13 +179,16 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			case PresentationsMenu.Delete:
 				DeletePresentation(presentationUID);
 				break;
+			case PresentationsMenu.ShowFolder:
+				ShowPresentationsFolder(presentationUID);
+				break;
 			}
 
 			selectedLongClickItemPosition = -1;
 
 			return base.OnContextItemSelected (item);
 		}
-
+	
 
 		private void StartPresentation(Guid presentationUID)
 		{
@@ -341,6 +346,19 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 					selectedClickItemPosition = -1;
 				}
 			}
+		}
+
+		private void ShowPresentationsFolder(Guid presentationUID)
+		{
+			string folder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());
+
+			// Fehlermeldung anzeigen
+			AlertDialog.Builder alert = new AlertDialog.Builder(Activity);
+			alert.SetTitle(GetText(Resource.String.DlgTitleShowPresentationsFolder));
+			alert.SetMessage(folder);
+			alert.SetCancelable(true);
+			alert.SetPositiveButton(GetText(Resource.String.Ok), delegate { });
+			alert.Show();
 		}
 
 		private void ShowErrorMsg(string errMsg)

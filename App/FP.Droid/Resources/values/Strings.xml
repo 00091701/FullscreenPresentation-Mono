@@ -83,4 +83,6 @@ dargestellt.
 \nURL des Projekts: https://code.google.com/p/io-2012-slides
 \nURL des Fork: https://github.com/00091701/GoogleIO-2012-slides-fork
 \n</string>
+	<string name="PresentationsMenuShowFolder">Speicherort anzeigen</string>
+	<string name="DlgTitleShowPresentationsFolder">Speicherort</string>
 </resources>

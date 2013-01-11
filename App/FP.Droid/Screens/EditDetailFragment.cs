@@ -42,8 +42,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		private View contentView;
 		private LayoutInflater inflater;
 		private View viewEditDetail;
-
-		private LinearLayout llPresentationFolder;
 		private ScrollView svInfo;
 		private LinearLayout llEditDetail;
 
@@ -55,45 +53,13 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
 
-			llPresentationFolder = (LinearLayout)contentView.FindViewById(Resource.Id.llPresentationFolder);
-			llPresentationFolder.Visibility = ViewStates.Gone;
-
 			// Info einblenden
 			svInfo = (ScrollView)contentView.FindViewById(Resource.Id.svInfo);
 			svInfo.Visibility = ViewStates.Visible;
 
-			ImageButton btnOpenFolder = (ImageButton)contentView.FindViewById(Resource.Id.btnOpenFolder);
-			btnOpenFolder.Click += BtnOpenFolder_Click;
-
 			return contentView;
 		}
-
-		void BtnOpenFolder_Click (object sender, EventArgs e)
-		{
-			string uri = ((TextView)contentView.FindViewById(Resource.Id.tvPresentationPath)).Text;
-
-			// TODO - Funktioniert nocht nicht so richtig
-			Intent intent = new Intent(Intent.ActionView);
-			intent.SetType("application/*");
-			intent.SetData(Android.Net.Uri.Parse("file://" + uri));
-
-			try
-			{
-				StartActivity(intent);
-			}
-			catch(Exception)
-			{
-				// Fehlermeldung anzeigen
-				AlertDialog.Builder alert = new AlertDialog.Builder(Activity);
-				alert.SetTitle(GetText(Resource.String.ErrMsgTitle));
-				alert.SetMessage(Resource.String.ErrMsgCouldNotOpenFileManager);
-				alert.SetCancelable(true);
-				alert.SetPositiveButton(GetText(Resource.String.Ok), delegate { });
-				alert.Show();
-			}
-
-		}
-
+	
 		public void LoadPresentation (Presentation presentation)
 		{
 			if (presentation == null)
@@ -103,17 +69,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			}
 
 			currentEditDetail = presentation;
-			PresentationsHelper presentationsHelper = new PresentationsHelper();
-
-			// Pfad anzeigen
-			((TextView)contentView.FindViewById(Resource.Id.tvPresentationPath)).Text = Path.Combine(presentationsHelper.PresentationsFolder, presentation.PresentationUID.ToString()).ToString();
 
 			// Info ausblenden
 			svInfo.Visibility = ViewStates.Gone;
 
 			// Bereits vorhandene Details entfernen
 			Reset();
-			llPresentationFolder.Visibility = ViewStates.Visible;
 
 			// View für die entsprechenden Typen laden
 			switch(presentation.Type)
@@ -216,9 +177,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public void Reset()
 		{
-			// Pfad anzeigen
-			llPresentationFolder.Visibility = ViewStates.Gone;
-
 			// Bereits vorhandene Details entfernen
 			llEditDetail.RemoveAllViews();
 
