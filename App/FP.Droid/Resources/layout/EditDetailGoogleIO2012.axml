@@ -17,30 +17,6 @@
             android:minWidth="25px"
             android:minHeight="25px"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout3"
-            android:gravity="right">
-            <Button
-                android:text="@string/btnSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnSave" />
-            <Button
-                android:text="@string/btnRender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnRender" />
-            <Button
-                android:text="@string/btnPresent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnPresent" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:minWidth="25px"
-            android:minHeight="25px"
-            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/llGoogleIOWrapper">
             <LinearLayout

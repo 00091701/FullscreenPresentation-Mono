@@ -24,13 +24,94 @@ using System.Json;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Json;
+using Android.App;
+using Android.Views;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
+using Android.Widget;
+using System.Threading.Tasks;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens;
+using System.Linq;
+using Android.Content;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
 	public class GoogleIO2012Helper
 	{
+		public enum ActionBarButtons : int
+		{
+			Save = 0,
+			Render,
+			Present
+		}
+
 		public GoogleIO2012Helper()
 		{}
+
+		public IMenu OnCreateOptionsMenu (IMenu menu, MenuInflater inflate)
+		{
+			var m1 = menu.Add(0, (int)ActionBarButtons.Save, 0, Resource.String.btnSave);
+			m1.SetShowAsAction(ShowAsAction.Always);
+
+			var m2 = menu.Add(0, (int)ActionBarButtons.Render, 1, Resource.String.btnRender);
+			m2.SetShowAsAction(ShowAsAction.Always);
+
+			var m3 = menu.Add(0, (int)ActionBarButtons.Present, 2, Resource.String.btnPresent);
+			m3.SetShowAsAction(ShowAsAction.Always);
+
+			return menu;
+		}
+
+		public IMenuItem OnOptionsItemSelected (IMenuItem item, EditDetailFragment fragment, View viewEditDetail, Presentation presentation)
+		{
+			switch((ActionBarButtons)item.ItemId)
+			{
+			case ActionBarButtons.Save:
+				if (presentation != null)
+				{
+					SavePresentation(fragment, viewEditDetail, presentation);
+					Toast.MakeText(fragment.Activity, Resource.String.ToastPresentationSaved, ToastLength.Long).Show();
+				}
+				break;
+
+			case ActionBarButtons.Render:
+				// Async Daten Asyncron rendern lassen
+				TaskScheduler context = TaskScheduler.FromCurrentSynchronizationContext();
+				ProgressDialog pdlg = new ProgressDialog(fragment.Activity);
+				pdlg.SetCancelable(false);
+				pdlg.SetTitle(fragment.GetText(Resource.String.ProgressRenderPresentation));
+				pdlg.SetMessage(fragment.GetText(Resource.String.PleaseWait));
+				pdlg.Show();
+				
+				Task.Factory.StartNew(() => {
+					
+					
+					return new WSRenderGoogleIO2012().RenderPresentation(presentation.PresentationUID);
+				}).ContinueWith(t => {
+					pdlg.Cancel();
+					
+					if (t.Exception == null && t.Result)
+						Toast.MakeText(fragment.Activity, Resource.String.ToastPresentationRendered, ToastLength.Long).Show();
+					else
+					{
+						fragment.Activity.RunOnUiThread(delegate() {
+							AlertDialog adlg = new AlertDialog.Builder(fragment.Activity).Create();
+							adlg.SetTitle(fragment.GetText(Resource.String.Error));
+							adlg.SetMessage(fragment.GetText(Resource.String.ToastErrorRenderPresentation));
+							adlg.Show();
+						});
+					}
+				}, context);
+				break;
+
+			case ActionBarButtons.Present:
+				StartPresentation(fragment, presentation.PresentationUID);
+				break;
+			}
+
+			return item;
+		}
+
 
 		public string LoadContent(Guid presentationUID)
 		{
@@ -232,5 +313,73 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 			return false;
 		}
+
+		public bool SavePresentation(EditDetailFragment fragment, View viewEditDetail, Presentation presentation)
+		{
+			if (presentation == null || viewEditDetail == null)
+			{
+				// TODO Fehlermeldung
+				return false;
+			}
+			
+			// View für die entsprechenden Typen laden
+			switch(presentation.Type)
+			{
+			case Presentation.Typ.GoogleIO2012Slides:
+				GoogleIO2012Helper helper = new GoogleIO2012Helper();
+				
+				
+				
+				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
+				if (!helper.SaveContent(presentation.PresentationUID, etContent.Text.Trim()))
+				{
+					// ToDo Fehlermeldung
+				}
+				
+				// Die vorhande Konfiguration laden um nur geänderte Stellen zu überschreiben
+				GoogleIO2012Config cfg = helper.LoadConfig(presentation.PresentationUID);
+				
+				if (cfg.settings != null)
+				{
+					GoogleIO2012ConfigSettings settings = cfg.settings;
+					
+					settings.title = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle)).Text;
+					settings.subtitle = ((EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle)).Text;
+					settings.useBuilds = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation)).Checked;
+					settings.enableSlideAreas = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas)).Checked;
+					settings.enableTouch = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch)).Checked;
+				}
+				
+				if (cfg.presenters != null && cfg.presenters.Count > 0)
+				{
+					GoogleIO2012ConfigPresenters pres = cfg.presenters.FirstOrDefault();
+					
+					pres.name = ((EditText)viewEditDetail.FindViewById(Resource.Id.etName)).Text;
+					pres.company = ((EditText)viewEditDetail.FindViewById(Resource.Id.etCompany)).Text;
+					pres.gplus = ((EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus)).Text;
+					pres.twitter = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter)).Text;
+					pres.www = ((EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite)).Text;
+					pres.github = ((EditText)viewEditDetail.FindViewById(Resource.Id.etGithub)).Text;
+				}
+				
+				helper.SaveConfig(presentation.PresentationUID, cfg);
+				
+				break;
+			}
+
+			return false;
+		}
+		
+		private void StartPresentation(EditDetailFragment fragment, Guid presentationUID)
+		{
+			Intent intent = new Intent(fragment.Activity, typeof(BrowserActivity));
+			string pFolder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());			
+			string demo = pFolder + "/template.html";
+			
+			intent.PutExtra("url", "file://" + demo);
+			
+			fragment.StartActivity(intent);
+		}
+
 	}
 }

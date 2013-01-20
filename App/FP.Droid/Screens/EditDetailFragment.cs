@@ -83,17 +83,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				if (viewEditDetail == null)
 					viewEditDetail = inflater.Inflate(Resource.Layout.EditDetailGoogleIO2012, null);
 
+				SetHasOptionsMenu(true);
+				Activity.InvalidateOptionsMenu();
+
 				GoogleIO2012Helper helper = new GoogleIO2012Helper();
-
-				Button btnSave = (Button)viewEditDetail.FindViewById(Resource.Id.btnSave);
-				btnSave.Click += BtnSave_GloogleIO2012Slides_Click;
-
-				Button btnRender = (Button)viewEditDetail.FindViewById(Resource.Id.btnRender);
-				btnRender.Click += BtnRender_GoogleIO2012Slides_Click;
-
-
-				Button btnPresent = (Button)viewEditDetail.FindViewById(Resource.Id.btnPresent);
-				btnPresent.Click += BtnPresent_GloogleIO2012Slides_Click;
 
 				// Präsentations Content laden und anzeigen
 				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
@@ -177,121 +170,44 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public void Reset()
 		{
+			// Buttons entfernen
+			SetHasOptionsMenu(false);
+			Activity.InvalidateOptionsMenu();
+
 			// Bereits vorhandene Details entfernen
 			llEditDetail.RemoveAllViews();
 
 			viewEditDetail = null;
 		}
 
-		void BtnRender_GoogleIO2012Slides_Click (object sender, EventArgs e)
-		{
-			// Async Daten Asyncron rendern lassen
-			TaskScheduler context = TaskScheduler.FromCurrentSynchronizationContext();
-			ProgressDialog pdlg = new ProgressDialog(Activity);
-			pdlg.SetCancelable(false);
-			pdlg.SetTitle(GetText(Resource.String.ProgressRenderPresentation));
-			pdlg.SetMessage(GetText(Resource.String.PleaseWait));
-			pdlg.Show();
-
-			Task.Factory.StartNew(() => {
-
-
-				return new WSRenderGoogleIO2012().RenderPresentation(currentEditDetail.PresentationUID);
-			}).ContinueWith(t => {
-				pdlg.Cancel();
-				
-				if (t.Exception == null && t.Result)
-					Toast.MakeText(Activity, Resource.String.ToastPresentationRendered, ToastLength.Long).Show();
-				else
-				{
-					Activity.RunOnUiThread(delegate() {
-						AlertDialog adlg = new AlertDialog.Builder(Activity).Create();
-						adlg.SetTitle(GetText(Resource.String.Error));
-						adlg.SetMessage(GetText(Resource.String.ToastErrorRenderPresentation));
-						adlg.Show();
-					});
-				}
-			}, context);
-		}
-
-		private void BtnPresent_GloogleIO2012Slides_Click (object sender, EventArgs e)
-		{
-			StartPresentation(currentEditDetail.PresentationUID);
-		}
-
-		private void BtnSave_GloogleIO2012Slides_Click (object sender, EventArgs e)
+		public override void OnCreateOptionsMenu (IMenu menu, MenuInflater inflater)
 		{
 			if (currentEditDetail != null)
 			{
-				SavePresentation(currentEditDetail);
-				Toast.MakeText(Activity, Resource.String.ToastPresentationSaved, ToastLength.Long).Show();
+				switch(currentEditDetail.Type)
+				{
+				case Presentation.Typ.GoogleIO2012Slides:
+					menu = new GoogleIO2012Helper().OnCreateOptionsMenu(menu, inflater);
+					break;
+				}
 			}
+
+			base.OnCreateOptionsMenu (menu, inflater);
 		}
 
-		public bool SavePresentation(Presentation presentation)
+		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
-			if (presentation == null || viewEditDetail == null)
+			if (currentEditDetail != null)
 			{
-				// TODO Fehlermeldung
-				return false;
-			}
-			
-			// View für die entsprechenden Typen laden
-			switch(presentation.Type)
-			{
-			case Presentation.Typ.GoogleIO2012Slides:
-				GoogleIO2012Helper helper = new GoogleIO2012Helper();
-				
-				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
-				if (!helper.SaveContent(presentation.PresentationUID, etContent.Text.Trim()))
+				switch(currentEditDetail.Type)
 				{
-					// ToDo Fehlermeldung
+				case Presentation.Typ.GoogleIO2012Slides:
+					item = new GoogleIO2012Helper().OnOptionsItemSelected(item, this, viewEditDetail, currentEditDetail);
+					break;
 				}
-
-				// Die vorhande Konfiguration laden um nur geänderte Stellen zu überschreiben
-				GoogleIO2012Config cfg = helper.LoadConfig(presentation.PresentationUID);
-
-				if (cfg.settings != null)
-				{
-					GoogleIO2012ConfigSettings settings = cfg.settings;
-
-					settings.title = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle)).Text;
-					settings.subtitle = ((EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle)).Text;
-					settings.useBuilds = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation)).Checked;
-					settings.enableSlideAreas = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas)).Checked;
-					settings.enableTouch = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch)).Checked;
-				}
-
-				if (cfg.presenters != null && cfg.presenters.Count > 0)
-				{
-					GoogleIO2012ConfigPresenters pres = cfg.presenters.FirstOrDefault();
-
-					pres.name = ((EditText)viewEditDetail.FindViewById(Resource.Id.etName)).Text;
-					pres.company = ((EditText)viewEditDetail.FindViewById(Resource.Id.etCompany)).Text;
-					pres.gplus = ((EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus)).Text;
-					pres.twitter = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter)).Text;
-					pres.www = ((EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite)).Text;
-					pres.github = ((EditText)viewEditDetail.FindViewById(Resource.Id.etGithub)).Text;
-				}
-
-				helper.SaveConfig(presentation.PresentationUID, cfg);
-				
-				break;
 			}
 
-
-			return false;
-		}
-
-		private void StartPresentation(Guid presentationUID)
-		{
-			Intent intent = new Intent(Activity, typeof(BrowserActivity));
-			string pFolder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());			
-			string demo = pFolder + "/template.html";
-			
-			intent.PutExtra("url", "file://" + demo);
-			
-			StartActivity(intent);
+			return base.OnOptionsItemSelected (item);
 		}
 	}
 }
