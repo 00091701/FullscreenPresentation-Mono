@@ -61,28 +61,56 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 			List<Presentation> presentations = new DBPresentation().Select(null);
 
-			// Dateien für nicht registrierte Präsentationen löschen
-			if (presentations != null && presentations.Count > 0)
+			// Nicht registrierte Präsentationen löschen
+			foreach (DirectoryInfo dir in dirInfo.GetDirectories())
 			{
-				// Nicht registrierte Präsentationen löschen
-				foreach (DirectoryInfo dir in dirInfo.GetDirectories())
+				if (presentations.Where(p => Path.Combine(presentationsHelper.PresentationsFolder, p.PresentationUID.ToString()) == dir.ToString()).Count() == 0)
 				{
-					if (presentations.Where(p => Path.Combine(presentationsHelper.PresentationsFolder, p.PresentationUID.ToString()) == dir.ToString()).Count() == 0)
-						dir.Delete(true);
-				}
+					// Kann das Verzeichnis als Präsentation erkannt und importiert werden?
+					Guid presentationUID;
 
-				// Gelöschte Präsentationen aus der Datenbank entfernen
-				foreach(Presentation pres in presentations)
-				{
-					if (!Directory.Exists(Path.Combine(presentationsHelper.PresentationsFolder, pres.PresentationUID.ToString())))
-						new DBPresentation().Delete(pres.PresentationUID);
+					if (Guid.TryParse(dir.Name, out presentationUID))
+					{
+						// Ist es vielleicht eine "GoogleIO2012" Präsentation?
+						if(File.Exists(Path.Combine(dir.ToString(), "slide_config.js")))
+						{
+							// Scheint so
+							// Wird also als GoogleIO2012 importiert
+							GoogleIO2012Helper helper = new GoogleIO2012Helper();
+							GoogleIO2012Config config =  helper.LoadConfig(presentationUID);
+
+							if (config.settings != null && !String.IsNullOrEmpty(config.settings.title))
+							{
+								presentationsHelper.CreateNew(presentationUID, config.settings.title, Presentation.Typ.GoogleIO2012Slides);
+								presentations.Add(new Presentation(){
+									PresentationUID = presentationUID,
+									Name = config.settings.title,
+									DateCreate = DateTime.Now,
+									Type = Presentation.Typ.GoogleIO2012Slides
+								});
+							}
+							else
+								dir.Delete(true);
+						}
+						else
+						{
+							// Ist doch ein unbekannter Typ
+							dir.Delete(true);
+						}
+					}
+					else
+					{
+						// Es ist wohl keine Präsentation
+						dir.Delete(true);
+					}
 				}
 			}
-			else
+
+			// Gelöschte Präsentationen aus der Datenbank entfernen
+			foreach(Presentation pres in presentations)
 			{
-				// Es gibt keine registrierten Präsentationen, also alle löschen
-				foreach (DirectoryInfo dir in dirInfo.GetDirectories())
-					dir.Delete(true);
+				if (!Directory.Exists(Path.Combine(presentationsHelper.PresentationsFolder, pres.PresentationUID.ToString())))
+					new DBPresentation().Delete(pres.PresentationUID);
 			}
 	
 			// Wenn es noch keine Präsentation gibt, die mitgelieferte als Demo / Vorlage kopieren
