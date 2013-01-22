@@ -89,7 +89,8 @@
                                     android:layout_column="1"
                                     android:id="@+id/etTitle"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true" />
                             </TableRow>
                             <TableRow>
                                 <TextView
@@ -103,7 +104,8 @@
                                     android:layout_column="1"
                                     android:id="@+id/etSubTitle"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true" />
                             </TableRow>
                             <TableRow>
                                 <TextView
@@ -177,7 +179,8 @@
                                     android:layout_column="1"
                                     android:id="@+id/etName"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true" />
                             </TableRow>
                             <TableRow>
                                 <TextView
@@ -191,7 +194,8 @@
                                     android:layout_column="1"
                                     android:id="@+id/etCompany"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:singleLine="true" />
                             </TableRow>
                             <TableRow>
                                 <TextView
@@ -205,7 +209,9 @@
                                     android:layout_column="1"
                                     android:id="@+id/etGooglePlus"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textUri"
+                                    android:singleLine="true" />
                             </TableRow>
                             <TableRow>
                                 <TextView
@@ -219,7 +225,9 @@
                                     android:layout_column="1"
                                     android:id="@+id/etTwitter"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textUri"
+                                    android:singleLine="true" />
                             </TableRow>
                             <TableRow>
                                 <TextView
@@ -233,7 +241,9 @@
                                     android:layout_column="1"
                                     android:id="@+id/etWebsite"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textUri"
+                                    android:singleLine="true" />
                             </TableRow>
                             <TableRow>
                                 <TextView
@@ -247,7 +257,9 @@
                                     android:layout_column="1"
                                     android:id="@+id/etGithub"
                                     android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_height="wrap_content"
+                                    android:inputType="textUri"
+                                    android:singleLine="true" />
                             </TableRow>
                         </TableLayout>
                     </LinearLayout>
