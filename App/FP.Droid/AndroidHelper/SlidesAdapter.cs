@@ -64,7 +64,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 			View view = (convertView ?? context.LayoutInflater.Inflate(Resource.Layout.SlidesItem, parent, false)) as LinearLayout;
 
 			TextView tvName = view.FindViewById<TextView>(Resource.Id.tvName);
-			tvName.Text = presentation.Name;
+			tvName.Text = presentation.Name.Replace("<br />", "\n");
 
 			if (SelectedItemUID.HasValue && presentation.PresentationUID == SelectedItemUID.Value)
 			{

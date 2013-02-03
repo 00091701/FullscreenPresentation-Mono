@@ -344,6 +344,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 					GoogleIO2012ConfigSettings settings = cfg.settings;
 					
 					settings.title = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle)).Text;
+
+					string title2 = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle)).Text;
+
+					if (!String.IsNullOrEmpty(title2))
+						settings.title += "<br />" + title2;
+
 					settings.subtitle = ((EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle)).Text;
 					settings.useBuilds = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation)).Checked;
 					settings.enableSlideAreas = ((ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas)).Checked;

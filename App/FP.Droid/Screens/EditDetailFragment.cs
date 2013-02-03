@@ -104,9 +104,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 					}
 				});
 
-				//var button = viewEditDetail.FindViewById<Button>(Resource.Id.ButtonRefreshAd);
-				//button.Click += ((sender, args) => AdMobHelper.LoadAd(m_AdView));
-
 				// Präsentations Content laden und anzeigen
 				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
 				etContent.SetSingleLine(false);
@@ -115,6 +112,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				// Die Anzeige zurücksetzen
 				EditText etTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle);
 				etTitle.Text = String.Empty;
+				EditText etTitle2 = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle2);
+				etTitle2.Text = String.Empty;
 
 				EditText etSubTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle);
 				etSubTitle.Text = String.Empty;
@@ -156,6 +155,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 						GoogleIO2012ConfigSettings settings = config.settings;
 
 						etTitle.Text = settings.title;
+
+						if (settings.title.Contains("<br />"))
+						{
+							int nIndex = settings.title.IndexOf("<br />");
+							etTitle.Text = settings.title.Substring(0, nIndex).Trim();
+							etTitle2.Text = settings.title.Substring(nIndex+6, settings.title.Length-nIndex-6).Trim();
+						}
+
 						etSubTitle.Text = settings.subtitle;
 						tbtnAnimation.Checked = settings.useBuilds;
 						tbtnAreas.Checked = settings.enableSlideAreas;
