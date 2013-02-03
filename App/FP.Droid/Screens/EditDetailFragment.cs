@@ -33,11 +33,14 @@ using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 using System.IO;
 using System.Threading.Tasks;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper.AdMob;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
 	public class EditDetailFragment : Fragment
 	{
+		private View m_AdView;
+
 		private Presentation currentEditDetail = null;
 		private View contentView;
 		private LayoutInflater inflater;
@@ -87,6 +90,22 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				Activity.InvalidateOptionsMenu();
 
 				GoogleIO2012Helper helper = new GoogleIO2012Helper();
+
+				m_AdView = viewEditDetail.FindViewById(Resource.Id.adView);
+				Task.Factory.StartNew(() => {
+					while(true)
+					{
+						Activity.RunOnUiThread(delegate() {
+							if (m_AdView != null)
+								AdMobHelper.LoadAd(m_AdView);
+						});
+
+						System.Threading.Thread.Sleep(1000*90);
+					}
+				});
+
+				//var button = viewEditDetail.FindViewById<Button>(Resource.Id.ButtonRefreshAd);
+				//button.Click += ((sender, args) => AdMobHelper.LoadAd(m_AdView));
 
 				// Präsentations Content laden und anzeigen
 				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
@@ -208,6 +227,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			}
 
 			return base.OnOptionsItemSelected (item);
+		}
+
+		public override void OnDestroyView ()
+		{
+			if(m_AdView != null)
+				AdMobHelper.Destroy(m_AdView);
+
+			base.OnDestroyView ();
 		}
 	}
 }

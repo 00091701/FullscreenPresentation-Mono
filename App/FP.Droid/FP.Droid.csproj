@@ -103,6 +103,7 @@
     <Compile Include="..\FP.Buslog\WSRenderGoogleIO2012.cs">
       <Link>Libs\FP.Buslog\WSRenderGoogleIO2012.cs</Link>
     </Compile>
+    <Compile Include="AndroidHelper\AdMob\AdMobHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -134,6 +135,8 @@
     <Folder Include="Assets\FP.Assets\" />
     <Folder Include="Libs\FP.Data\Types\" />
     <Folder Include="AndroidHelper\" />
+    <Folder Include="AndroidHelper\AdMob\" />
+    <Folder Include="ExtLibs\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\FP.Assets\io-2012-slides\README.html">
@@ -301,5 +304,13 @@
     <AndroidAsset Include="..\FP.Assets\io-2012-slides\theme\scss\phone.scss">
       <Link>Assets\FP.Assets\io-2012-slides\theme\scss\phone.scss</Link>
     </AndroidAsset>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidJavaSource Include="AndroidHelper\AdMob\JAdMobHelper.java">
+      <DependentUpon>AdMobHelper.java</DependentUpon>
+    </AndroidJavaSource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidJavaLibrary Include="ExtLibs\GoogleAdMobAdsSdk-6.2.1.jar" />
   </ItemGroup>
 </Project>
