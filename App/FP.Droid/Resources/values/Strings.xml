@@ -1,89 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="AdPublisherID"></string>
+
 	<string name="app_name">Fullscreen-Presentation</string>
-	<string name="tvChoosePresentation">Bitte eine Präsentation anlegen oder auswählen.</string>
+	<string name="tvChoosePresentation">Please create or select a presentation.</string>
 	<string name="EditTabInfo">Info</string>
 	
-	<!-- string name="btnNewPresentation">Neue Präsentation</string -->
-	<string name="DlgNewPresentationText">Bitte geben Sie einen Namen für die neue Präsentation ein.</string>
-	<string name="DlgNewPresentationTitle">Name der Präsentation</string>
-	<string name="DlgNewPresentationErstellen">Erstellen</string>
+	<!-- string name="btnNewPresentation">New presentation</string -->
+	<string name="DlgNewPresentationText">Please enter a name for the new presentation.</string>
+	<string name="DlgNewPresentationTitle">Name of presentation</string>
+	<string name="DlgNewPresentationErstellen">Create</string>
 	
-	<!-- string name="btnRenamePresentation">Neue Präsentation</string -->
-	<string name="DlgRenamePresentationText">Bitte geben Sie einen neuen Namen für die Präsentation ein.</string>
-	<string name="DlgRenamePresentationTitle">Name der Präsentation</string>
-	<string name="DlgRenamePresentationErstellen">Umbennen</string>
+	<!-- string name="btnRenamePresentation">New presentation</string -->
+	<string name="DlgRenamePresentationText">Please enter new name for the presentation.</string>
+	<string name="DlgRenamePresentationTitle">Name der presentation</string>
+	<string name="DlgRenamePresentationErstellen">Rename</string>
 	
-	<string name="ErrMsgTitle">Fehler</string>
-	<string name="DlgNewPresentationError">Die Präsentation konnte nicht angelegt werden.</string>
-	<string name="DlgPresentationErrorNoName">Es wurde kein Name für die Präsentation eingegeben.</string>
-	<string name="DlgPresentationErrorPraesExists">Die Präsentation existiert bereits.</string>
+	<string name="ErrMsgTitle">Error</string>
+	<string name="DlgNewPresentationError">Presentation could not be created.</string>
+	<string name="DlgPresentationErrorNoName">No name has been given for presentation.</string>
+	<string name="DlgPresentationErrorPraesExists">Presentation already exists.</string>
 	<string name="Ok">Ok</string>
-	<string name="Cancel">Abbruch</string>
-	<string name="ErrorNoExternalStorage">Es steht kein externes Speichermedium zur Verfügung. Dieses ist aber zwingend erforderlich!</string>
+	<string name="Cancel">Cancel</string>
+	<string name="ErrorNoExternalStorage">No external storage device available although it is required.</string>
 	<string name="PresentationTyp_GoogleIO2012Slides">Google IO 2012 Slides</string>
-	<string name="EditDetailSpeicherort">Speicherort der Präsentation:</string>
-	<string name="ErrMsgCouldNotOpenFileManager">Es konnte kein Dateimanager geöffnet werden.</string>
-	<string name="PresentationsMenuTitle">Präsentation</string>
-	<string name="PresentationsMenuStart">starten</string>
-	<string name="PresentationsMenuCreate">auf dieser Basis erstellen</string>
-	<string name="PresentationsMenuRename">umbennen</string>
-	<string name="PresentationsMenuDelete">löschen</string>
-	<string name="ErrorMinimalPresentationCount">Es muss mindestens eine Präsentation als Vorlage erhalten bleiben.</string>
+	<string name="EditDetailSpeicherort">Location of presentation:</string>
+	<string name="ErrMsgCouldNotOpenFileManager">File manager could not be opened.</string>
+	<string name="PresentationsMenuTitle">Presentation</string>
+	<string name="PresentationsMenuStart">start</string>
+	<string name="PresentationsMenuCreate">create based on these data</string>
+	<string name="PresentationsMenuRename">rename</string>
+	<string name="PresentationsMenuDelete">delete</string>
+	<string name="ErrorMinimalPresentationCount">At least one presentation must stay to be used as draft.</string>
 	
 	
-	<string name="btnSave">Speichern</string>
-	<string name="btnRender">Rendern</string>
-	<string name="btnPresent">Präsentieren</string>
-	<string name="EditGoogleIOContent">Inhalt</string>
-	<string name="EditGoogleIOSettings">Einstellungen</string>
-	<string name="EditGoogleIOTitle">Titel</string>
-	<string name="EditGoogleIOSubTitle">Untertitel</string>
-	<string name="EditGoogleIOSlideAnimation">Animierte Übergänge</string>
-	<string name="EditGoogleIOSlideAreas">Übergangsflächen</string>
+	<string name="btnSave">Save</string>
+	<string name="btnRender">Render</string>
+	<string name="btnPresent">Show presentation</string>
+	<string name="EditGoogleIOContent">Content</string>
+	<string name="EditGoogleIOSettings">Settings</string>
+	<string name="EditGoogleIOTitle">Title</string>
+	<string name="EditGoogleIOSubTitle">Subtitle</string>
+	<string name="EditGoogleIOSlideAnimation">Animated transitions</string>
+	<string name="EditGoogleIOSlideAreas">Areas of transition</string>
 	<string name="EditGoogleIOTouch">Touch</string>
-	<string name="EditGoogleIOAuthor">Autor</string>
+	<string name="EditGoogleIOAuthor">Author</string>
 	<string name="EditGoogleIOName">Name</string>
-	<string name="EditGoogleIOCompany">Firma</string>
+	<string name="EditGoogleIOCompany">Company</string>
 	<string name="EditGoogleIOGooglePlus">Google+</string>
 	<string name="EditGoogleIOTwitter">Twitter</string>
-	<string name="EditGoogleIOWebsite">Webseite</string>
+	<string name="EditGoogleIOWebsite">Website</string>
 	<string name="EditGoogleIOGithub">Github</string>
-	<string name="ToastPresentationSaved">Die Präsentation ist gespeichert.</string>
-	<string name="ToastPresentationRendered">Die Präsentation ist erstellt worden.</string>
-	<string name="ProgressRenderPresentation">Die Präsentation wird erstellt.</string>
-	<string name="ProgressLoadPresentation">Die Präsentation wird geladen.</string>
-	<string name="ToastErrorRenderPresentation">Die Präsentation konnte nicht erstellt werden.</string>
-	<string name="PleaseWait">Bitte warten...</string>
-	<string name="Error">Fehler</string>
-	<string name="OnlyLandscape">Es wird nur das Querformat unterstützt!</string>
-	<string name="AppInfoUseHeadline">Bedienungshinweise</string>
-	<string name="AppInfoUse">Auf der rechten Seite finden Sie eine Liste mit den vorhandenen Präsentationen. Durch
-anklicken wird die gewünschte Präsentation geladen. Wenn die Präsentation durch einen langen klick ausgewählt werden,
-erscheint ein Kontextmenü. Hier kann die Präsentation
-\n- gestartet
-\n- auf der Basis eine neue Präsentation erstellt
-\n- umbennant
-\n- gelöscht\nwerden. Die Idee hinter dem Editor ist, das eine belibige Präsentation als Vorlage benutzt werden kann um eine neue
-zu erstellen. Dadurch wird auch das Design der Präsentation übernommen. Um ein neues Design zu erstellen, wenden
-Sie sich bitte an ihren Webdesigner. Das Verzeichnis in dem sich die ausgewählte Präsentation befinden wird oben
-dargestellt.
+	<string name="ToastPresentationSaved">Presentation has been stored.</string>
+	<string name="ToastPresentationRendered">Presentation has been created.</string>
+	<string name="ProgressRenderPresentation">Creating presentation.</string>
+	<string name="ProgressLoadPresentation">Loading presentation.</string>
+	<string name="ToastErrorRenderPresentation">Presentation could not be created.</string>
+	<string name="PleaseWait">Please wait...</string>
+	<string name="Error">Error</string>
+	<string name="OnlyLandscape">Only landscape format is supported!</string>
+	<string name="AppInfoUseHeadline">Hints for handling</string>
+	<string name="AppInfoUse">On the right side a list of existing presentations is shown. Clicking on an entry will load that presentation.
+A context menu for a presention is shown if it is selected by long click. This menu allows
+\n- starting
+\n- creating a new presentation with selected one used as draft
+\n- renaming
+\n- deleting\n of given presentation. Concept of editor is that any presentation can be used as draft to create new ones - using the design of the draft, too.
+To create a new design please ask your web designer. The directory where selected presentation is stored is shown above.
 \n
 </string>
-	<string name="AppInfoHeadline">Hinweise zur App</string>
-	<string name="AppInfo">Die App ist als ein Freizeitprojekt entwickelt und umgesetzt worden.
+	<string name="AppInfoHeadline">Hints for application</string>
+	<string name="AppInfo">This application has been developped and created as an off-time-project.
 \n
-\nDas Projekt steht unter der GPL2 Lizenz frei zur Verfügung. Über Anregungen, Hinweise zu Fehlern und Mitenwickler sind sehr willkommen.
-\nÄnderungen die per signoff committed wurden (git commit -s) werden gerne übernommen. Dazu bitte ich die um Patches (git format-patch -s) per email an: fullscreen-presentation@hoffmann-projects.de\n</string>
-	<string name="AppInfoLicHeadline">Lizenzen</string>
-	<string name="AppInfoLic">Der Editor "Fullscreen-Presentation" ist unter der Opensource Lizenz GPL2 verfügbar.
+\nProject is free under GPL2 license. Ideas, error reports and co-developpers are very welcome.
+\nChanges committed via signoff (git commit -s) will be adopted. Please send patches (git format-patch -s) per eMail to: fullscreen-presentation@hoffmann-projects.de\n</string>
+	<string name="AppInfoLicHeadline">Licenses</string>
+	<string name="AppInfoLic">Editor "Fullscreen-Presentation" is released under open source license GPL2.
 \nURL: https://github.com/00091701/FullscreenPresentation-Mono
 \n
-\nInnerhalb des Projektes wird ein Fork des Google Projekts "Google IO 2012 slides" eingesetzt. Dieses Projekt befindet sich unter der Apache 2.0 lizenz.
-\nURL des Projekts: https://code.google.com/p/io-2012-slides
-\nURL des Fork: https://github.com/00091701/GoogleIO-2012-slides-fork
+\nA fork of Google project "Google IO 2012 slides" is used for this project. That project is licensed under Apache 2.0.
+\nURL of project: https://code.google.com/p/io-2012-slides
+\nURL of fork: https://github.com/00091701/GoogleIO-2012-slides-fork
 \n</string>
-	<string name="PresentationsMenuShowFolder">Speicherort anzeigen</string>
-	<string name="DlgTitleShowPresentationsFolder">Speicherort</string>
 </resources>
