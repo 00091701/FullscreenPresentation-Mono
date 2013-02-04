@@ -61,13 +61,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			
 			// Präsentation anzeigen
 			webView.LoadUrl(url);
-
 		}
 
 		public override bool OnKeyUp (Keycode keyCode, KeyEvent e)
 		{
 			if (keyCode == Keycode.Back)
+			{
 				webView.ClearCache(true);
+				this.Finish();
+			}
 
 			return base.OnKeyUp (keyCode, e);
 		}

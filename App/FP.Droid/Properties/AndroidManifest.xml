@@ -1,22 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="De.Dhoffmann.Mono.FullscreenPresentation.Droid">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="de.dhoffmann.mono.fullscreenpresentation.droid">
 	<uses-sdk android:minSdkVersion="15" />
 	<application android:label="@string/app_name" android:icon="@drawable/ic_launcher">
-	
 		<meta-data android:name="ADMOB_PUBLISHER_ID" android:value="a14d7f7d2180609" />
-    <!-- Ad Mob Stuff-->
-    <activity android:name="com.google.ads.AdActivity"
-              android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-			
+		<!-- Ad Mob Stuff-->
+		<activity android:name="com.google.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 	</application>
-	<supports-screens
-       android:largeScreens="true"
-       android:normalScreens="false"
-       android:requiresSmallestWidthDp="650"
-       android:smallScreens="false"
-       android:xlargeScreens="true" />
+	<supports-screens android:largeScreens="true" android:normalScreens="false" android:requiresSmallestWidthDp="650" android:smallScreens="false" android:xlargeScreens="true" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-	
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 </manifest>

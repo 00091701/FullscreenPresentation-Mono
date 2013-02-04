@@ -40,7 +40,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 	public class EditDetailFragment : Fragment
 	{
 		private View m_AdView;
-
+		private bool isActive = false;
 		private Presentation currentEditDetail = null;
 		private View contentView;
 		private LayoutInflater inflater;
@@ -61,6 +61,21 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			svInfo.Visibility = ViewStates.Visible;
 
 			return contentView;
+		}
+
+		public override void OnResume ()
+		{
+			isActive = true;
+			base.OnResume ();
+
+			ReloadAd();
+		}
+
+		public override void OnPause ()
+		{
+			isActive = false;
+
+			base.OnPause ();
 		}
 	
 		public void LoadPresentation (Presentation presentation)
@@ -90,19 +105,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				Activity.InvalidateOptionsMenu();
 
 				GoogleIO2012Helper helper = new GoogleIO2012Helper();
-
-				m_AdView = viewEditDetail.FindViewById(Resource.Id.adView);
-				Task.Factory.StartNew(() => {
-					while(true)
-					{
-						Activity.RunOnUiThread(delegate() {
-							if (m_AdView != null)
-								AdMobHelper.LoadAd(m_AdView);
-						});
-
-						System.Threading.Thread.Sleep(1000*90);
-					}
-				});
+				ReloadAd();
 
 				// Präsentations Content laden und anzeigen
 				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
@@ -193,6 +196,18 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			llEditDetail.AddView(viewEditDetail);
 		}
 
+		private void ReloadAd()
+		{
+			if (m_AdView == null && viewEditDetail != null)
+				m_AdView = viewEditDetail.FindViewById(Resource.Id.adView);
+
+			Task.Factory.StartNew(() => {
+				Activity.RunOnUiThread(delegate() {
+					if (m_AdView != null)
+						AdMobHelper.LoadAd(m_AdView);
+				});
+			});
+		}
 
 		public void Reset()
 		{
@@ -238,8 +253,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public override void OnDestroyView ()
 		{
+			isActive = false;
+
 			if(m_AdView != null)
-				AdMobHelper.Destroy(m_AdView);
+				AdMobHelper.DestroyAd(m_AdView);
 
 			base.OnDestroyView ();
 		}

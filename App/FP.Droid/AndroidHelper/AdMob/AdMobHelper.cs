@@ -43,7 +43,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper.AdMob
 		/// Destroys the ad
 		/// </summary>
 		/// <param name="view"></param>
-		public static void Destroy(View view)
+		public static void DestroyAd(View view)
 		{
 			IntPtr methodId = JNIEnv.GetStaticMethodID(_helperClass, "destroy", "(Landroid/view/View;)V");
 			JNIEnv.CallStaticVoidMethod(_helperClass, methodId, new JValue(view));
