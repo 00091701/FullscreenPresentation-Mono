@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="AdPublisherID"></string>
+
+	<string name="app_name">Fullscreen-Presentation</string>
+	<string name="tvChoosePresentation">Créez ou séléctionnez une présentation.</string>
+	<string name="EditTabInfo">Info</string>
+
+	<!-- string name="btnNewPresentation">Nouvelle présentation</string -->
+	<string name="DlgNewPresentationText">Entrez le nom pour la nouvelle présentation.</string>
+	<string name="DlgNewPresentationTitle">Nom de la présentation</string>
+	<string name="DlgNewPresentationErstellen">Créer</string>
+
+	<!-- string name="btnRenamePresentation">Nouvelle présentation</string -->
+	<string name="DlgRenamePresentationText">Entre le nom de la présentation.</string>
+	<string name="DlgRenamePresentationTitle">Nom de la présentation</string>
+	<string name="DlgRenamePresentationErstellen">Renommer</string>
+
+	<string name="ErrMsgTitle">Erreur</string>
+	<string name="DlgNewPresentationError">La présentation n'a pas pu être crée.</string>
+	<string name="DlgPresentationErrorNoName">Aucun nom n'a été donné à la présentation.</string>
+	<string name="DlgPresentationErrorPraesExists">La présentation existe déjà.</string>
+	<string name="Ok">Ok</string>
+	<string name="Cancel">Annuler</string>
+	<string name="ErrorNoExternalStorage">Aucun périphérique de stockage externe disponible malgré qu'il soit nécessaire.</string>
+	<string name="PresentationTyp_GoogleIO2012Slides">Google IO 2012 Diapositives</string>
+	<string name="EditDetailSpeicherort">Localisation de la présentation:</string>
+	<string name="ErrMsgCouldNotOpenFileManager">Le gestionnaire de fichier n'a pas pu être ouvert.</string>
+	<string name="PresentationsMenuTitle">Présentation</string>
+	<string name="PresentationsMenuStart">Démarrer</string>
+	<string name="PresentationsMenuCreate">Créer à partir de ces données</string>
+	<string name="PresentationsMenuRename">Renommer</string>
+	<string name="PresentationsMenuDelete">Supprimer</string>
+	<string name="ErrorMinimalPresentationCount">Au moins une présentation doit être présente pour être utilisée comme brouillon.</string>
+
+
+	<string name="btnSave">Sauvegarder</string>
+	<string name="btnRender">Génerer</string>
+	<string name="btnPresent">Afficher la présentation</string>
+	<string name="EditGoogleIOContent">Contenu</string>
+	<string name="EditGoogleIOSettings">Paramètres</string>
+	<string name="EditGoogleIOTitle">Titre</string>
+	<string name="EditGoogleIOSubTitle">Sous titre</string>
+	<string name="EditGoogleIOSlideAnimation">Transitions animées</string>
+	<string name="EditGoogleIOSlideAreas">Zones de transition</string>
+	<string name="EditGoogleIOTouch">Toucher</string>
+	<string name="EditGoogleIOAuthor">Auteur</string>
+	<string name="EditGoogleIOName">Nom</string>
+	<string name="EditGoogleIOCompany">Compagnie</string>
+	<string name="EditGoogleIOGooglePlus">Google+</string>
+	<string name="EditGoogleIOTwitter">Twitter</string>
+	<string name="EditGoogleIOWebsite">Site Web</string>
+	<string name="EditGoogleIOGithub">Github</string>
+	<string name="ToastPresentationSaved">La présentation à été stockée.</string>
+	<string name="ToastPresentationRendered">La présentation à été créée.</string>
+	<string name="ProgressRenderPresentation">Création de la présentation.</string>
+	<string name="ProgressLoadPresentation">Chargement de la présentation.</string>
+	<string name="ToastErrorRenderPresentation">La présentation n'a pas pu être créée.</string>
+	<string name="PleaseWait">Veuillez patienter...</string>
+	<string name="Error">Erreur</string>
+	<string name="OnlyLandscape">Seul le format paysage est supporté!</string>
+	<string name="AppInfoUseHeadline">Conseils pour la manipulation</string>
+	<string name="AppInfoUse">Sur le côté droit, une liste de présentations existantes est affichée. Toucher l'élément chargera la présentation.
+Un menu contextuel est affiché pour la présentation si celle ci est séléctionnée via un appui long. Ce menu permet
+\n- Le démarrage
+\n- La création d'une nouvelle présentation en utilisant celle séléctionnée comme brouillon
+\n- Le renommage
+\n- La suppression\n de la présentation. Le concept de l'éditeur est de pouvoir utiliser n'importe quelle présentation comme brouillon - Tout en utilisant le design du brouillon.
+Pour créer un nouveau design, merci de contacter votre Web Designer. Le répertoire ou est stocké la présentation séléctionnée est affiché au dessus.
+\n
+</string>
+	<string name="AppInfoHeadline">Conseils pour l'application</string>
+	<string name="AppInfo">Cette application à été développée et créée en tant que off-time-project.
+\n
+\nLe projet est libre sous licence GPL2. Suggestions, rapports d'erreurs et co-developpeurs sont le bienvenues.
+\nLes modifications validées par signoff (git commit-s) seront adoptées. S'il vous plait, envoyez vos patchs (git format-patch -s) par eMail à: fullscreen-presentation@hoffmann-projects.de\n</string>
+	<string name="AppInfoLicHeadline">Licences</string>
+	<string name="AppInfoLic">L'editeur "Fullscreen-Presentation" est publié sous licence GPL2.
+\nURL: https://github.com/00091701/FullscreenPresentation-Mono
+\n
+\nUn fork du projet Google "Google IO 2012 slides" est utilisé pour ce projet. Ce projet est sous licence Apache 2.0.
+\nURL du projet: https://code.google.com/p/io-2012-slides
+\nURL du fork: https://github.com/00091701/GoogleIO-2012-slides-fork
+\n</string>
+</resources>
