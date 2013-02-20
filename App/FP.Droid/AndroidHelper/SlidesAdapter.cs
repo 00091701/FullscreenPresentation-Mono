@@ -25,25 +25,24 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Views;
 using System.Linq;
-using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 {
 
 	public class SlidesAdapter : BaseAdapter
 	{
-		private Activity context;
-		private List<Presentation> presentations;
+		Activity context;
+		List<Presentation> presentations;
+		Action SelectedItemBound;
 		public  Guid? SelectedItemUID { get; set; }
 		public View SelectedItem { get; private set; }
-		private Action SelectedItemBound;
 
-		public SlidesAdapter (Activity context, List<Presentation> presentations, Action SelectedItemBound, Guid? selectedItemUID = null)
+		public SlidesAdapter (Activity context, List<Presentation> presentations, Action selectedItemBound, Guid? selectedItemUID = null)
 		{
 			this.context = context;
 			this.presentations = presentations;
 			this.SelectedItemUID = selectedItemUID;
-			this.SelectedItemBound = SelectedItemBound;
+			this.SelectedItemBound = selectedItemBound;
 		}
 
 		#region implemented abstract members of BaseAdapter
@@ -58,10 +57,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 			return position;
 		}
 
-		public override Android.Views.View GetView (int position, Android.Views.View convertView, Android.Views.ViewGroup parent)
+		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
 			Presentation presentation = presentations[position];
-			View view = (convertView ?? context.LayoutInflater.Inflate(Resource.Layout.SlidesItem, parent, false)) as LinearLayout;
+			View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.SlidesItem, parent, false);
 
 			TextView tvName = view.FindViewById<TextView>(Resource.Id.tvName);
 			tvName.Text = presentation.Name.Replace("<br />", "\n");
@@ -69,7 +68,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 			if (SelectedItemUID.HasValue && presentation.PresentationUID == SelectedItemUID.Value)
 			{
 				view.SetBackgroundColor(Android.Graphics.Color.Rgb(49, 182, 231));
-				this.SelectedItem = view;
+				SelectedItem = view;
 
 				if (SelectedItemBound != null)
 					SelectedItemBound();
@@ -84,10 +83,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 		{
 			get 
 			{
-				if (this.presentations == null)
+				if (presentations == null)
 					return 0;
-				else
-					return this.presentations.Count;
+
+				return presentations.Count;
 			}
 		}
 
@@ -97,15 +96,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 		{
 			if (presentations == null)
 				return null;
-			else
-				return presentations[checkedItemPosition];
+
+			return presentations [checkedItemPosition];
 		}
 
 		public List<Presentation> GetData
 		{
 			get
 			{
-				return this.presentations;
+				return presentations;
 			}
 		}
 
@@ -116,7 +115,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 
 			SelectedItemUID = selectedItemUID;
 
-			presentations.Remove(presentations.Where(p => p.PresentationUID == presentationUID).FirstOrDefault());
+			presentations.Remove(presentations.FirstOrDefault(p => p.PresentationUID == presentationUID));
 
 			NotifyDataSetChanged();
 		}

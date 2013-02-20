@@ -76,16 +76,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 			case ActionBarButtons.Render:
 				// Async Daten Asyncron rendern lassen
-				TaskScheduler context = TaskScheduler.FromCurrentSynchronizationContext();
 				ProgressDialog pdlg = new ProgressDialog(fragment.Activity);
 				pdlg.SetCancelable(false);
 				pdlg.SetTitle(fragment.GetText(Resource.String.ProgressRenderPresentation));
 				pdlg.SetMessage(fragment.GetText(Resource.String.PleaseWait));
 				pdlg.Show();
 				
+				TaskScheduler context = TaskScheduler.FromCurrentSynchronizationContext();
 				Task.Factory.StartNew(() => {
-					
-					
 					return new WSRenderGoogleIO2012().RenderPresentation(presentation.PresentationUID);
 				}).ContinueWith(t => {
 					pdlg.Cancel();
@@ -115,7 +113,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 		public string LoadContent(Guid presentationUID)
 		{
-			string ret = null;
+			string ret;
 
 			// Dateinamen zusammenbauen
 			PresentationsHelper presentationHelper = new PresentationsHelper();

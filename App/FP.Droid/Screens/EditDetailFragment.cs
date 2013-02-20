@@ -19,19 +19,13 @@
 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
-using System.IO;
 using System.Threading.Tasks;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper.AdMob;
 
@@ -39,14 +33,13 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
 	public class EditDetailFragment : Fragment
 	{
-		private View m_AdView;
-		private bool isActive = false;
-		private Presentation currentEditDetail = null;
-		private View contentView;
-		private LayoutInflater inflater;
-		private View viewEditDetail;
-		private ScrollView svInfo;
-		private LinearLayout llEditDetail;
+		View m_AdView;
+		Presentation currentEditDetail;
+		View contentView;
+		LayoutInflater inflater;
+		View viewEditDetail;
+		ScrollView svInfo;
+		LinearLayout llEditDetail;
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
@@ -65,7 +58,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public override void OnResume ()
 		{
-			isActive = true;
 			base.OnResume ();
 
 			ReloadAd();
@@ -73,8 +65,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public override void OnPause ()
 		{
-			isActive = false;
-
 			base.OnPause ();
 		}
 	
@@ -161,7 +151,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 						if (settings.title.Contains("<br />"))
 						{
-							int nIndex = settings.title.IndexOf("<br />");
+							int nIndex = settings.title.IndexOf("<br />", StringComparison.InvariantCulture);
 							etTitle.Text = settings.title.Substring(0, nIndex).Trim();
 							etTitle2.Text = settings.title.Substring(nIndex+6, settings.title.Length-nIndex-6).Trim();
 						}
@@ -196,7 +186,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			llEditDetail.AddView(viewEditDetail);
 		}
 
-		private void ReloadAd()
+		void ReloadAd()
 		{
 			if (m_AdView == null && viewEditDetail != null)
 				m_AdView = viewEditDetail.FindViewById(Resource.Id.adView);
@@ -253,8 +243,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		public override void OnDestroyView ()
 		{
-			isActive = false;
-
 			if(m_AdView != null)
 				AdMobHelper.DestroyAd(m_AdView);
 

@@ -21,7 +21,6 @@
 using System;
 using De.Dhoffmann.Mono.FullscreenPresentation.Data;
 using System.IO;
-using System.IO.Compression;
 using System.Collections.Generic;
 using System.Linq;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
@@ -64,7 +63,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			// Nicht registrierte Präsentationen löschen
 			foreach (DirectoryInfo dir in dirInfo.GetDirectories())
 			{
-				if (presentations.Where(p => Path.Combine(presentationsHelper.PresentationsFolder, p.PresentationUID.ToString()) == dir.ToString()).Count() == 0)
+				if (presentations.Count(p => Path.Combine(presentationsHelper.PresentationsFolder, p.PresentationUID.ToString()) == dir.ToString()) == 0)
 				{
 					// Kann das Verzeichnis als Präsentation erkannt und importiert werden?
 					Guid presentationUID;
@@ -82,7 +81,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 							if (config.settings != null && !String.IsNullOrEmpty(config.settings.title))
 							{
 								presentationsHelper.CreateNew(presentationUID, config.settings.title, Presentation.Typ.GoogleIO2012Slides);
-								presentations.Add(new Presentation(){
+								presentations.Add(new Presentation {
 									PresentationUID = presentationUID,
 									Name = config.settings.title,
 									DateCreate = DateTime.Now,
@@ -124,7 +123,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 					Directory.CreateDirectory(pFolder);
 
 					Dictionary<string, List<string>> dictTemplates = new Dictionary<string, List<string>>();
-					dictTemplates.Add("io-2012-slides", new List<string>() {
+					dictTemplates.Add("io-2012-slides", new List<string> {
 						"images/barchart.png",
 						"images/chart.png",
 						"images/chrome-logo-tiny.png",
@@ -223,11 +222,11 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 						// Die Präsentation in der DB registrieren
 						string name = null;
-						De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types.Presentation.Typ typ;
+						Presentation.Typ typ;
 						switch(kvpTemplate.Key)
 						{
 						case "io-2012-slides":
-							typ = De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types.Presentation.Typ.GoogleIO2012Slides;
+							typ = Presentation.Typ.GoogleIO2012Slides;
 							name = ((Android.App.Activity)context).GetText(De.Dhoffmann.Mono.FullscreenPresentation.Droid.Resource.String.PresentationTyp_GoogleIO2012Slides);
 							break;
 						default:
@@ -248,7 +247,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			}
 		}
 
-		private void ShowErrorMsg(object context, string errMsg)
+		void ShowErrorMsg(object context, string errMsg)
 		{
 			IsError = true;
 #if MONODROID

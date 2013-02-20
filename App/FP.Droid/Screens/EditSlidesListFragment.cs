@@ -20,19 +20,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 using Android.Views.InputMethods;
-using Android.InputMethodServices;
 using System.IO;
 using De.Dhoffmann.Mono.FullscreenPresentation.Data;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
@@ -52,12 +46,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			ShowFolder
 		}
 
-		private View contentView;
-		private int selectedClickItemPosition;
-		private int selectedLongClickItemPosition;
-		private View currentItem = null;
+		View contentView;
+		int selectedClickItemPosition;
+		int selectedLongClickItemPosition;
+		View currentItem;
 
-		private ListView lvSlides;
+		ListView lvSlides;
 
 		public EditSlidesListFragment()
 		{ 
@@ -80,9 +74,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			return contentView;
 		}
 
-		private void LoadSlidesList(Guid? selectedItemUID = null)
+		void LoadSlidesList(Guid? selectedItemUID = null)
 		{
-			List<Presentation> presentations = null;
+			List<Presentation> presentations;
 
 			// Wenn kein bestimmtes Element ausgewählt wurde,
 			// die aktuelle Auswahl erhalten
@@ -101,12 +95,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			lvSlides.Adapter = new SlidesAdapter(Activity, presentations, SelectedItemBound, selectedItemUID);
 		}
 
-		private void SelectedItemBound()
+		void SelectedItemBound()
 		{
 			currentItem = ((SlidesAdapter)lvSlides.Adapter).SelectedItem;
 		}
 
-		private void HandleItemClick (object sender, AdapterView.ItemClickEventArgs e)
+		void HandleItemClick (object sender, AdapterView.ItemClickEventArgs e)
 		{
 			EditActivity activityEdit = Activity as EditActivity;
 
@@ -147,7 +141,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			}
 		}
 
-		public override void OnCreateContextMenu (IContextMenu menu, Android.Views.View v, IContextMenuContextMenuInfo menuInfo)
+		public override void OnCreateContextMenu (IContextMenu menu, View v, IContextMenuContextMenuInfo menuInfo)
 		{
 			base.OnCreateContextMenu (menu, v, menuInfo);
 			selectedLongClickItemPosition = ((AdapterView.AdapterContextMenuInfo)menuInfo).Position;
@@ -190,7 +184,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		}
 	
 
-		private void StartPresentation(Guid presentationUID)
+		void StartPresentation(Guid presentationUID)
 		{
 			Intent intent = new Intent(Activity, typeof(BrowserActivity));
 			string pFolder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());			
@@ -201,7 +195,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			StartActivity(intent);
 		}
 	
-		private void CreatePresentation(Guid presentationUID)
+		void CreatePresentation(Guid presentationUID)
 		{
 			// Per Dialog den Namen der neuen Presentation abfragen
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Activity);
@@ -237,7 +231,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				if (!presentations.Exists(name))
 				{
 					// Präsentation erstellen
-					Guid newPresentationUID = Guid.Empty;
+					Guid newPresentationUID;
 
 					if (presentations.CreateNew(presentationUID, out newPresentationUID, name) != PresentationsHelper.ErrorCode.OK)
 					{
@@ -273,7 +267,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			dialog.Show();
 		}
 
-		private void RenamePresentation(Guid presentationUID)
+		void RenamePresentation(Guid presentationUID)
 		{
 			// Per Dialog den Namen der neuen Presentation abfragen
 			AlertDialog.Builder dialog = new AlertDialog.Builder(Activity);
@@ -309,7 +303,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 				ListView lvSlides = contentView.FindViewById<ListView>(Resource.Id.lvSlides);
 
-				foreach (Presentation p in ((List<Presentation>)((SlidesAdapter)lvSlides.Adapter).GetData))
+				foreach (Presentation p in (((SlidesAdapter)lvSlides.Adapter).GetData))
 				{
 					if (p.PresentationUID == presentationUID)
 					{
@@ -324,7 +318,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			dialog.Show();
 		}
 
-		private void DeletePresentation(Guid presentationUID)
+		void DeletePresentation(Guid presentationUID)
 		{
 			Guid? selectedItemUID = ((SlidesAdapter)lvSlides.Adapter).GetData[selectedClickItemPosition].PresentationUID;
 
@@ -348,7 +342,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			}
 		}
 
-		private void ShowPresentationsFolder(Guid presentationUID)
+		void ShowPresentationsFolder(Guid presentationUID)
 		{
 			string folder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());
 
@@ -361,7 +355,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			alert.Show();
 		}
 
-		private void ShowErrorMsg(string errMsg)
+		void ShowErrorMsg(string errMsg)
 		{
 			// Tastatur ausblenden
 			InputMethodManager imm = (InputMethodManager)Activity.GetSystemService (Context.InputMethodService);

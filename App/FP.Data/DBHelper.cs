@@ -17,9 +17,6 @@
  *
  */
 
-
-using System;
-
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 {
 	// Wrapper für Nicht-Android

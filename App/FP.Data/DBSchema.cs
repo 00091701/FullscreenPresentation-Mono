@@ -19,9 +19,7 @@
 
 
 using System;
-using System.Collections.Generic;
 using Mono.Data.Sqlite;
-using System.Data.SqlClient;
 using System.Data.Common;
 using System.Text;
 

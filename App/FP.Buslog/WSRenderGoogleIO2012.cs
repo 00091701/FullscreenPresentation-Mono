@@ -34,10 +34,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			bool ret = false;
 			string content = null;
 
-#if MONODROID
-			string proxyHost = Android.Net.Proxy.DefaultHost;
-			int proxyPort = Android.Net.Proxy.DefaultPort;
-#endif
 			// Dateipfad zusammenbauen
 			PresentationsHelper presentationHelper = new PresentationsHelper();
 			
@@ -57,8 +53,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			if (!File.Exists(slidesFilename))
 				return false;
 
-			string baseContent = null;
-			string slidesContent = null;
+			string baseContent;
+			string slidesContent;
 
 			// Dateien laden
 			TextReader trBase = new StreamReader(baseFilename);
@@ -79,8 +75,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
 			//Wenn ein Proxy im System eingestellt ist, diesen auch nutzen
+#if MONODROID
+			string proxyHost = Android.Net.Proxy.DefaultHost;
+
 			if(!String.IsNullOrEmpty(proxyHost))
-				request.Proxy = new WebProxy(proxyHost, proxyPort);
+				request.Proxy = new WebProxy(proxyHost, Android.Net.Proxy.DefaultPort);
+#endif
 
 			// Postdaten senden
 			request.Method = WebRequestMethods.Http.Post;

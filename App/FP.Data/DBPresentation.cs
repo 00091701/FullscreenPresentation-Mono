@@ -77,7 +77,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd, ex);
 					}
 					
 					conn.Close();
@@ -131,7 +131,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd, ex);
 					}
 					
 					conn.Close();
@@ -161,7 +161,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					sqlCmd.Parameters.AddWithValue("@PresentationUID", presentation.PresentationUID.ToString());
 					sqlCmd.Parameters.AddWithValue("@Name", presentation.Name);
 					sqlCmd.Parameters.AddWithValue("@DateCreate", DateTime.Now);
-					sqlCmd.Parameters.AddWithValue("@Type", (int)presentation.Type);
+					sqlCmd.Parameters.AddWithValue("@Type", presentation.Type);
 
 					conn.Open();
 
@@ -172,7 +172,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd, ex);
 					}
 					
 					conn.Close();
@@ -201,7 +201,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					sqlCmd.Parameters.AddWithValue("@PresentationUID", presentation.PresentationUID.ToString());
 					sqlCmd.Parameters.AddWithValue("@Name", presentation.Name);
 					sqlCmd.Parameters.AddWithValue("@DateCreate", DateTime.Now);
-					sqlCmd.Parameters.AddWithValue("@Type", (int)presentation.Type);
+					sqlCmd.Parameters.AddWithValue("@Type", presentation.Type);
 
 					conn.Open();
 					
@@ -212,7 +212,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd, ex);
 					}
 					
 					conn.Close();
@@ -248,7 +248,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd, ex);
 					}
 					
 					conn.Close();

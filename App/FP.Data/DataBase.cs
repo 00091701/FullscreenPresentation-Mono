@@ -19,13 +19,9 @@
 
 
 using System;
-using System.Data;
 using System.IO;
 using Mono.Data.Sqlite;
-using System.Data.SqlClient;
-using System.Data.Common;
 using System.Text;
-using System.Collections.Generic;
 using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 
 
@@ -71,7 +67,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Data
 					}
 					catch (SqliteException ex)
 					{
-						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd.ToString(), ex);
+						Logging.Log(this, Logging.LoggingTypeError, "SQL cmd: " + sqlCmd, ex);
 					}
 				}
 

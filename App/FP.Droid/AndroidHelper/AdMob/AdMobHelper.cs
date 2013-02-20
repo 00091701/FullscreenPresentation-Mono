@@ -17,8 +17,6 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Android.Runtime;
 using Android.Views;
 
@@ -27,7 +25,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper.AdMob
 	public static class AdMobHelper
 	{
 		//this is where we had specified: admob6sample.admob;
-		private static IntPtr _helperClass = JNIEnv.FindClass("de/dhoffmann/mono/fullscreenpresentation/droid/androidhelper/admob/JAdMobHelper");
+		static IntPtr _helperClass = JNIEnv.FindClass("de/dhoffmann/mono/fullscreenpresentation/droid/androidhelper/admob/JAdMobHelper");
 
 		/// <summary>
 		/// Refreshed the ad for the view

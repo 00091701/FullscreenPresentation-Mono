@@ -24,7 +24,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
 	public class Logging
 	{
-		public static int LoggingTypeVerbose = 0;
+		public static int LoggingTypeVerbose;
 		public static int LoggingTypeDebug = 1;
 		public static int LoggingTypeInfo = 2;
 		public static int LoggingTypeWarn = 3;
@@ -74,7 +74,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 				loggingMessage += " - LogMsg: " + logMsg;
 
 			if (ex != null)
-				loggingMessage += " - EXCEPTION: " + ex.ToString();
+				loggingMessage += " - EXCEPTION: " + ex;
 
 #if MONODROID
 			if (!debug && loggingType <= LoggingTypeDebug)

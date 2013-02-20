@@ -18,26 +18,17 @@
  */
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
 using Android.Webkit;
-using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
 	[Activity (Label = "BrowserActivity", ScreenOrientation=Android.Content.PM.ScreenOrientation.Landscape)]
 	public class BrowserActivity : Activity
 	{
-		private WebView webView;
+		WebView webView;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -68,7 +59,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			if (keyCode == Keycode.Back)
 			{
 				webView.ClearCache(true);
-				this.Finish();
+				Finish();
 			}
 
 			return base.OnKeyUp (keyCode, e);
@@ -89,7 +80,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				base.DoUpdateVisitedHistory (view, url, isReload);
 
 				// restore fullscreen
-				this.wnd.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
+				wnd.DecorView.SystemUiVisibility = StatusBarVisibility.Hidden;
 			}
 
 

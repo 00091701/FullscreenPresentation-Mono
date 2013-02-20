@@ -29,7 +29,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
 	public class PresentationsHelper
 	{
-		private string presentationsFolder = "Fullscreen-Presentations";
+		string presentationsFolder = "Fullscreen-Presentations";
 
 		public enum ErrorCode : int
 		{
@@ -60,7 +60,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 		public bool Exists (string name)
 		{
 			bool ret = false;
-
+			// TODO
 			return ret;
 		}
 
@@ -93,10 +93,11 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			DBPresentation dbPresentation = new DBPresentation();
 			Presentation presentation = dbPresentation.Select(presentationUID).FirstOrDefault();
 			presentation.Name = name;
+
 			if (dbPresentation.Update(presentation))
 				return ErrorCode.OK;
-			else 
-				return ErrorCode.ERROR;
+
+			return ErrorCode.ERROR;
 		}
 
 		public ErrorCode CreateNew(Guid presentationUID, string name, Presentation.Typ typ)
@@ -106,14 +107,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 			DBPresentation dbPresentation = new DBPresentation();
 
-			if (dbPresentation.Insert(new Presentation() {
+			if (dbPresentation.Insert(new Presentation {
 				PresentationUID = presentationUID,
 				Name = name,
 				Type = typ
 			}))
 				return ErrorCode.OK;
-			else
-				return ErrorCode.ERROR;
+
+			return ErrorCode.ERROR;
 		}
 
 		public ErrorCode Delete(Guid presentationUID)
@@ -138,13 +139,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 		}
 
 
-		public Dictionary<Guid, string> GetPresentationList()
-		{
-			Dictionary<Guid, string> ret = new Dictionary<Guid, string>();
-
-			return ret;
-		}
-
 		public string PresentationsFolder
 		{
 			get { return presentationsFolder; }
@@ -154,7 +148,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 		public void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
 		{
 			// Check if the target directory exists, if not, create it.
-			if (Directory.Exists(target.FullName) == false)
+			if (!Directory.Exists(target.FullName))
 				Directory.CreateDirectory(target.FullName);
 
 			// Copy each file into it’s new directory.
