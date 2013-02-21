@@ -343,7 +343,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 					
 					settings.title = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle)).Text;
 
-					string title2 = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle)).Text;
+					string title2 = ((EditText)viewEditDetail.FindViewById(Resource.Id.etTitle2)).Text;
 
 					if (!String.IsNullOrEmpty(title2))
 						settings.title += "<br />" + title2;
