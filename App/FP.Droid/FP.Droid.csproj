@@ -62,7 +62,6 @@
     <Compile Include="Screens\SplashActivity.cs" />
     <Compile Include="Screens\EditActivity.cs" />
     <Compile Include="Screens\EditDetailFragment.cs" />
-    <Compile Include="Screens\EditSlidesListFragment.cs" />
     <Compile Include="..\FP.Data\DataBase.cs">
       <Link>Libs\FP.Data\DataBase.cs</Link>
     </Compile>
@@ -104,6 +103,7 @@
       <Link>Libs\FP.Buslog\WSRenderGoogleIO2012.cs</Link>
     </Compile>
     <Compile Include="AndroidHelper\AdMob\AdMobHelper.cs" />
+    <Compile Include="Screens\BaseActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -117,8 +117,6 @@
     <AndroidResource Include="Resources\values\Styles.xml" />
     <AndroidResource Include="Resources\layout\Edit.axml" />
     <AndroidResource Include="Resources\layout\EditDetail.axml" />
-    <AndroidResource Include="Resources\layout\EditSlidesList.axml" />
-    <AndroidResource Include="Resources\layout-port\Edit.axml" />
     <AndroidResource Include="Resources\layout\SlidesItem.axml" />
     <AndroidResource Include="Resources\layout\EditDetailGoogleIO2012.axml" />
     <AndroidResource Include="Resources\drawable\splash.png" />

@@ -24,12 +24,21 @@ using System.Collections.Generic;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Libs.FP.Data.Types;
 using De.Dhoffmann.Mono.FullscreenPresentation.Data;
 using System.Linq;
+using System.Threading.Tasks;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens;
+
+
+#if MONODROID
+using Android.App;
+#endif
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
 	public class PresentationsHelper
 	{
 		string presentationsFolder = "Fullscreen-Presentations";
+		Activity activity;
+		EditActivity activityEdit;
 
 		public enum ErrorCode : int
 		{
@@ -38,15 +47,25 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			PRESENTATIONEXISTS,
 			MINIMALPRESENTATIONS
 		}
-
-		public PresentationsHelper ()
+#if MONODROID
+		public PresentationsHelper (object activity)
 		{
+			if (activity == null)
+				throw new ArgumentException ();
+
+			if (activity.GetType() == typeof(Activity))
+				this.activity = activity as Activity;
+			else if (activity.GetType() == typeof(EditActivity))
+			    this.activityEdit = activity as EditActivity;
+
 			if (Android.OS.Environment.ExternalStorageState != "mounted")
 				throw new Exception("no external storage");
 
-
-#if MONODROID
 			string path = Android.OS.Environment.ExternalStorageDirectory.AbsolutePath;
+#elif
+		public PresentationsHelper ()
+		{
+			throw NotImplementedException();
 #endif
 
 			// Den Order für die Presentationen festlegen
@@ -56,6 +75,72 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			if (!Directory.Exists(PresentationsFolder))
 				Directory.CreateDirectory(PresentationsFolder);
 		}
+
+		public void StartPresentation(Presentation presentation)
+		{
+			switch(presentation.Type)
+			{
+			case Presentation.Typ.GoogleIO2012Slides:
+				new GoogleIO2012Helper(activityEdit).StartPresentation(activityEdit.FragEditDetail, presentation);
+				break;
+				
+			default:
+				throw new NotImplementedException();
+			}
+		}
+		
+		public void CreatePresentation(Presentation presentation)
+		{
+			switch(presentation.Type)
+			{
+			case Presentation.Typ.GoogleIO2012Slides:
+				new GoogleIO2012Helper(activityEdit).CreatePresentation(presentation);
+				break;
+				
+			default:
+				throw new NotImplementedException();
+			}
+		}
+		
+		public void RenamePresentation(Presentation presentation)
+		{
+			switch(presentation.Type)
+			{
+			case Presentation.Typ.GoogleIO2012Slides:
+				new GoogleIO2012Helper(activityEdit).RenamePresentation(presentation);
+				break;
+				
+			default:
+				throw new NotImplementedException();
+			}
+		}
+		
+		public void DeletePresentation(Presentation presentation)
+		{
+			switch(presentation.Type)
+			{
+			case Presentation.Typ.GoogleIO2012Slides:
+				new GoogleIO2012Helper(activityEdit).DeletePresentation(presentation);
+				break;
+				
+			default:
+				throw new NotImplementedException();
+			}
+		}
+
+		public void ShowPresentationsFolder(Presentation presentation)
+		{
+			switch(presentation.Type)
+			{
+			case Presentation.Typ.GoogleIO2012Slides:
+				new GoogleIO2012Helper(activityEdit).ShowPresentationsFolder(presentation);
+				break;
+				
+			default:
+				throw new NotImplementedException();
+			}
+		}
+
 
 		public bool Exists (string name)
 		{
@@ -161,6 +246,13 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 				DirectoryInfo nextTargetSubDir = target.CreateSubdirectory(diSourceSubDir.Name);
 				CopyDirectory(diSourceSubDir, nextTargetSubDir);
 			}
+		}
+
+		public Task<List<Presentation>> LoadSlidesListAsync()
+		{
+			return Task.Factory.StartNew (() => {
+				return new DBPresentation().Select();
+			});
 		}
 	}
 }

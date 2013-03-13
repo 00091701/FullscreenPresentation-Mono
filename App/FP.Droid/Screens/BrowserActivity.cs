@@ -26,7 +26,7 @@ using Android.Webkit;
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 {
 	[Activity (Label = "BrowserActivity", ScreenOrientation=Android.Content.PM.ScreenOrientation.Landscape)]
-	public class BrowserActivity : Activity
+	public class BrowserActivity : BaseActivity
 	{
 		WebView webView;
 

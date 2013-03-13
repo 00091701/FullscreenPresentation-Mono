@@ -33,39 +33,79 @@ using System.Threading.Tasks;
 using De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens;
 using System.Linq;
 using Android.Content;
+using De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
 	public class GoogleIO2012Helper
 	{
+		object context;
+		PresentationsHelper presentationsHelper;
+
 		public enum ActionBarButtons : int
 		{
-			Save = 0,
+			SelectPresentation = 0,
+			Save,
 			Render,
 			Present
 		}
 
-		public GoogleIO2012Helper()
-		{}
+		public GoogleIO2012Helper(object context)
+		{
+			this.context = context;
+
+			try
+			{
+				presentationsHelper = new PresentationsHelper(context);
+			}
+			catch (Exception)
+			{
+				((BaseActivity)context).ShowErrorMsg((context as Activity).GetText(Resource.String.ErrorNoExternalStorage));
+			}
+
+			presentationsHelper = new PresentationsHelper(context);
+		}
 
 		public IMenu OnCreateOptionsMenu (IMenu menu, MenuInflater inflate)
 		{
-			var m1 = menu.Add(0, (int)ActionBarButtons.Save, 0, Resource.String.btnSave);
-			m1.SetShowAsAction(ShowAsAction.Always);
+			Logging.Log (this, Logging.LoggingTypeDebug, "OnCreateOptionsMenu()");
 
-			var m2 = menu.Add(0, (int)ActionBarButtons.Render, 1, Resource.String.btnRender);
-			m2.SetShowAsAction(ShowAsAction.Always);
+			Task.Factory.StartNew (() => {
+				Activity activity = context as Activity;
 
-			var m3 = menu.Add(0, (int)ActionBarButtons.Present, 2, Resource.String.btnPresent);
-			m3.SetShowAsAction(ShowAsAction.Always);
+				activity.RunOnUiThread(() => {
+					var m0 = menu.Add (0, (int)ActionBarButtons.SelectPresentation, 0, Resource.String.btnSelectPresentation);
+					m0.SetShowAsAction (ShowAsAction.Always);
+
+					var m1 = menu.Add (0, (int)ActionBarButtons.Save, 1, Resource.String.btnSave);
+					m1.SetShowAsAction (ShowAsAction.Always);
+
+					var m2 = menu.Add (0, (int)ActionBarButtons.Render, 2, Resource.String.btnRender);
+					m2.SetShowAsAction (ShowAsAction.Always);
+
+					var m3 = menu.Add (0, (int)ActionBarButtons.Present, 3, Resource.String.btnPresent);
+					m3.SetShowAsAction (ShowAsAction.Always);
+				});
+			});
 
 			return menu;
 		}
 
 		public IMenuItem OnOptionsItemSelected (IMenuItem item, EditDetailFragment fragment, View viewEditDetail, Presentation presentation)
 		{
+			Logging.Log (this, Logging.LoggingTypeDebug, "OnOptionsItemSelected()");
+
 			switch((ActionBarButtons)item.ItemId)
 			{
+			case ActionBarButtons.SelectPresentation:
+				fragment.Activity.RunOnUiThread(() => {
+					EditActivity editActivity = context as EditActivity;
+
+					if (editActivity != null)
+						editActivity.ShowPresentationSelection();
+				});
+				break;
+
 			case ActionBarButtons.Save:
 				if (presentation != null)
 				{
@@ -81,10 +121,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 				pdlg.SetTitle(fragment.GetText(Resource.String.ProgressRenderPresentation));
 				pdlg.SetMessage(fragment.GetText(Resource.String.PleaseWait));
 				pdlg.Show();
-				
-				TaskScheduler context = TaskScheduler.FromCurrentSynchronizationContext();
+
 				Task.Factory.StartNew(() => {
-					return new WSRenderGoogleIO2012().RenderPresentation(presentation.PresentationUID);
+					return new WSRenderGoogleIO2012(this.context).RenderPresentation(presentation.PresentationUID);
 				}).ContinueWith(t => {
 					pdlg.Cancel();
 					
@@ -93,17 +132,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 					else
 					{
 						fragment.Activity.RunOnUiThread(delegate() {
-							AlertDialog adlg = new AlertDialog.Builder(fragment.Activity).Create();
-							adlg.SetTitle(fragment.GetText(Resource.String.Error));
-							adlg.SetMessage(fragment.GetText(Resource.String.ToastErrorRenderPresentation));
-							adlg.Show();
+							((BaseActivity)fragment.Activity).ShowErrorMsg(fragment.GetText(Resource.String.ToastErrorRenderPresentation));
 						});
 					}
-				}, context);
+				}, TaskScheduler.FromCurrentSynchronizationContext());
 				break;
 
 			case ActionBarButtons.Present:
-				StartPresentation(fragment, presentation.PresentationUID);
+				StartPresentation(fragment, presentation);
 				break;
 			}
 
@@ -116,9 +152,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			string ret;
 
 			// Dateinamen zusammenbauen
-			PresentationsHelper presentationHelper = new PresentationsHelper();
-
-			string contentFileName = Path.Combine(presentationHelper.PresentationsFolder, presentationUID.ToString());
+			string contentFileName = Path.Combine(presentationsHelper.PresentationsFolder, presentationUID.ToString());
 			contentFileName = Path.Combine(contentFileName, "scripts");
 			contentFileName = Path.Combine(contentFileName, "md");
 			contentFileName = Path.Combine(contentFileName, "slides.md");
@@ -137,9 +171,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 		public bool SaveContent(Guid presentationUID, string content)
 		{
 			// Dateinamen zusammenbauen
-			PresentationsHelper presentationHelper = new PresentationsHelper();
-			
-			string contentFileName = Path.Combine(presentationHelper.PresentationsFolder, presentationUID.ToString());
+			string contentFileName = Path.Combine(presentationsHelper.PresentationsFolder, presentationUID.ToString());
 			contentFileName = Path.Combine(contentFileName, "scripts");
 			contentFileName = Path.Combine(contentFileName, "md");
 			contentFileName = Path.Combine(contentFileName, "slides.md");
@@ -167,9 +199,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			GoogleIO2012Config ret = new GoogleIO2012Config();
 
 			// Dateinamen zusammenbauen
-			PresentationsHelper presentationHelper = new PresentationsHelper();
-			
-			string contentFileName = Path.Combine(presentationHelper.PresentationsFolder, presentationUID.ToString());
+			string contentFileName = Path.Combine(presentationsHelper.PresentationsFolder, presentationUID.ToString());
 			contentFileName = Path.Combine(contentFileName, "slide_config.js");
 			
 			if (!File.Exists(contentFileName))
@@ -289,9 +319,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			sCfg = sCfg.Replace("\\/", "/");
 
 			// Dateinamen zusammenbauen
-			PresentationsHelper presentationHelper = new PresentationsHelper();
-			
-			string settingsFileName = Path.Combine(presentationHelper.PresentationsFolder, presentationUID.ToString());
+			string settingsFileName = Path.Combine(presentationsHelper.PresentationsFolder, presentationUID.ToString());
 			settingsFileName = Path.Combine(settingsFileName, "slide_config.js");
 			
 			// Datei schreiben
@@ -324,10 +352,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			switch(presentation.Type)
 			{
 			case Presentation.Typ.GoogleIO2012Slides:
-				GoogleIO2012Helper helper = new GoogleIO2012Helper();
-				
-				
-				
+				GoogleIO2012Helper helper = new GoogleIO2012Helper(context);
+
 				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
 				if (!helper.SaveContent(presentation.PresentationUID, etContent.Text.Trim()))
 				{
@@ -374,10 +400,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			return false;
 		}
 		
-		private void StartPresentation(EditDetailFragment fragment, Guid presentationUID)
+		public void StartPresentation(EditDetailFragment fragment, Presentation presentation)
 		{
 			Intent intent = new Intent(fragment.Activity, typeof(BrowserActivity));
-			string pFolder = Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString());			
+			string pFolder = Path.Combine(presentationsHelper.PresentationsFolder, presentation.PresentationUID.ToString());			
 			string demo = pFolder + "/template.html";
 			
 			intent.PutExtra("url", "file://" + demo);
@@ -385,5 +411,205 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			fragment.StartActivity(intent);
 		}
 
+		public void CreatePresentation(Presentation presentation)
+		{
+			Activity activity = this.context as Activity;
+
+			// Per Dialog den Namen der neuen Presentation abfragen
+			AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+			dialog.SetTitle(activity.GetText(Resource.String.DlgNewPresentationTitle));
+			dialog.SetMessage(activity.GetText(Resource.String.DlgNewPresentationText));
+			dialog.SetCancelable(true);
+
+			EditText etName = new EditText(activity);
+			etName.SetSingleLine(true);
+
+			dialog.SetView(etName);
+			dialog.SetPositiveButton(activity.GetText(Resource.String.DlgNewPresentationErstellen), delegate {
+				string name = etName.Text.Trim();
+
+				if (String.IsNullOrEmpty(name))
+				{
+					// Fehlermeldung anzeigen
+					((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.DlgPresentationErrorNoName));
+				}
+
+				// Gibt es die Präsentation schon?
+				if (!presentationsHelper.Exists(name))
+				{
+					// Präsentation erstellen
+					Guid newPresentationUID;
+
+					if (presentationsHelper.CreateNew(presentation.PresentationUID, out newPresentationUID, name) != PresentationsHelper.ErrorCode.OK)
+					{
+						// Fehlermeldung anzeigen
+						((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.DlgNewPresentationError));
+					}
+				}
+				else
+				{
+					// Fehlermeldung anzeigen
+					((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.DlgPresentationErrorPraesExists));
+				}
+			});
+
+			dialog.SetNegativeButton(activity.GetText(Resource.String.Cancel), delegate { });
+			dialog.Show();
+
+		}
+
+		public void RenamePresentation(Presentation presentation)
+		{
+			Activity activity = this.context as Activity;
+
+			// Per Dialog den Namen der neuen Presentation abfragen
+			AlertDialog.Builder dialog = new AlertDialog.Builder(activity);
+			dialog.SetTitle(activity.GetText(Resource.String.DlgRenamePresentationTitle));
+			dialog.SetMessage(activity.GetText(Resource.String.DlgRenamePresentationText));
+			dialog.SetCancelable(true);
+
+			EditText etName = new EditText(activity);
+			etName.SetSingleLine(true);
+
+			dialog.SetView(etName);
+			dialog.SetPositiveButton(activity.GetText(Resource.String.DlgRenamePresentationErstellen), delegate {
+				string name = etName.Text.Trim();
+
+				if (String.IsNullOrEmpty(name))
+				{
+					// Fehlermeldung anzeigen
+					((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.DlgPresentationErrorNoName));
+				}
+
+				try
+				{
+					presentationsHelper = new PresentationsHelper(this.context);
+				}
+				catch (Exception)
+				{
+					((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.ErrorNoExternalStorage));
+				}
+
+				presentationsHelper.Rename(presentation.PresentationUID, name);
+				ListView lvSlides = activity.FindViewById<ListView>(Resource.Id.lvSlides);
+
+				foreach (Presentation p in (((SlidesAdapter)lvSlides.Adapter).GetData))
+				{
+					if (p.PresentationUID == presentation.PresentationUID)
+					{
+						p.Name = name;
+						break;
+					}
+				}
+			});
+
+			dialog.SetNegativeButton(activity.GetText(Resource.String.Cancel), delegate { });
+			dialog.Show();
+		}
+
+		public void DeletePresentation(Presentation presentation)
+		{
+			if (presentationsHelper.Delete(presentation.PresentationUID) == PresentationsHelper.ErrorCode.MINIMALPRESENTATIONS)
+			{
+				Activity activity = this.context as Activity;
+				((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.ErrorMinimalPresentationCount));
+			}
+		}
+
+		public void ShowPresentationsFolder(Presentation presentation)
+		{
+			string folder = Path.Combine(presentationsHelper.PresentationsFolder, presentation.PresentationUID.ToString());
+			(this.context as BaseActivity).ShowErrorMsg(folder, (this.context as Activity).GetText(Resource.String.DlgTitleShowPresentationsFolder));
+		}
+
+		public View LoadGoogleIO2012PresentationEditor(View viewEditDetail, LayoutInflater inflater, Presentation presentation)
+		{
+			if (viewEditDetail == null)
+				viewEditDetail = inflater.Inflate(Resource.Layout.EditDetailGoogleIO2012, null);
+
+			// Präsentations Content laden und anzeigen
+			EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
+			etContent.SetSingleLine(false);
+			etContent.Text = LoadContent(presentation.PresentationUID);
+			
+			// Die Anzeige zurücksetzen
+			EditText etTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle);
+			etTitle.Text = String.Empty;
+			EditText etTitle2 = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle2);
+			etTitle2.Text = String.Empty;
+			
+			EditText etSubTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle);
+			etSubTitle.Text = String.Empty;
+			
+			ToggleButton tbtnAnimation = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation);
+			tbtnAnimation.Checked = false;
+			
+			ToggleButton tbtnAreas = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas);
+			tbtnAreas.Checked = false;
+			
+			ToggleButton tbtnTouch = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch);
+			tbtnTouch.Checked = false;
+			
+			EditText etName = (EditText)viewEditDetail.FindViewById(Resource.Id.etName);
+			etName.Text = String.Empty;
+			
+			EditText etCompany = (EditText)viewEditDetail.FindViewById(Resource.Id.etCompany);
+			etCompany.Text = String.Empty;
+			
+			EditText etGooglePlus = (EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus);
+			etGooglePlus.Text = String.Empty;
+			
+			EditText etTwitter = (EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter);
+			etTwitter.Text = String.Empty;
+			
+			EditText etWebsite = (EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite);
+			etWebsite.Text = String.Empty;
+			
+			EditText etGithub = (EditText)viewEditDetail.FindViewById(Resource.Id.etGithub);
+			etGithub.Text = String.Empty;
+			
+			// Konfiguration laden und anzeigen
+			GoogleIO2012Config config = LoadConfig(presentation.PresentationUID);
+			
+			if (config != null)
+			{
+				if (config.settings != null)
+				{
+					GoogleIO2012ConfigSettings settings = config.settings;
+					
+					etTitle.Text = settings.title;
+					
+					if (settings.title.Contains("<br />"))
+					{
+						int nIndex = settings.title.IndexOf("<br />", StringComparison.InvariantCulture);
+						etTitle.Text = settings.title.Substring(0, nIndex).Trim();
+						etTitle2.Text = settings.title.Substring(nIndex+6, settings.title.Length-nIndex-6).Trim();
+					}
+					
+					etSubTitle.Text = settings.subtitle;
+					tbtnAnimation.Checked = settings.useBuilds;
+					tbtnAreas.Checked = settings.enableSlideAreas;
+					tbtnTouch.Checked = settings.enableTouch;
+				}
+				
+				if (config.presenters != null && config.presenters.Count > 0)
+				{
+					// Das UI unterstützt derzeit nur einen Presenter
+					GoogleIO2012ConfigPresenters presenter = config.presenters.FirstOrDefault();
+					
+					if (presenter != null)
+					{
+						etName.Text = presenter.name;
+						etCompany.Text = presenter.company;
+						etGooglePlus.Text = presenter.gplus;
+						etTwitter.Text = presenter.twitter;
+						etWebsite.Text = presenter.www;
+						etGithub.Text = presenter.github;
+					}
+				}
+			}
+
+			return viewEditDetail;
+		}
 	}
 }

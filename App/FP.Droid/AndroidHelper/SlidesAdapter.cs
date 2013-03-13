@@ -33,16 +33,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 	{
 		Activity context;
 		List<Presentation> presentations;
-		Action SelectedItemBound;
-		public  Guid? SelectedItemUID { get; set; }
 		public View SelectedItem { get; private set; }
 
-		public SlidesAdapter (Activity context, List<Presentation> presentations, Action selectedItemBound, Guid? selectedItemUID = null)
+		public SlidesAdapter (Activity context, List<Presentation> presentations)
 		{
 			this.context = context;
 			this.presentations = presentations;
-			this.SelectedItemUID = selectedItemUID;
-			this.SelectedItemBound = selectedItemBound;
 		}
 
 		#region implemented abstract members of BaseAdapter
@@ -64,17 +60,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 
 			TextView tvName = view.FindViewById<TextView>(Resource.Id.tvName);
 			tvName.Text = presentation.Name.Replace("<br />", "\n");
-
-			if (SelectedItemUID.HasValue && presentation.PresentationUID == SelectedItemUID.Value)
-			{
-				view.SetBackgroundColor(Android.Graphics.Color.Rgb(49, 182, 231));
-				SelectedItem = view;
-
-				if (SelectedItemBound != null)
-					SelectedItemBound();
-			}
-			else
-				view.SetBackgroundColor(Android.Graphics.Color.Black);
+			view.SetBackgroundColor(Android.Graphics.Color.Black);
 
 			return view;
 		}
@@ -113,13 +99,9 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper
 			if (presentations == null)
 				return;
 
-			SelectedItemUID = selectedItemUID;
-
 			presentations.Remove(presentations.FirstOrDefault(p => p.PresentationUID == presentationUID));
 
 			NotifyDataSetChanged();
 		}
 	}
-
 }
-

@@ -38,20 +38,20 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		View contentView;
 		LayoutInflater inflater;
 		View viewEditDetail;
-		ScrollView svInfo;
 		LinearLayout llEditDetail;
+		View viewEditDetailGoogleIO2012Slides = null;
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			((EditActivity)Activity).FragEditDetail = this;
+			Logging.Log (this, Logging.LoggingTypeDebug, "OnCreateView()");
+
+			EditActivity editActivity = ((EditActivity)Activity); 
+			editActivity.FragEditDetail = this;
 			this.inflater = inflater;
-			contentView = inflater.Inflate(Resource.Layout.EditDetail, null);
+
+			contentView = inflater.Inflate (Resource.Layout.EditDetail, null);
 
 			llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
-
-			// Info einblenden
-			svInfo = (ScrollView)contentView.FindViewById(Resource.Id.svInfo);
-			svInfo.Visibility = ViewStates.Visible;
 
 			return contentView;
 		}
@@ -59,17 +59,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		public override void OnResume ()
 		{
 			base.OnResume ();
+			Logging.Log (this, Logging.LoggingTypeDebug, "OnResume()");
 
 			ReloadAd();
-		}
-
-		public override void OnPause ()
-		{
-			base.OnPause ();
 		}
 	
 		public void LoadPresentation (Presentation presentation)
 		{
+			Logging.Log (this, Logging.LoggingTypeDebug, "LoadPresentation()");
+
 			if (presentation == null)
 			{
 				// TODO Fehlermeldung
@@ -78,9 +76,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			currentEditDetail = presentation;
 
-			// Info ausblenden
-			svInfo.Visibility = ViewStates.Gone;
-
 			// Bereits vorhandene Details entfernen
 			Reset();
 
@@ -88,98 +83,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			switch(presentation.Type)
 			{
 			case Presentation.Typ.GoogleIO2012Slides:
-				if (viewEditDetail == null)
-					viewEditDetail = inflater.Inflate(Resource.Layout.EditDetailGoogleIO2012, null);
-
 				SetHasOptionsMenu(true);
 				Activity.InvalidateOptionsMenu();
 
-				GoogleIO2012Helper helper = new GoogleIO2012Helper();
-				ReloadAd();
+				if (viewEditDetailGoogleIO2012Slides == null)
+					viewEditDetailGoogleIO2012Slides = new GoogleIO2012Helper((EditActivity)Activity).LoadGoogleIO2012PresentationEditor(viewEditDetail, inflater, presentation);
 
-				// Präsentations Content laden und anzeigen
-				EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
-				etContent.SetSingleLine(false);
-				etContent.Text = helper.LoadContent(presentation.PresentationUID);
-
-				// Die Anzeige zurücksetzen
-				EditText etTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle);
-				etTitle.Text = String.Empty;
-				EditText etTitle2 = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle2);
-				etTitle2.Text = String.Empty;
-
-				EditText etSubTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle);
-				etSubTitle.Text = String.Empty;
-
-				ToggleButton tbtnAnimation = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation);
-				tbtnAnimation.Checked = false;
-
-				ToggleButton tbtnAreas = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas);
-				tbtnAreas.Checked = false;
-
-				ToggleButton tbtnTouch = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch);
-				tbtnTouch.Checked = false;
-
-				EditText etName = (EditText)viewEditDetail.FindViewById(Resource.Id.etName);
-				etName.Text = String.Empty;
-
-				EditText etCompany = (EditText)viewEditDetail.FindViewById(Resource.Id.etCompany);
-				etCompany.Text = String.Empty;
-
-				EditText etGooglePlus = (EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus);
-				etGooglePlus.Text = String.Empty;
-
-				EditText etTwitter = (EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter);
-				etTwitter.Text = String.Empty;
-
-				EditText etWebsite = (EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite);
-				etWebsite.Text = String.Empty;
-
-				EditText etGithub = (EditText)viewEditDetail.FindViewById(Resource.Id.etGithub);
-				etGithub.Text = String.Empty;
-
-				// Konfiguration laden und anzeigen
-				GoogleIO2012Config config = helper.LoadConfig(presentation.PresentationUID);
-
-				if (config != null)
-				{
-					if (config.settings != null)
-					{
-						GoogleIO2012ConfigSettings settings = config.settings;
-
-						etTitle.Text = settings.title;
-
-						if (settings.title.Contains("<br />"))
-						{
-							int nIndex = settings.title.IndexOf("<br />", StringComparison.InvariantCulture);
-							etTitle.Text = settings.title.Substring(0, nIndex).Trim();
-							etTitle2.Text = settings.title.Substring(nIndex+6, settings.title.Length-nIndex-6).Trim();
-						}
-
-						etSubTitle.Text = settings.subtitle;
-						tbtnAnimation.Checked = settings.useBuilds;
-						tbtnAreas.Checked = settings.enableSlideAreas;
-						tbtnTouch.Checked = settings.enableTouch;
-					}
-
-					if (config.presenters != null && config.presenters.Count > 0)
-					{
-						// Das UI unterstützt derzeit nur einen Presenter
-						GoogleIO2012ConfigPresenters presenter = config.presenters.FirstOrDefault();
-
-						if (presenter != null)
-						{
-							etName.Text = presenter.name;
-							etCompany.Text = presenter.company;
-							etGooglePlus.Text = presenter.gplus;
-							etTwitter.Text = presenter.twitter;
-							etWebsite.Text = presenter.www;
-							etGithub.Text = presenter.github;
-						}
-					}
-				}
-
+				viewEditDetail = viewEditDetailGoogleIO2012Slides;
 				break;
+
+			default:
+				throw new NotImplementedException();
 			}
 
 			// ... und anzeigen
@@ -188,6 +102,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 		void ReloadAd()
 		{
+			Logging.Log (this, Logging.LoggingTypeDebug, "ReloadAd()");
+
 			if (m_AdView == null && viewEditDetail != null)
 				m_AdView = viewEditDetail.FindViewById(Resource.Id.adView);
 
@@ -207,19 +123,22 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			// Bereits vorhandene Details entfernen
 			llEditDetail.RemoveAllViews();
-
-			viewEditDetail = null;
 		}
 
 		public override void OnCreateOptionsMenu (IMenu menu, MenuInflater inflater)
 		{
+			Logging.Log (this, Logging.LoggingTypeDebug, "OnCreateOptionsMenu()");
+
 			if (currentEditDetail != null)
 			{
 				switch(currentEditDetail.Type)
 				{
 				case Presentation.Typ.GoogleIO2012Slides:
-					menu = new GoogleIO2012Helper().OnCreateOptionsMenu(menu, inflater);
+					menu = new GoogleIO2012Helper((EditActivity)Activity).OnCreateOptionsMenu(menu, inflater);
 					break;
+
+				default:
+					throw new NotImplementedException();
 				}
 			}
 
@@ -233,13 +152,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				switch(currentEditDetail.Type)
 				{
 				case Presentation.Typ.GoogleIO2012Slides:
-					item = new GoogleIO2012Helper().OnOptionsItemSelected(item, this, viewEditDetail, currentEditDetail);
+					item = new GoogleIO2012Helper((EditActivity)Activity).OnOptionsItemSelected(item, this, viewEditDetail, currentEditDetail);
 					break;
+
+				default:
+					throw new NotImplementedException();
 				}
 			}
 
 			return base.OnOptionsItemSelected (item);
 		}
+
 
 		public override void OnDestroyView ()
 		{

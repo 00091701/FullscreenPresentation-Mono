@@ -33,7 +33,7 @@
 	<string name="PresentationsMenuDelete">delete</string>
 	<string name="ErrorMinimalPresentationCount">At least one presentation must stay to be used as draft.</string>
 	
-	
+	<string name="btnSelectPresentation">Select presentation</string>
 	<string name="btnSave">Save</string>
 	<string name="btnRender">Render</string>
 	<string name="btnPresent">Show presentation</string>

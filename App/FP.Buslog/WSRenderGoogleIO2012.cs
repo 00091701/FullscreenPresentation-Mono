@@ -26,8 +26,12 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 {
 	public class WSRenderGoogleIO2012
 	{
-		public WSRenderGoogleIO2012()
-		{}
+		object context;
+
+		public WSRenderGoogleIO2012(object context)
+		{
+			this.context = context;
+		}
 
 		public bool RenderPresentation(Guid presentationUID)
 		{
@@ -35,7 +39,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			string content = null;
 
 			// Dateipfad zusammenbauen
-			PresentationsHelper presentationHelper = new PresentationsHelper();
+			PresentationsHelper presentationHelper = new PresentationsHelper(this.context);
 			
 			string contentFolder = Path.Combine(presentationHelper.PresentationsFolder, presentationUID.ToString());
 			contentFolder = Path.Combine(contentFolder, "scripts");
@@ -129,7 +133,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 			if (!String.IsNullOrEmpty(content))
 			{
-				TextWriter tw = new StreamWriter(Path.Combine(Path.Combine(new PresentationsHelper().PresentationsFolder, presentationUID.ToString()), "template.html"), false);
+				TextWriter tw = new StreamWriter(Path.Combine(Path.Combine(new PresentationsHelper(this.context).PresentationsFolder, presentationUID.ToString()), "template.html"), false);
 				tw.Write(content);
 				tw.Flush();
 				tw.Close();

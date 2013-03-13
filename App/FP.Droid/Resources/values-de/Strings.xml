@@ -32,6 +32,7 @@
 	<string name="ErrorMinimalPresentationCount">Es muss mindestens eine Präsentation als Vorlage erhalten bleiben.</string>
 	
 	
+	<string name="btnSelectPresentation">Präsentation auswählen</string>
 	<string name="btnSave">Speichern</string>
 	<string name="btnRender">Rendern</string>
 	<string name="btnPresent">Präsentieren</string>

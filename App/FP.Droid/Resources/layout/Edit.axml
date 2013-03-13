@@ -1,19 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/frags">
-    <fragment
-        class="De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens.EditSlidesListFragment"
-        android:id="@+id/frag_editslideslist"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <!-- fragment
+            class="De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens.EditSlidesListFragment"
+            android:id="@+id/frag_editslideslist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0" / -->
+        <fragment
+            class="De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens.EditDetailFragment"
+            android:id="@+id/frag_editdetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llChoosePresentation"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:layout_weight="4" />
-    <fragment
-        class="De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens.EditDetailFragment"
-        android:id="@+id/frag_editdetail"
-        android:layout_width="match_parent"
+        android:animateLayoutChanges="true"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:background="#ff000000">
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/lvSlides"
+            android:choiceMode="singleChoice" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llPresentationInfo"
+        android:layout_width="800dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
-</LinearLayout>
+        android:layout_alignParentRight="true"
+        android:background="#ff000000">
+        <ScrollView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/svInfo">
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/linearLayout1">
+                <TextView
+                    android:text="@string/AppInfoUseHeadline"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAppInfoUseHeadline" />
+                <TextView
+                    android:text="@string/AppInfoUse"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAppInfoUse" />
+                <TextView
+                    android:text="@string/AppInfoHeadline"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/tvAppInfoHeadline"
+                    android:layout_marginTop="20dp" />
+                <TextView
+                    android:text="@string/AppInfo"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/tvAppInfo" />
+                <TextView
+                    android:text="@string/AppInfoLicHeadline"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAppInfoLicHeadline"
+                    android:layout_marginTop="20dp" />
+                <TextView
+                    android:text="@string/AppInfoLic"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvAppInfoLic" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</RelativeLayout>
