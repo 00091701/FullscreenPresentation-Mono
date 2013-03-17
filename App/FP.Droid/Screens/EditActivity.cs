@@ -53,7 +53,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		PresentationsHelper presentationsHelper;
 		int selectedLongClickItemPosition;
 		ListView lvSlides;
-		const int animDuration = 300;
+		const int animDuration = 500;
 		PresentationSelectionType PresentationSelection;
 		Animation leftOutAnim;
 		Animation rightOutAnim;
@@ -130,15 +130,20 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			lvSlides = FindViewById<ListView>(Resource.Id.lvSlides);
 			lvSlides.ItemClick += LvSlides_ItemClick;
 
+			LoadSlidesList ();
+
+			RegisterForContextMenu(lvSlides);
+		}
+
+		public void LoadSlidesList ()
+		{
 			// Präsentationen laden
 			presentationsHelper.LoadSlidesListAsync().ContinueWith (t => {
 				if (t.IsFaulted)
 					return; 
-
+				
 				lvSlides.Adapter = new SlidesAdapter(this, t.Result);
 			}, TaskScheduler.FromCurrentSynchronizationContext());
-
-			RegisterForContextMenu(lvSlides);
 		}
 
 		void DefineAnimations(int screenWidth)
@@ -169,10 +174,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			// Ausgewählte Zeile markieren.
 			e.View.SetBackgroundColor(Android.Graphics.Color.Rgb(49, 182, 231));
+			HidePresentationSelection();
 
 			Task.Factory.StartNew (() => {
 				SlidesAdapter adapter = lvSlides.Adapter as SlidesAdapter;
-				HidePresentationSelection();
 				return adapter.GetPresentation (e.Position);
 			}).ContinueWith (t => {
 				FragEditDetail.LoadPresentation (t.Result);

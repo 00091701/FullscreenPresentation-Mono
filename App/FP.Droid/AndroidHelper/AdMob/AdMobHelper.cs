@@ -19,6 +19,9 @@
 using System;
 using Android.Runtime;
 using Android.Views;
+using System.Threading.Tasks;
+using Android.App;
+using De.Dhoffmann.Mono.FullscreenPresentation.Buslog;
 
 namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper.AdMob
 {
@@ -31,10 +34,24 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.AndroidHelper.AdMob
 		/// Refreshed the ad for the view
 		/// </summary>
 		/// <param name="view"></param>
-		public static void LoadAd(View view)
+		public static void LoadAd(Activity activity, View view)
 		{
-			IntPtr methodId = JNIEnv.GetStaticMethodID(_helperClass, "loadAd", "(Landroid/view/View;)V");
-			JNIEnv.CallStaticVoidMethod(_helperClass, methodId, new JValue(view));
+			if (String.IsNullOrEmpty (activity.GetText(Resource.String.AdPublisherID)))
+			{
+				view.Visibility = ViewStates.Gone;
+				return;
+			}
+
+			Logging.Log (null, Logging.LoggingTypeDebug, "LoadAd()");
+
+			Task.Factory.StartNew (() => {
+				activity.RunOnUiThread(() => {
+					view.Visibility = ViewStates.Visible;
+
+					IntPtr methodId = JNIEnv.GetStaticMethodID (_helperClass, "loadAd", "(Landroid/view/View;)V");
+					JNIEnv.CallStaticVoidMethod (_helperClass, methodId, new JValue (view));
+				});
+			});
 		}
 		
 		/// <summary>

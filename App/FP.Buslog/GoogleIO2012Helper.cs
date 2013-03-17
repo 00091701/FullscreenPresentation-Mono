@@ -42,6 +42,20 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 		object context;
 		PresentationsHelper presentationsHelper;
 
+		EditText etContent;
+		EditText etTitle;
+		EditText etTitle2;
+		EditText etSubTitle;
+		ToggleButton tbtnAnimation;
+		ToggleButton tbtnAreas;
+		ToggleButton tbtnTouch;
+		EditText etName;
+		EditText etCompany;
+		EditText etGooglePlus;
+		EditText etTwitter;
+		EditText etWebsite;
+		EditText etGithub;
+
 		public enum ActionBarButtons : int
 		{
 			SelectPresentation = 0,
@@ -70,23 +84,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 		{
 			Logging.Log (this, Logging.LoggingTypeDebug, "OnCreateOptionsMenu()");
 
-			Task.Factory.StartNew (() => {
-				Activity activity = context as Activity;
+			var m0 = menu.Add (0, (int)ActionBarButtons.SelectPresentation, 0, Resource.String.btnSelectPresentation);
+			m0.SetShowAsAction (ShowAsAction.Always);
 
-				activity.RunOnUiThread(() => {
-					var m0 = menu.Add (0, (int)ActionBarButtons.SelectPresentation, 0, Resource.String.btnSelectPresentation);
-					m0.SetShowAsAction (ShowAsAction.Always);
+			var m1 = menu.Add (0, (int)ActionBarButtons.Save, 1, Resource.String.btnSave);
+			m1.SetShowAsAction (ShowAsAction.Always);
 
-					var m1 = menu.Add (0, (int)ActionBarButtons.Save, 1, Resource.String.btnSave);
-					m1.SetShowAsAction (ShowAsAction.Always);
+			var m2 = menu.Add (0, (int)ActionBarButtons.Render, 2, Resource.String.btnRender);
+			m2.SetShowAsAction (ShowAsAction.Always);
 
-					var m2 = menu.Add (0, (int)ActionBarButtons.Render, 2, Resource.String.btnRender);
-					m2.SetShowAsAction (ShowAsAction.Always);
-
-					var m3 = menu.Add (0, (int)ActionBarButtons.Present, 3, Resource.String.btnPresent);
-					m3.SetShowAsAction (ShowAsAction.Always);
-				});
-			});
+			var m3 = menu.Add (0, (int)ActionBarButtons.Present, 3, Resource.String.btnPresent);
+			m3.SetShowAsAction (ShowAsAction.Always);
 
 			return menu;
 		}
@@ -103,6 +111,8 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 
 					if (editActivity != null)
 						editActivity.ShowPresentationSelection();
+
+					fragment.SetHasOptionsMenu(false);
 				});
 				break;
 
@@ -427,6 +437,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			dialog.SetView(etName);
 			dialog.SetPositiveButton(activity.GetText(Resource.String.DlgNewPresentationErstellen), delegate {
 				string name = etName.Text.Trim();
+				Guid newPresentationUID;
 
 				if (String.IsNullOrEmpty(name))
 				{
@@ -438,8 +449,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 				if (!presentationsHelper.Exists(name))
 				{
 					// Präsentation erstellen
-					Guid newPresentationUID;
-
 					if (presentationsHelper.CreateNew(presentation.PresentationUID, out newPresentationUID, name) != PresentationsHelper.ErrorCode.OK)
 					{
 						// Fehlermeldung anzeigen
@@ -450,6 +459,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 				{
 					// Fehlermeldung anzeigen
 					((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.DlgPresentationErrorPraesExists));
+				}
+
+				// Präsentation laden
+				if (this.context.GetType() == typeof(EditActivity))
+				{
+					EditActivity editActivity = this.context as EditActivity;
+					presentation.PresentationUID = newPresentationUID;
+					editActivity.FragEditDetail.LoadPresentation(presentation);
+					editActivity.HidePresentationSelection();
 				}
 			});
 
@@ -501,6 +519,13 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 						break;
 					}
 				}
+
+				// Liste aktualisieren
+				if (this.context.GetType() == typeof(EditActivity))
+				{
+					EditActivity editActivity = this.context as EditActivity;
+					editActivity.LoadSlidesList();
+				}
 			});
 
 			dialog.SetNegativeButton(activity.GetText(Resource.String.Cancel), delegate { });
@@ -514,6 +539,15 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 				Activity activity = this.context as Activity;
 				((BaseActivity)activity).ShowErrorMsg(activity.GetText(Resource.String.ErrorMinimalPresentationCount));
 			}
+			else
+			{
+				// Liste aktualisieren
+				if (this.context.GetType() == typeof(EditActivity))
+				{
+					EditActivity editActivity = this.context as EditActivity;
+					editActivity.LoadSlidesList();
+				}
+			}
 		}
 
 		public void ShowPresentationsFolder(Presentation presentation)
@@ -522,52 +556,53 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 			(this.context as BaseActivity).ShowErrorMsg(folder, (this.context as Activity).GetText(Resource.String.DlgTitleShowPresentationsFolder));
 		}
 
-		public View LoadGoogleIO2012PresentationEditor(View viewEditDetail, LayoutInflater inflater, Presentation presentation)
+		public View LoadGoogleIO2012PresentationEditor(View viewEditDetail, LayoutInflater inflater)
 		{
 			if (viewEditDetail == null)
+			{
+				Logging.Log (this, Logging.LoggingTypeDebug, "LoadGoogleIO2012PresentationEditor() - inflate");
 				viewEditDetail = inflater.Inflate(Resource.Layout.EditDetailGoogleIO2012, null);
+				Logging.Log (this, Logging.LoggingTypeDebug, "LoadGoogleIO2012PresentationEditor() - inflate (finished)");
+			}
 
+			return viewEditDetail;
+		}
+
+		public void LoadGoogleIO2012Presentation(View viewEditDetail, Presentation presentation)
+		{
 			// Präsentations Content laden und anzeigen
-			EditText etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
+			etContent = (EditText)viewEditDetail.FindViewById(Resource.Id.etContent);
 			etContent.SetSingleLine(false);
+			
+			etTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle);
+			etTitle2 = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle2);
+			etSubTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle);
+			tbtnAnimation = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation);
+			tbtnAreas = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas);
+			tbtnTouch = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch);
+			etName = (EditText)viewEditDetail.FindViewById(Resource.Id.etName);
+			etCompany = (EditText)viewEditDetail.FindViewById(Resource.Id.etCompany);
+			etGooglePlus = (EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus);
+			etTwitter = (EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter);
+			etWebsite = (EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite);
+			etGithub = (EditText)viewEditDetail.FindViewById(Resource.Id.etGithub);
+
 			etContent.Text = LoadContent(presentation.PresentationUID);
-			
+
 			// Die Anzeige zurücksetzen
-			EditText etTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle);
 			etTitle.Text = String.Empty;
-			EditText etTitle2 = (EditText)viewEditDetail.FindViewById(Resource.Id.etTitle2);
 			etTitle2.Text = String.Empty;
-			
-			EditText etSubTitle = (EditText)viewEditDetail.FindViewById(Resource.Id.etSubTitle);
 			etSubTitle.Text = String.Empty;
-			
-			ToggleButton tbtnAnimation = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAnimation);
 			tbtnAnimation.Checked = false;
-			
-			ToggleButton tbtnAreas = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnAreas);
 			tbtnAreas.Checked = false;
-			
-			ToggleButton tbtnTouch = (ToggleButton)viewEditDetail.FindViewById(Resource.Id.tbtnTouch);
 			tbtnTouch.Checked = false;
-			
-			EditText etName = (EditText)viewEditDetail.FindViewById(Resource.Id.etName);
 			etName.Text = String.Empty;
-			
-			EditText etCompany = (EditText)viewEditDetail.FindViewById(Resource.Id.etCompany);
 			etCompany.Text = String.Empty;
-			
-			EditText etGooglePlus = (EditText)viewEditDetail.FindViewById(Resource.Id.etGooglePlus);
 			etGooglePlus.Text = String.Empty;
-			
-			EditText etTwitter = (EditText)viewEditDetail.FindViewById(Resource.Id.etTwitter);
 			etTwitter.Text = String.Empty;
-			
-			EditText etWebsite = (EditText)viewEditDetail.FindViewById(Resource.Id.etWebsite);
 			etWebsite.Text = String.Empty;
-			
-			EditText etGithub = (EditText)viewEditDetail.FindViewById(Resource.Id.etGithub);
 			etGithub.Text = String.Empty;
-			
+
 			// Konfiguration laden und anzeigen
 			GoogleIO2012Config config = LoadConfig(presentation.PresentationUID);
 			
@@ -608,8 +643,6 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Buslog
 					}
 				}
 			}
-
-			return viewEditDetail;
 		}
 	}
 }

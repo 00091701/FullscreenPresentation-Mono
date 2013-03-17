@@ -39,7 +39,10 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 		LayoutInflater inflater;
 		View viewEditDetail;
 		LinearLayout llEditDetail;
-		View viewEditDetailGoogleIO2012Slides = null;
+		Presentation.Typ currentType = Presentation.Typ.UNDEFINED;
+		GoogleIO2012Helper googleHelper;
+
+		static View viewEditDetailGoogleIO2012Slides = null;
 
 		public override View OnCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
@@ -52,6 +55,17 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			contentView = inflater.Inflate (Resource.Layout.EditDetail, null);
 
 			llEditDetail = (LinearLayout)contentView.FindViewById(Resource.Id.llEditDetail);
+
+			googleHelper = new GoogleIO2012Helper((EditActivity)Activity);
+
+			// PreLoader
+			Task.Factory.StartNew (() => {
+				Activity.RunOnUiThread(() => {
+					Logging.Log (this, Logging.LoggingTypeDebug, "OnCreateView() PreLoad Editors async");
+					View tmp = GoogleIO2012PresentationEditor;
+					Logging.Log (this, Logging.LoggingTypeDebug, "OnCreateView() PreLoad Editors async (finished)");
+				});
+			});
 
 			return contentView;
 		}
@@ -76,20 +90,14 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			currentEditDetail = presentation;
 
-			// Bereits vorhandene Details entfernen
-			Reset();
-
 			// View für die entsprechenden Typen laden
 			switch(presentation.Type)
 			{
 			case Presentation.Typ.GoogleIO2012Slides:
 				SetHasOptionsMenu(true);
-				Activity.InvalidateOptionsMenu();
 
-				if (viewEditDetailGoogleIO2012Slides == null)
-					viewEditDetailGoogleIO2012Slides = new GoogleIO2012Helper((EditActivity)Activity).LoadGoogleIO2012PresentationEditor(viewEditDetail, inflater, presentation);
-
-				viewEditDetail = viewEditDetailGoogleIO2012Slides;
+				viewEditDetail = GoogleIO2012PresentationEditor;
+				googleHelper.LoadGoogleIO2012Presentation(viewEditDetail, presentation);
 				break;
 
 			default:
@@ -97,32 +105,62 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 			}
 
 			// ... und anzeigen
-			llEditDetail.AddView(viewEditDetail);
+			if (currentType != presentation.Type)
+			{
+				llEditDetail.RemoveAllViews();
+				llEditDetail.AddView(viewEditDetail);
+				currentType = presentation.Type;
+			}
+		}
+
+		View GoogleIO2012PresentationEditor
+		{
+			get
+			{
+				if (viewEditDetailGoogleIO2012Slides == null)
+				{
+					Logging.Log (this, Logging.LoggingTypeDebug, "LoadGoogleIO2012PresentationEditor(): Load editor");
+					viewEditDetailGoogleIO2012Slides = googleHelper.LoadGoogleIO2012PresentationEditor(viewEditDetail, inflater);
+					Logging.Log (this, Logging.LoggingTypeDebug, "LoadGoogleIO2012PresentationEditor(): Load editor (finished)");
+				}
+
+				return viewEditDetailGoogleIO2012Slides;
+			}
 		}
 
 		void ReloadAd()
 		{
 			Logging.Log (this, Logging.LoggingTypeDebug, "ReloadAd()");
 
-			if (m_AdView == null && viewEditDetail != null)
-				m_AdView = viewEditDetail.FindViewById(Resource.Id.adView);
+			if (viewEditDetail == null)
+				return;
 
-			Task.Factory.StartNew(() => {
-				Activity.RunOnUiThread(delegate() {
+			View adWrapper = viewEditDetail.FindViewById<View> (Resource.Id.adWrapper);
+
+			if (adWrapper != null)
+			{
+				if (!String.IsNullOrEmpty(GetText(Resource.String.AdPublisherID)))
+				{
+					adWrapper.Visibility = ViewStates.Visible;
+
+					if (m_AdView == null && viewEditDetail != null)
+						m_AdView = viewEditDetail.FindViewById(Resource.Id.adView);
+
 					if (m_AdView != null)
-						AdMobHelper.LoadAd(m_AdView);
-				});
-			});
-		}
-
-		public void Reset()
-		{
-			// Buttons entfernen
-			SetHasOptionsMenu(false);
-			Activity.InvalidateOptionsMenu();
-
-			// Bereits vorhandene Details entfernen
-			llEditDetail.RemoveAllViews();
+					{
+						Task.Factory.StartNew(() => {
+							Activity.RunOnUiThread(delegate() {
+								if (m_AdView != null)
+									AdMobHelper.LoadAd(this.Activity, m_AdView);
+							});
+						});
+					}
+				}
+				else
+				{
+					adWrapper.Visibility = ViewStates.Gone;
+				}
+			}
 		}
 
 		public override void OnCreateOptionsMenu (IMenu menu, MenuInflater inflater)
@@ -131,15 +169,19 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 
 			if (currentEditDetail != null)
 			{
-				switch(currentEditDetail.Type)
-				{
-				case Presentation.Typ.GoogleIO2012Slides:
-					menu = new GoogleIO2012Helper((EditActivity)Activity).OnCreateOptionsMenu(menu, inflater);
-					break;
+				Task.Factory.StartNew(() => {
+					this.Activity.RunOnUiThread(() => {
+						switch(currentEditDetail.Type)
+						{
+						case Presentation.Typ.GoogleIO2012Slides:
+							menu = googleHelper.OnCreateOptionsMenu(menu, inflater);
+							break;
 
-				default:
-					throw new NotImplementedException();
-				}
+						default:
+							throw new NotImplementedException();
+						}
+					});
+				});
 			}
 
 			base.OnCreateOptionsMenu (menu, inflater);
@@ -152,7 +194,7 @@ namespace De.Dhoffmann.Mono.FullscreenPresentation.Droid.Screens
 				switch(currentEditDetail.Type)
 				{
 				case Presentation.Typ.GoogleIO2012Slides:
-					item = new GoogleIO2012Helper((EditActivity)Activity).OnOptionsItemSelected(item, this, viewEditDetail, currentEditDetail);
+					item = googleHelper.OnOptionsItemSelected(item, this, viewEditDetail, currentEditDetail);
 					break;
 
 				default:
