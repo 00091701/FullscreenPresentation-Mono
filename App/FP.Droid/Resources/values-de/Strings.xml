@@ -59,7 +59,7 @@
 	<string name="Error">Fehler</string>
 	<string name="OnlyLandscape">Es wird nur das Querformat unterstützt!</string>
 	<string name="AppInfoUseHeadline">Bedienungshinweise</string>
-	<string name="AppInfoUse">Auf der rechten Seite finden Sie eine Liste mit den vorhandenen Präsentationen. Durch
+	<string name="AppInfoUse">Auf der linken Seite finden Sie eine Liste mit den vorhandenen Präsentationen. Durch
 anklicken wird die gewünschte Präsentation geladen. Wenn die Präsentation durch einen langen klick ausgewählt werden,
 erscheint ein Kontextmenü. Hier kann die Präsentation
 \n- gestartet

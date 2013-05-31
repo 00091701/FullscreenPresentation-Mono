@@ -60,7 +60,7 @@
 	<string name="Error">Error</string>
 	<string name="OnlyLandscape">Only landscape format is supported!</string>
 	<string name="AppInfoUseHeadline">Hints for handling</string>
-	<string name="AppInfoUse">On the right side a list of existing presentations is shown. Clicking on an entry will load that presentation.
+	<string name="AppInfoUse">On the left side a list of existing presentations is shown. Clicking on an entry will load that presentation.
 A context menu for a presention is shown if it is selected by long click. This menu allows
 \n- starting
 \n- creating a new presentation with selected one used as draft
